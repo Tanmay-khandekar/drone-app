@@ -189,8 +189,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					<!--begin::Entry-->
 					<div class="d-flex flex-column-fluid">
 						<!--begin::Login-->
-						<div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white"
-							id="kt_login">
+						<div class="login login-1 d-flex flex-column flex-lg-row flex-row-fluid bg-white">
 							<!--begin::Content-->
 							<div class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden">
 								<!--begin::Content header-->
@@ -201,100 +200,9 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!--end::Content header-->
 								<!--begin::Content body-->
 								<div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
-									<!--begin::Signin-->
-									<div class="login-form login-signin">
-										<div class="text-center mb-10 mb-lg-20">
-											<h3 class="font-size-h1">Sign In</h3>
-											<div class="socialaccount_ballot" style="display: none;">
-												<span class="font-weight-bold text-muted">Sign in with your social account</span><br>
-												<ul class="socialaccount_providers pb-3">
-													<li>
-														<a title="Facebook"
-															class="socialaccount_provider btn btn-facebook btn-icon btn-circle btn-lg"
-															href="{{ route('login.facebook') }}">
-															<i class="socicon-facebook"></i>
-														</a>
-													</li>
-													<li>
-														<a title="Google"
-															class="socialaccount_provider btn btn-google btn-icon btn-circle btn-lg"
-															href="{{ route('login.google') }}">
-															<i class="socicon-google"></i>
-														</a>
-													</li>
-													<li>
-														<a title="Twitter"
-															class="socialaccount_provider btn btn-twitter btn-icon btn-circle btn-lg"
-															href="{{ route('login.twitter') }}">
-															<i class="socicon-twitter"></i>
-														</a>
-													</li>
-												</ul>
-												<div class="clearfix"></div>
-												<h4 class="login-or-divider pb-3">Or</h4>
-												<p>
-													<a href="#" id="social_toggle" class="btn btn-primary">Sign in using your email</a>
-												</p>
-											</div>
-											<span class="font-weight-bold text-muted">
-												Dont have an account yet?</span><br>
-											<a href="javascript:;" class="font-weight-bold ml-2"
-												id="kt_login_signup">Sign Up!</a><br>
-										</div>
-										<!--begin::Form-->
-										<form class="form" method="POST" action="{{ route('login') }}" novalidate="novalidate" id="login_form">
-                                            @csrf
-											<p class="text-muted font-weight-bold">Sign in using your email or <a href="#" id="account_toggle">use your social account</a>.</p>
-											<p class="text-muted font-weight-bold">Enter your username and password</p>
-											<div class="form-group">
-												<input class="form-control form-control-solid h-auto py-5 px-6 @error('email') is-invalid @enderror"
-													type="text" id="email" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus
-													autocomplete="off" />
-                                                    @error('email')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-											</div>
-											<div class="form-group">
-												<input id="password" class="form-control form-control-solid h-auto py-5 px-6 @error('password') is-invalid @enderror"
-													type="password" placeholder="Password" name="password"
-													required autocomplete="current-password" />
-                                                    @error('password')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-											</div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-6 offset-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                                        <label class="form-check-label" for="remember">
-                                                            {{ __('Remember Me') }}
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-											<!--begin::Action-->
-											<div
-												class="form-group d-flex flex-wrap justify-content-between align-items-center">
-                                                @if (Route::has('password.request'))
-												    <a href="{{ route('password.request') }}" class="text-dark-50 text-hover-primary my-3 mr-2"
-													id="kt_login_forgot">Forgot Password ?</a>
-                                                @endif
-												<button type="submit"
-													class="btn btn-primary font-weight-bold px-9 py-4 my-3">Sign
-													In</button>
-											</div>
-											<!--end::Action-->
-										</form>
-										<!--end::Form-->
-									</div>
-									<!--end::Signin-->
+									
 									<!--begin::Signup-->
-									<div class="login-form login-signup">
+									<div class="login-form">
 										<div class="text-center" style="margin-top: 125px;">
 											<h3 class="font-size-h1">Sign Up</h3>
 											<p class="text-muted font-weight-bold">Enter your details to create your
@@ -303,6 +211,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										<!--begin::Form-->
 										<form method="POST" action="{{ route('register') }}" class="form" novalidate="novalidate">
                                             @csrf
+											<input type="hidden" name="type" value="admin">
 											<div class="form-group">
 												<label class="col-form-label text-right">First name</label>
 												<input class="form-control h-auto px-6 @error('first_name') is-invalid @enderror" type="text"
@@ -342,13 +251,6 @@ License: You must have a valid license purchased only from themeforest(the above
 												<label for="password-confirm" class="col-form-label text-right">Password</label>
 												<input id="password-confirm" class="form-control h-auto px-6" type="password"
 													placeholder="Password" name="password_confirmation" required autocomplete="new-password" />
-											</div>
-											<div class="form-group">
-												<label class="col-form-label text-right">Are you a client or a
-													pilot?</label><br>
-												<input data-switch="true" type="checkbox" checked="checked" name="type"
-													data-on-text="Customer" data-handle-width="70" data-off-text="Pilot"
-													data-on-color="primary" data-off-color="success" />
 											</div>
 											<div class="form-group d-flex flex-wrap flex-center">
 												<button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Submit</button>
@@ -450,16 +352,6 @@ License: You must have a valid license purchased only from themeforest(the above
 	<script src="{{ asset('assets/js/pages/custom/login/login.js') }}"></script>
 	<script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
 	<!--end::Page Scripts-->
-	<script>
-		$("#social_toggle").click(function(){
-			$(".socialaccount_ballot").slideUp();
-			$("#login_form").slideDown();
-		});
-		$("#account_toggle").click(function(){
-			$(".socialaccount_ballot").slideDown();
-			$("#login_form").slideUp();
-		});
-	</script>
 </body>
 <!--end::Body-->
 

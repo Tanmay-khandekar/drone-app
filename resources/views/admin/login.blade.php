@@ -205,46 +205,13 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="login-form login-signin">
 										<div class="text-center mb-10 mb-lg-20">
 											<h3 class="font-size-h1">Sign In</h3>
-											<div class="socialaccount_ballot" style="display: none;">
-												<span class="font-weight-bold text-muted">Sign in with your social account</span><br>
-												<ul class="socialaccount_providers pb-3">
-													<li>
-														<a title="Facebook"
-															class="socialaccount_provider btn btn-facebook btn-icon btn-circle btn-lg"
-															href="{{ route('login.facebook') }}">
-															<i class="socicon-facebook"></i>
-														</a>
-													</li>
-													<li>
-														<a title="Google"
-															class="socialaccount_provider btn btn-google btn-icon btn-circle btn-lg"
-															href="{{ route('login.google') }}">
-															<i class="socicon-google"></i>
-														</a>
-													</li>
-													<li>
-														<a title="Twitter"
-															class="socialaccount_provider btn btn-twitter btn-icon btn-circle btn-lg"
-															href="{{ route('login.twitter') }}">
-															<i class="socicon-twitter"></i>
-														</a>
-													</li>
-												</ul>
-												<div class="clearfix"></div>
-												<h4 class="login-or-divider pb-3">Or</h4>
-												<p>
-													<a href="#" id="social_toggle" class="btn btn-primary">Sign in using your email</a>
-												</p>
-											</div>
 											<span class="font-weight-bold text-muted">
 												Dont have an account yet?</span><br>
-											<a href="javascript:;" class="font-weight-bold ml-2"
-												id="kt_login_signup">Sign Up!</a><br>
+											<a href="admin-registration" class="font-weight-bold ml-2">Sign Up!</a><br>
 										</div>
 										<!--begin::Form-->
 										<form class="form" method="POST" action="{{ route('login') }}" novalidate="novalidate" id="login_form">
                                             @csrf
-											<p class="text-muted font-weight-bold">Sign in using your email or <a href="#" id="account_toggle">use your social account</a>.</p>
 											<p class="text-muted font-weight-bold">Enter your username and password</p>
 											<div class="form-group">
 												<input class="form-control form-control-solid h-auto py-5 px-6 @error('email') is-invalid @enderror"
@@ -293,72 +260,6 @@ License: You must have a valid license purchased only from themeforest(the above
 										<!--end::Form-->
 									</div>
 									<!--end::Signin-->
-									<!--begin::Signup-->
-									<div class="login-form login-signup">
-										<div class="text-center" style="margin-top: 125px;">
-											<h3 class="font-size-h1">Sign Up</h3>
-											<p class="text-muted font-weight-bold">Enter your details to create your
-												account</p>
-										</div>
-										<!--begin::Form-->
-										<form method="POST" action="{{ route('register') }}" class="form" novalidate="novalidate">
-                                            @csrf
-											<div class="form-group">
-												<label class="col-form-label text-right">First name</label>
-												<input class="form-control h-auto px-6 @error('first_name') is-invalid @enderror" type="text"
-													placeholder="First name"  name="first_name" value="{{ old('first_name') }}" required autocomplete="first_name" autofocus />
-                                                @error('first_name')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-											</div>
-											<div class="form-group">
-												<label class="col-form-label text-right">Last name</label>
-												<input class="form-control h-auto px-6 @error('last_name') is-invalid @enderror" type="text"
-													placeholder="Last name" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" autofocus />
-                                                @error('last_name')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-											</div>
-											<div class="form-group">
-												<label class="col-form-label text-right">Email</label>
-												<input class="form-control h-auto px-6 @error('email') is-invalid @enderror" type="email" placeholder="Email"
-													name="email" value="{{ old('email') }}" required autocomplete="email" />
-											</div>
-											<div class="form-group">
-												<label class="col-form-label text-right">Password</label>
-												<input id="password" class="form-control h-auto px-6 @error('password') is-invalid @enderror" type="password"
-													placeholder="Password" name="password" required autocomplete="new-password" />
-                                                    @error('password')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-											</div>
-                                            <div class="form-group">
-												<label for="password-confirm" class="col-form-label text-right">Password</label>
-												<input id="password-confirm" class="form-control h-auto px-6" type="password"
-													placeholder="Password" name="password_confirmation" required autocomplete="new-password" />
-											</div>
-											<div class="form-group">
-												<label class="col-form-label text-right">Are you a client or a
-													pilot?</label><br>
-												<input data-switch="true" type="checkbox" checked="checked" name="type"
-													data-on-text="Customer" data-handle-width="70" data-off-text="Pilot"
-													data-on-color="primary" data-off-color="success" />
-											</div>
-											<div class="form-group d-flex flex-wrap flex-center">
-												<button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Submit</button>
-												<button id="kt_login_signup_cancel"
-													class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 mx-4">Cancel</button>
-											</div>
-										</form>
-										<!--end::Form-->
-									</div>
-									<!--end::Signup-->
 									<!--begin::Forgot-->
 									<div class="login-form login-forgot">
 										<div class="text-center mb-10 mb-lg-20">
@@ -450,16 +351,6 @@ License: You must have a valid license purchased only from themeforest(the above
 	<script src="{{ asset('assets/js/pages/custom/login/login.js') }}"></script>
 	<script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
 	<!--end::Page Scripts-->
-	<script>
-		$("#social_toggle").click(function(){
-			$(".socialaccount_ballot").slideUp();
-			$("#login_form").slideDown();
-		});
-		$("#account_toggle").click(function(){
-			$(".socialaccount_ballot").slideDown();
-			$("#login_form").slideUp();
-		});
-	</script>
 </body>
 <!--end::Body-->
 

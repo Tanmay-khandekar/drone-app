@@ -1,7 +1,7 @@
 <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
 			<!--begin::Header-->
 			<div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
-				<h3 class="font-weight-bold m-0">User Profile</h3>
+				<h3 class="font-weight-bold m-0">{{ucfirst(auth()->user()->type)}} Profile</h3>
 				<a class="btn btn-primary" href="{{ route('logout') }}"
 					onclick="event.preventDefault();
 									document.getElementById('logout-form').submit();">
@@ -26,7 +26,6 @@
 					</div>
 					<div class="d-flex flex-column">
 						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</a>
-						<div class="text-muted mt-1">Application Developer</div>
 						<div class="navi mt-2">
 							<a href="#" class="navi-item">
 								<span class="navi-link p-0 pb-2">

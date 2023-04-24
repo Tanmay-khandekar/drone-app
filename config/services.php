@@ -33,19 +33,19 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => 'http://drone-app.com/public/login/google/callback',
+        'redirect' => 'https://xpertinfotech.in/droneconnect/login/google/callback',
     ],
 
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => 'http://drone-app.com/public/login/facebook/callback',
+        'redirect' => 'https://xpertinfotech.in/droneconnect/login/facebook/callback',
     ],
 
     'twitter' => [
         'client_id' => env('TWITTER_CLIENT_ID'),
         'client_secret' => env('TWITTER_CLIENT_SECRET'),
-        'redirect' => 'http://drone-app.com/public/login/twitter/callback',
+        'redirect' => 'https://xpertinfotech.in/droneconnect/login/twitter/callback',
     ],
 
 ];
