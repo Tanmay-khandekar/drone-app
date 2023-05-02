@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('title')
+  Pilot Varification
+@endsection
 @section('content')
 <!--begin::Wrapper-->
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">

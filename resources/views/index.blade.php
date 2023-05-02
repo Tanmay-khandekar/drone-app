@@ -12,8 +12,8 @@
                         <div class="slider__inner">
                             <h1>WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
                             <div class="slider__btn">
-                                <a class="htc__btn" href="account/login.html">Pilots Login</a>
-                                <a class="htc__btn" href="javascript:void(0)">Post a Job</a>
+                                <a class="htc__btn" href="login">Pilots Login</a>
+                                <a class="htc__btn" href="job-create">Post a Job</a>
                             </div>
                         </div>
                     </div>
@@ -32,8 +32,8 @@
                         <div class="slider__inner">
                             <h1>WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
                             <div class="slider__btn">
-                                <a class="htc__btn" href="account/login.html">Pilots Login</a>
-                                <a class="htc__btn" href="javascript:void(0)">Post a Job</a>
+                                <a class="htc__btn" href="login">Pilots Login</a>
+                                <a class="htc__btn" href="job-create">Post a Job</a>
                             </div>
                         </div>
                     </div>
@@ -53,8 +53,8 @@
                             <h1>WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
                             
                             <div class="slider__btn">
-                                <a class="htc__btn" href="account/login.html">Pilots Login</a>
-                                <a class="htc__btn" href="javascript:void(0)">Post a Job</a>
+                                <a class="htc__btn" href="login">Pilots Login</a>
+                                <a class="htc__btn" href="job-create">Post a Job</a>
                             </div>
                         </div>
                     </div>
@@ -74,8 +74,8 @@
                             <h1>WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
                             
                             <div class="slider__btn">
-                                <a class="htc__btn" href="account/login.html">Pilots Login</a>
-                                <a class="htc__btn" href="javascript:void(0)">Post a Job</a>
+                                <a class="htc__btn" href="login">Pilots Login</a>
+                                <a class="htc__btn" href="job-create">Post a Job</a>
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                         <img src="images/others/icon-2/1.png" alt="icon images">
                     </div>
                     <div class="offer__details">
-                        <h2><a href="#">POST A JOB</a></h2>
+                        <h2><a href="job-create">POST A JOB</a></h2>
                         <p>We'll immediately match you with local pilots who are capable and interested in capturing your footage.</p>
                     </div>
                 </div>
@@ -276,8 +276,8 @@
                     <h2>Ready to get started?</h2>
                     <!-- <p>Post a job and begin receiving quotes from licensed local pilots</p> -->
                     <div class="callto__action__btn">
-                        <a class="htc__btn--transparent" href="#">POST JOB</a>
-                        <a class="htc__btn--transparent" href="#">JOIN THE NETWORK</a>
+                        <a class="htc__btn--transparent" href="job-create">POST JOB</a>
+                        <a class="htc__btn--transparent" href="login">JOIN THE NETWORK</a>
                     </div>
                 </div>
             </div>

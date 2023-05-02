@@ -1,5 +1,8 @@
 @section('css')
 @endsection
+@section('title')
+    Job Details
+@endsection
 @extends('layouts.app')
 @section('content')
 <!--begin::Wrapper-->
@@ -90,7 +93,7 @@
                                     <div class="mr-3">
                                         <!--begin::Name-->
                                         <a href="#" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
-                                            #{{ $job->id }} {{ $job->job_title}}
+                                            #{{ $job['id'] }} {{ $job['job_title']}}
                                         </a>
                                         <!--end::Name-->
                                         <!--begin::Contacts-->
@@ -101,24 +104,25 @@
                                     </div>
                                     <!--begin::User-->
                                     <!--begin::Actions-->
-                                    @if(auth()->user()->type == 'pilots')
                                     <div class="my-lg-0 my-1">
-                                        <button class="apply-now btn btn-sm btn-primary font-weight-bolder text-uppercase">Apply Now</button>
+                                        <div class="mr-3 font-weight-bolder text-right" data-toggle="view">
+                                            Job Start date: {{ date("d-m-Y", strtotime($job['start_date'])) }} <br>
+                                            Job End date: {{ date("d-m-Y", strtotime($job['end_date'])) }} <br>
+                                            Job type: {{ $job['type'] }} <br>
+                                            @if(auth()->user()->type == 'pilot')
+                                            <button class="apply-now btn btn-sm btn-primary font-weight-bolder text-uppercase">Apply Now</button>
+                                            @endif
+                                        </div>
                                     </div>
-                                    @endif
                                     <!--end::Actions-->
-                                    <div class="mr-3 font-weight-bolder text-right" data-toggle="view">
-                                        Job Start date: {{ date("d-m-Y", strtotime($job->start_date)) }} <br>
-                                        Job End date: {{ date("d-m-Y", strtotime($job->end_date)) }} <br>
-                                    </div>
                                 </div>
-                                <div class="mr-3 font-weight-bolder text-right" data-toggle="view">Job type: {{ $job->type }}</div>
                                 <!--end::Title-->
                                 <!--begin::Content-->
                                 <div class="d-flex align-items-center flex-wrap justify-content-between">
                                     <!--begin::Description-->
-                                    <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">{{$job->job_desc}} <br>
-                                    Location:- {{$job->location}}, {{$job->country}}, {{$job->county}}
+                                    <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">{{ $job['job_desc'] }} <br>
+                                    
+                                    Location:- {{ $job['country']['name'] }}, {{ $job['county']['name'] }}, {{ $job['city']['name'] }}
                                     </div>
                                     <!--end::Description-->
                                 </div>
@@ -134,291 +138,8 @@
                     <div class="card-body">
                         <!--begin::Timeline-->
                         <div class="timeline timeline-3">
-                            <div class="timeline-items">
-                                <div class="timeline-item">
-                                    <div class="timeline-media">
-                                        <i class="flaticon2-notification fl text-primary"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <div class="mr-2">
-                                                <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">New order has been placed</a>
-                                                <span class="text-muted ml-2">Today</span>
-                                                <span class="label label-light-success font-weight-bolder label-inline ml-2">new</span>
-                                            </div>
-                                            <div class="dropdown ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
-                                                <a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="ki ki-more-hor icon-md"></i>
-                                                </a>
-                                                <div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
-                                                    <!--begin::Navigation-->
-                                                    <ul class="navi navi-hover">
-                                                        <li class="navi-header font-weight-bold py-4">
-                                                            <span class="font-size-lg">Choose Label:</span>
-                                                            <i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
-                                                        </li>
-                                                        <li class="navi-separator mb-3 opacity-70"></li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-success">Customer</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-danger">Partner</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-warning">Suplier</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-primary">Member</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-dark">Staff</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-separator mt-3 opacity-70"></li>
-                                                        <li class="navi-footer py-4">
-                                                            <a class="btn btn-clean font-weight-bold btn-sm" href="#">
-                                                            <i class="ki ki-plus icon-sm"></i>Add new</a>
-                                                        </li>
-                                                    </ul>
-                                                    <!--end::Navigation-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="p-0">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-media">
-                                        <i class="flaticon2-shield text-danger"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <div class="mr-2">
-                                                <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">Member has sent a request.</a>
-                                                <span class="text-muted ml-2">8:30PM 20 June</span>
-                                                <span class="label label-light-danger font-weight-bolder label-inline ml-2">pending</span>
-                                            </div>
-                                            <div class="dropdown ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
-                                                <a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="ki ki-more-hor icon-md"></i>
-                                                </a>
-                                                <div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
-                                                    <!--begin::Navigation-->
-                                                    <ul class="navi navi-hover">
-                                                        <li class="navi-header font-weight-bold py-4">
-                                                            <span class="font-size-lg">Choose Label:</span>
-                                                            <i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
-                                                        </li>
-                                                        <li class="navi-separator mb-3 opacity-70"></li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-success">Customer</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-danger">Partner</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-warning">Suplier</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-primary">Member</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-dark">Staff</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-separator mt-3 opacity-70"></li>
-                                                        <li class="navi-footer py-4">
-                                                            <a class="btn btn-clean font-weight-bold btn-sm" href="#">
-                                                            <i class="ki ki-plus icon-sm"></i>Add new</a>
-                                                        </li>
-                                                    </ul>
-                                                    <!--end::Navigation-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="p-0">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-media">
-                                        <i class="flaticon2-layers text-warning"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <div class="mr-2">
-                                                <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">System deployment has been completed.</a>
-                                                <span class="text-muted ml-2">11:00AM 30 June</span>
-                                                <span class="label label-light-warning font-weight-bolder label-inline ml-2">done</span>
-                                            </div>
-                                            <div class="dropdown ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
-                                                <a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="ki ki-more-hor icon-md"></i>
-                                                </a>
-                                                <div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
-                                                    <!--begin::Navigation-->
-                                                    <ul class="navi navi-hover">
-                                                        <li class="navi-header font-weight-bold py-4">
-                                                            <span class="font-size-lg">Choose Label:</span>
-                                                            <i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
-                                                        </li>
-                                                        <li class="navi-separator mb-3 opacity-70"></li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-success">Customer</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-danger">Partner</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-warning">Suplier</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-primary">Member</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-dark">Staff</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-separator mt-3 opacity-70"></li>
-                                                        <li class="navi-footer py-4">
-                                                            <a class="btn btn-clean font-weight-bold btn-sm" href="#">
-                                                            <i class="ki ki-plus icon-sm"></i>Add new</a>
-                                                        </li>
-                                                    </ul>
-                                                    <!--end::Navigation-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="p-0">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-media">
-                                        <i class="flaticon2-notification fl text-primary"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <div class="mr-2">
-                                                <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">Database backup has been completed.</a>
-                                                <span class="text-muted ml-2">2 months ago</span>
-                                                <span class="label label-light-primary font-weight-bolder label-inline ml-2">delivered</span>
-                                            </div>
-                                            <div class="dropdown ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
-                                                <a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="ki ki-more-hor icon-md"></i>
-                                                </a>
-                                                <div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
-                                                    <!--begin::Navigation-->
-                                                    <ul class="navi navi-hover">
-                                                        <li class="navi-header font-weight-bold py-4">
-                                                            <span class="font-size-lg">Choose Label:</span>
-                                                            <i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
-                                                        </li>
-                                                        <li class="navi-separator mb-3 opacity-70"></li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-success">Customer</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-danger">Partner</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-warning">Suplier</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-primary">Member</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="#" class="navi-link">
-                                                                <span class="navi-text">
-                                                                    <span class="label label-xl label-inline label-light-dark">Staff</span>
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-separator mt-3 opacity-70"></li>
-                                                        <li class="navi-footer py-4">
-                                                            <a class="btn btn-clean font-weight-bold btn-sm" href="#">
-                                                            <i class="ki ki-plus icon-sm"></i>Add new</a>
-                                                        </li>
-                                                    </ul>
-                                                    <!--end::Navigation-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="p-0">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                                    </div>
-                                </div>
+                            <div class="timeline-items bid-list">
+                                
                             </div>
                         </div>
                         <!--end::Timeline-->
@@ -432,44 +153,48 @@
     <!--end::Content-->
 </div>
 <!--end::Wrapper-->
-<div class="pilot-bid-form offcanvas offcanvas-right p-10" style="display: none; width: 500px;">
+<div class="pilot-bid-form offcanvas offcanvas-right p-10" style="display: none; width: 500px; z-index: 98;">
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
         <h3 class="font-weight-bold m-0">Pilot Bid View</h3>
         <a href="#" class="close-pilot-bid-form btn btn-xs btn-icon btn-light btn-hover-primary">
             <i class="ki ki-close icon-xs text-muted"></i>
         </a>
     </div>
-    <div class="form-group">
-        <label>Type:</label>
-        <input type="text" class="form-control"  placeholder="Type"/>
-    </div>
-
-    <div class="form-group">
-        <label>Date Range:</label>
-        <div>
-            <input type='text' class="form-control" id="kt_daterangepicker_1" readonly placeholder="Select time" type="text"/>
+    <form id="bid-data">
+        <input type="hidden" name="user_id" value="{{ $job['user_id'] }}">
+        <input type="hidden" name="job_id" value="{{ $job['id'] }}">
+        <div class="form-group">
+            <label>Type:</label>
+            <input type="text" class="form-control" name="type" placeholder="Type"/>
         </div>
-    </div>
-    
-    <div class="form-group">
-        <label for="Description">Job Description:</label>
-        <textarea class="form-control" id="Description" rows="3"></textarea>
-    </div>
-    
-    <div class="form-group">
-        <label for="Location">Price range:</label>
-        <select class="form-control" id="Location">
-            <option>Select price range</option>
-            <option value="100-250">100-250</option>
-            <option value="250-500">250-500</option>
-            <option value=" 500-1000"> 500-1000</option>
-            <option value="1000-1500">1000-1500</option>
-            <option value="1500-2500">1500-2500</option>
-            <option value="2500+">2500+</option>
-        </select>
-    </div>
-    <button type="reset" class="btn btn-primary mr-2">Submit</button>
-    <button type="reset" class="btn btn-secondary">Cancel</button>
+
+        <div class="form-group">
+            <label>Date Range:</label>
+            <div>
+                <input type='text' name="bid_start_end_date" class="form-control" id="kt_daterangepicker_1" readonly placeholder="Select time" type="text"/>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="Description">Job Description:</label>
+            <textarea class="form-control" name="bid_desc" id="Description" rows="3"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="Location">Price range:</label>
+            <select class="form-control" name="price" id="price">
+                <option>Select price range</option>
+                <option value="100-250">100-250</option>
+                <option value="250-500">250-500</option>
+                <option value=" 500-1000"> 500-1000</option>
+                <option value="1000-1500">1000-1500</option>
+                <option value="1500-2500">1500-2500</option>
+                <option value="2500+">2500+</option>
+            </select>
+        </div>
+        <button class="btn btn-primary mr-2" id="btn-bid-save">Submit</button>
+        <button type="reset" class="btn btn-secondary">Cancel</button>
+    </form>
 </div>
 @endsection
 @section('js')
@@ -483,6 +208,75 @@
             $(".pilot-bid-form").hide();
             $(".pilot-bid-form").removeClass("offcanvas-on");
         });
+
+        //Get all bids
+        var jobId = <?php echo $job['id']; ?>;
+        getBids();
+        function getBids(){
+            $.ajax({
+                type: "GET",
+                url: "{{ url('api/bids/')}}"+'/'+jobId,
+                success: function(data) {
+                    var bids = data.data;
+                    console.log(bids);
+                    $.each(bids, function(key, val){
+                        var html = `<div class="timeline-item">
+                                        <div class="timeline-media">
+                                            <i class="flaticon2-notification fl text-primary"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="mr-2">
+                                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">`+val.type+`</a>
+                                                    <span class="text-muted ml-2">`+val.end_date+`</span>
+                                                    
+                                                </div>
+                                            </div>
+                                            <span class="font-weight-bold">Price Range</span> <span class="label label-light-success font-weight-bolder label-inline ml-2">`+val.price+`</span>
+                                            <p class="p-0">`+val.bid_desc+`</p>
+                                        </div>
+                                    </div>`;
+                        $('.bid-list').append(html);
+                    });
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+        //Get all bids
+
+
+        $(document).on('click', '#btn-bid-save', function(e){
+			e.preventDefault();
+            $.ajax({
+                url: "{{url('api/bid/create')}}",
+                type: "post",
+                data: $('#bid-data').serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    $('.form-control').removeClass('is-invalid');
+                    $('.invalid-feedback').empty();
+                    swal.fire(response.success);
+                    if(response.status == true){
+                    }else{
+                        $.each(response.errors, function(key, val){
+                            $('.'+key).addClass('is-invalid');
+                            $('.'+key).next('.invalid-feedback').html(val);
+                        });
+                    }
+                    console.log(response);
+                }, 
+                error: function(response) {
+                    console.log('Error:', response);
+                    $('#btn-leads-save').html('Save Changes');
+                }
+            });
+        });
+        
+        
     });
 </script>
+<script src="{{asset('assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js')}}"></script>
+<script src="{{asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
 @endsection

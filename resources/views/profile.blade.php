@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('title')
+  Dashboard
+@endsection
 @section('content')
 
 <!--begin::Wrapper-->
@@ -133,24 +135,13 @@
 										</div>
 									</div>
 									<?php } ?>
-									<?php $industry = explode(',',auth()->user()->industry);
-										$industryOptions = ['event_photography' => 'EVENT PHOTOGRAPHY',
-															'construction' =>'CONSTRUCTION',
-															'commercial_real_estate' => 'COMMERCIAL REAL ESTATE',
-															'insurance' => 'INSURANCE',
-															'property_management' => 'PROPERTY MANAGEMENT',
-															'residential_real_estate' => 'RESIDENTIAL REAL ESTATE',
-															'solar' => 'SOLAR',
-															'wind' => 'WIND',
-															'telecom'=> 'TELECOM',
-															'utilities'=> 'UTILITIES'];
-									?>
+									<?php $userIndustry = explode(',',auth()->user()->industry_id); ?>
 									<div class="form-group row">
 										<label class="col-form-label text-right-desktop col-lg-3 col-sm-12">Industry</label>
 										<div class="col-lg-9 col-xl-6">
 											<select class="form-control form-control-lg form-control-solid selectpicker" name="industry[]" multiple="multiple" data-actions-box="true">
-												@foreach($industryOptions as $ikey => $ioption)
-													<option <?php echo in_array($ikey, $industry) ? 'selected' : ''; ?> value="{{$ikey}}">{{$ioption}}</option>
+												@foreach($industry as $ikey => $ioption)
+													<option <?php echo in_array($ioption->id, $userIndustry) ? 'selected' : ''; ?> value="{{$ioption->id}}">{{$ioption->name}}</option>
 												@endforeach
 											</select>
 										</div>
@@ -190,7 +181,10 @@
 									<div class="form-group row">
 										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">State/Region</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" />
+											<select class="form-control form-control-lg form-control-solid selectpicker state" name="state" id="state-dropdown">
+												<option valule="" disabled>Select County</option>
+											</select>
+											<!-- <input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" /> -->
 										</div>
 									</div>
 									<!-- pilot details -->
@@ -354,7 +348,7 @@
 			$(row_item).remove();
 		});
         
-        $(document).on('click', '#btn-profile-save', function(e){
+        $(document).on('click', '#btn-profile-savebtn-profile-save', function(e){
 			e.preventDefault();
             $.ajax({
                 url: "{{url('api/users/update')}}",
@@ -419,6 +413,35 @@
             });
             return false;
         });
+		//Get State/Region  dropdown
+		getState();
+		function getState(){
+            var country_id = 105;
+			var selectedState = <?php echo auth()->user()->state; ?>;
+            $.ajax({
+                url: "{{ route('states_by_country') }}",
+                type:"post",
+                cache: false,
+                data:{
+                    country_id: country_id,
+                    _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $("#state-dropdown").empty().append('');
+                    $("#bs-select-1 ul").empty().append('');
+                    var stateCount = result.states.length;
+                    $('#state-dropdown').html('<option value="">Select State</option>'); 
+                    $.each(result.states,function(key,value){
+						if(selectedState == value.id){
+							$("#state-dropdown").append('<option value="'+value.id+'" selected>'+value.name+'</option>');
+						}else{
+							$("#state-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+						}
+                    });
+                }
+            });
+        }
     });
 </script>
 <script src="assets/js/pages/crud/file-upload/image-input.js"></script>

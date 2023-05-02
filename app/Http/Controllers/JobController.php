@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+use DB;
 use App\Models\Job;
+use App\Models\Countries;
+use App\Models\User;
+use App\Models\Industry;
 
 class JobController extends Controller
 {
@@ -19,13 +23,36 @@ class JobController extends Controller
         //
         $params=$request->all();
         $currentDate = date('Y-m-d');
-        $jobs = job::query();
-        if (isset($params['status']) && $params['status'] == 'past' ) {
-            $jobs = $jobs->where('end_date','<', $currentDate );
-        } elseif (isset($params['status']) && $params['status'] == 'current' ) {
-            $jobs = $jobs->where('end_date','>=', $currentDate );
+        $user = user::where('id', $params['uid'])->first();
+        $industry_ids = explode(",",$user->industry_id);
+        
+        $jobsQuery = job::query();
+        if($user->type == 'pilot'){
+            $jobsQuery->Where(function ($query) use($industry_ids) {
+                for ($i = 0; $i < count($industry_ids); $i++){
+                   $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
+                }      
+            })->where('county', $user->state);
+            if(count($jobsQuery->get()) == 0){
+                $jobsQuery = job::query();
+                $jobsQuery->Where(function ($query) use($industry_ids) {
+                    for ($i = 0; $i < count($industry_ids); $i++){
+                    $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
+                    }      
+                })->where('location', '105');
+            }
+            if(count($jobsQuery->get()) == 0){
+                $jobsQuery = job::query();
+                $jobsQuery->Where(function ($query) use($industry_ids) {
+                    for ($i = 0; $i < count($industry_ids); $i++){
+                    $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
+                    }      
+                });
+            }
+        } elseif( $user->type == 'customer'){
+            $jobsQuery->where('user_id', $params['uid']);
         }
-        $jobs = $jobs->get();
+        $jobs = $jobsQuery->get();
         
         return response(['data' => $jobs], 200);
     }
@@ -41,7 +68,10 @@ class JobController extends Controller
         if(!Auth::check()){
             return redirect("login")->withSuccess('Opps! You do not have access');
         }
-        return view('job-create');
+        $data['countries'] = Countries::get();
+        $userIndustry = explode(',',auth()->user()->industry_id);
+        $data['industry'] = Industry::whereIn('id', $userIndustry)->get();
+        return view('job-create',$data);
     }
 
     /**
@@ -57,10 +87,17 @@ class JobController extends Controller
         $validator = Validator::make($request->all(),[
                     'job_title' =>  'required',
                     'location'  =>  'required',
-                    'country'   =>  'required',
                     'county'    =>  'required',
+                    'city'      =>  'required',
+                    'type'      =>  'required',
+                    'job_desc'  =>  'required',
+                    'industry'  =>  'required',
         ]);
         $params=$request->all();
+        if(isset($params['industry']) && !empty($params['industry'])){
+            $industry = $params['industry'];
+            $params['industry'] = implode(',', $industry);
+        }
         $job_start_end_date= explode('-',$params['job_start_end_date']);
         $startDate = str_replace('/', '-', $job_start_end_date[0]);
         $endDate = str_replace('/', '-', $job_start_end_date[1]);
@@ -72,10 +109,11 @@ class JobController extends Controller
             $job->user_id   = $params['user_id'];
             $job->job_title = $params['job_title'];
             $job->location  = $params['location'];
-            $job->country   = $params['country'];
             $job->county    = $params['county'];
+            $job->city      = $params['city'];
             $job->type      = $params['type'];
             $job->job_desc  = $params['job_desc'];
+            $job->industry_id= $params['industry'];
             $job->start_date= $start_date;
             $job->end_date  = $end_date;
             $job->save();
@@ -113,7 +151,8 @@ class JobController extends Controller
         if(!Auth::check()){
             return redirect("login")->withSuccess('Opps! You do not have access');
         }
-        $data['job'] = job::find($id);
+        $data['job'] = job::with(['country','county','city'])->where('id', $id)->first()->toArray();
+        // print_r($data['job']->toArray());die();
         return view('jobs.job-detail', $data);
     }
 

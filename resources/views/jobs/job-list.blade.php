@@ -1,5 +1,8 @@
 @section('css')
 @endsection
+@section('title')
+    Job List
+@endsection
 @extends('layouts.app')
 <!--begin::Wrapper-->
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
@@ -125,11 +128,13 @@
         var fullURL = window.location.href;
         var url = new URL(fullURL);
         var status = url.searchParams.get("status");
+        var type = '{{ auth()->user()->type }}';
+        var id = '{{ auth()->user()->id }}';
         getjobs();
         function getjobs(){
             $.ajax({
                 type: "GET",
-                url: "{{ url('api/jobs')}}"+ '?status=' +status,
+                url: "{{ url('api/jobs')}}"+ '?status=' + status + '&usertype=' + type + '&uid=' + id,
                 success: function(data) {
                     var jobs = data.data;
                     $.each(jobs, function(key, val){

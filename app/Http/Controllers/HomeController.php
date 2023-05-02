@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Job;
+use App\Models\Industry;
 
 class HomeController extends Controller
 {
@@ -32,7 +33,8 @@ class HomeController extends Controller
             $data['jobs'] = job::count();
             return view('admin.admin-dashboard',$data);
         }else{
-            return view('profile');
+            $data['industry'] = Industry::get();
+            return view('profile',$data);
         }
     }
 }

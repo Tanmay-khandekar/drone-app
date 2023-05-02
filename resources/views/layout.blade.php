@@ -82,7 +82,7 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-6 col-xs-7">
                             <div class="logo">
-                                <a href="index.html">
+                                <a href="/">
                                     <img src="images/logo/logo.jpg" alt="logo image">
                                 </a>
                             </div>
@@ -90,23 +90,23 @@
                         <div class="col-md-8 col-sm-6 col-xs-5">
                             <nav class="main__menu__nav  hidden-xs hidden-sm">
                                 <ul class="main__menu">
-                                    <li><a href="index.html">HOME</a></li>
-                                    <li><a href="how-it-works.html">How it works</a></li>
+                                    <li><a href="/">HOME</a></li>
+                                    <li><a href="how-it-works">How it works</a></li>
                                     <li><a href="javascript:void(0)">Browse Pilots</a></li>
                                     <li><a href="#">Shop</a></li>
-                                    <li><a href="blog.html">BLOG</a></li>
-                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="blog">BLOG</a></li>
+                                    <li><a href="about">About Us</a></li>
                                 </ul>
                             </nav>
                             <div class="mobile-menu clearfix visible-xs visible-sm">
                                 <nav id="mobile_dropdown">
                                     <ul>
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="how-it-works.html">How it works</a></li> 
+                                        <li><a href="index">Home</a></li>
+                                        <li><a href="how-it-works">How it works</a></li> 
                                         <li><a href="#">Browse Pilots</a></li> 
                                         <li><a href="javascript:void(0)">Shop</a></li>
-                                        <li><a href="blog.html">BLOG</a></li>
-                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="blog">BLOG</a></li>
+                                        <li><a href="about">About Us</a></li>
                                         <li><a href="{{ route('login') }}">Login / Join us</a></li>
                                     </ul>
                                 </nav>
@@ -154,14 +154,14 @@
                                     </div>
                                     <div class="footer__link">
                                         <ul class="ft__menu">
-                                            <li><a href="index.html">Home</a></li>
-                                            <li><a href="how-it-works.html">How it works</a></li>
+                                            <li><a href="/">Home</a></li>
+                                            <li><a href="how-it-works">How it works</a></li>
                                             <li><a href="javascript:void(0)">Browse Pilots</a></li>
                                         </ul>
                                         <ul class="ft__menu">
                                             <li><a href="javascript:void(0)">Shop</a></li>
-                                            <li><a href="blog.html">BLOG</a></li>
-                                            <li><a href="about.html">About Us</a></li>
+                                            <li><a href="blog">BLOG</a></li>
+                                            <li><a href="about">About Us</a></li>
                                         </ul>
                                     </div>
                                 </div>

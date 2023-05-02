@@ -12,11 +12,26 @@ class Job extends Model
     protected $fillable = [
         'user_id',
         'location',
-        'country',
         'county',
+        'city',
         'type',
         'job_desc',
         'start_date',
         'end_date',
     ];
+
+    public function country()
+    {
+        return $this->hasOne('App\Models\Countries', 'id', 'location');
+    }
+
+    public function county()
+    {
+        return $this->hasOne('App\Models\States', 'id', 'county');
+    }
+    
+    public function city()
+    {
+        return $this->hasOne('App\Models\Cities', 'id', 'city');
+    }
 }

@@ -1,5 +1,8 @@
 @section('css')
 @endsection
+@section('title')
+    Pilot List
+@endsection
 @extends('layouts.app')
 <!--begin::Wrapper-->
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">

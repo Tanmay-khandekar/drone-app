@@ -2,7 +2,7 @@
 	<!--begin::Head-->
 	<head>
 		<meta charset="utf-8" />
-		<title>Customer onboarding || DronConnect</title>
+		<title>@yield('title') || DronConnect</title>
 		<meta name="description" content="Latest updates and statistic charts" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<!--begin::Fonts-->
