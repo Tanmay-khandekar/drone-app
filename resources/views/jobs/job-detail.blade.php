@@ -161,7 +161,7 @@
         </a>
     </div>
     <form id="bid-data">
-        <input type="hidden" name="user_id" value="{{ $job['user_id'] }}">
+        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
         <input type="hidden" name="job_id" value="{{ $job['id'] }}">
         <div class="form-group">
             <label>Type:</label>

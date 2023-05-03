@@ -50,6 +50,15 @@
                     </div>
                 </div>
                 <?php } ?>
+                <div class="alert alert-custom alert-light-warning fade show mb-5" id="varification_alert_box" style="display:none;" role="alert">
+                    <div class="alert-icon"><i class="flaticon-refresh"></i></div>
+                    <div class="alert-text" id="varification_alert">Activate account post verification <a href="pilot-verification">Pilot account Page</a></div>
+                    <div class="alert-close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                        </button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <!--begin::Card-->
@@ -119,6 +128,10 @@
                     console.log(data.data)
                     $("#gov_license").parent().parent().append("<a href="+data.data.pilot_detail.gov_license+" target='_blank' class='btn btn-primary btn-sm position-relative float-right mt-2'> View Gov License</a> ");
                     $("#pilot_license").parent().parent().append("<a href="+data.data.pilot_detail.pilot_license+" target='_blank' class='btn btn-primary btn-sm position-relative float-right mt-2'> View Pilot License</a> ");
+                    if( data.data.status != '1' && data.data.pilot_detail ){
+                        $("#varification_alert").html('<p>Please wait for licence verification</p>');
+                        $("#varification_alert_box").show();
+                    }
                 },
                 error: function(data) {
                     console.log('Error:', data);

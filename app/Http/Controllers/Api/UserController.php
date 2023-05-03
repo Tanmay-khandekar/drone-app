@@ -67,9 +67,9 @@ class UserController extends Controller
             $uploadedFile->move(public_path('user-profile'), $user_profile);
             $params['user_profile'] = 'user-profile/'.$user_profile; 
         }
-        if(isset($params['industry']) && !empty($params['industry'])){
-            $industry = $params['industry'];
-            $params['industry'] = implode(',', $industry);
+        if(isset($params['industry_id']) && !empty($params['industry_id'])){
+            $industry = $params['industry_id'];
+            $params['industry_id'] = implode(',', $industry);
         }
         if(isset($params['packages']) && !empty($params['packages'])){
             $params['packages'] = json_encode($params['packages']);

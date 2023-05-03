@@ -34,4 +34,9 @@ class Job extends Model
     {
         return $this->hasOne('App\Models\Cities', 'id', 'city');
     }
+
+    public function bids()
+    {
+        return $this->hasMany('App\Models\Bids', 'job_id');
+    }
 }

@@ -139,7 +139,7 @@
 									<div class="form-group row">
 										<label class="col-form-label text-right-desktop col-lg-3 col-sm-12">Industry</label>
 										<div class="col-lg-9 col-xl-6">
-											<select class="form-control form-control-lg form-control-solid selectpicker" name="industry[]" multiple="multiple" data-actions-box="true">
+											<select class="form-control form-control-lg form-control-solid selectpicker" name="industry_id[]" multiple="multiple" data-actions-box="true">
 												@foreach($industry as $ikey => $ioption)
 													<option <?php echo in_array($ioption->id, $userIndustry) ? 'selected' : ''; ?> value="{{$ioption->id}}">{{$ioption->name}}</option>
 												@endforeach
@@ -181,7 +181,7 @@
 									<div class="form-group row">
 										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">State/Region</label>
 										<div class="col-lg-9 col-xl-6">
-											<select class="form-control form-control-lg form-control-solid selectpicker state" name="state" id="state-dropdown">
+											<select class="form-control form-control-lg form-control-solid state" name="state" id="state-dropdown">
 												<option valule="" disabled>Select County</option>
 											</select>
 											<!-- <input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" /> -->
@@ -263,6 +263,7 @@
 @section('js')
 <script>
 	$(document).ready(function() {
+		getState();
 		var i = 0;
 		var packages = <?php echo isset(auth()->user()->packages) ? auth()->user()->packages:0; ?>;
 		if(packages){
@@ -348,7 +349,8 @@
 			$(row_item).remove();
 		});
         
-        $(document).on('click', '#btn-profile-savebtn-profile-save', function(e){
+        $(document).on('click', '#btn-profile-save', function(e){
+
 			e.preventDefault();
             $.ajax({
                 url: "{{url('api/users/update')}}",
@@ -414,10 +416,9 @@
             return false;
         });
 		//Get State/Region  dropdown
-		getState();
 		function getState(){
             var country_id = 105;
-			var selectedState = <?php echo auth()->user()->state; ?>;
+			var selectedState = '<?= auth()->user()->state ?>';
             $.ajax({
                 url: "{{ route('states_by_country') }}",
                 type:"post",
@@ -433,7 +434,7 @@
                     var stateCount = result.states.length;
                     $('#state-dropdown').html('<option value="">Select State</option>'); 
                     $.each(result.states,function(key,value){
-						if(selectedState == value.id){
+						if(selectedState != '' && selectedState == value.id){
 							$("#state-dropdown").append('<option value="'+value.id+'" selected>'+value.name+'</option>');
 						}else{
 							$("#state-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');

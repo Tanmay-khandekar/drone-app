@@ -26,11 +26,12 @@ class User extends Authenticatable
         'user_profile',
         'company',
         'active_project',
-        'industry',
+        'industry_id',
         'state',
         'packages',
         'password',
         'status',
+        'jobtitle',
     ];
 
     /**

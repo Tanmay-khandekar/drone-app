@@ -81,6 +81,7 @@
                     </a>
                 </li>
                 @endif
+                @if(auth()->user()->status == '1')
                 <li class="menu-item menu-item-submenu menu-item-open menu-item-here" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -137,6 +138,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
             </ul>
             <!--end::Menu Nav-->
         </div>

@@ -28,26 +28,51 @@ class JobController extends Controller
         
         $jobsQuery = job::query();
         if($user->type == 'pilot'){
-            $jobsQuery->Where(function ($query) use($industry_ids) {
-                for ($i = 0; $i < count($industry_ids); $i++){
-                   $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
-                }      
-            })->where('county', $user->state);
-            if(count($jobsQuery->get()) == 0){
-                $jobsQuery = job::query();
+            if($params['status'] == 'all'){
                 $jobsQuery->Where(function ($query) use($industry_ids) {
                     for ($i = 0; $i < count($industry_ids); $i++){
-                    $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
+                       $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
                     }      
-                })->where('location', '105');
-            }
-            if(count($jobsQuery->get()) == 0){
-                $jobsQuery = job::query();
-                $jobsQuery->Where(function ($query) use($industry_ids) {
+                })->where('county', $user->state);
+                if(count($jobsQuery->get()) == 0){
+                    $jobsQuery = job::query();
+                    $jobsQuery->Where(function ($query) use($industry_ids) {
+                        for ($i = 0; $i < count($industry_ids); $i++){
+                            $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
+                        }      
+                    })->where('location', '105');
+                }
+                if(count($jobsQuery->get()) == 0){
+                    $jobsQuery = job::query();
+                    $jobsQuery->Where(function ($query) use($industry_ids) {
+                        for ($i = 0; $i < count($industry_ids); $i++){
+                        $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
+                        }      
+                    });
+                }
+            }elseif($params['status'] == 'past'){
+
+                $jobsQuery->with('bids', function($q) use ($user){
+                    if( isset($user->id) && !empty($user->id) ){
+                      $q = $q->where('bids.user_id',$user->id );
+                    }
+                })
+                ->Where(function ($query) use($industry_ids) {
                     for ($i = 0; $i < count($industry_ids); $i++){
-                    $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
+                       $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
                     }      
-                });
+                })->get();
+                $jobs = $jobsQuery->get()->toArray();
+                $pastJobs = [];
+                $count = 0;
+                foreach ($jobs as $jkey => $job) {
+                    if(count($job['bids'])){
+                        $pastJobs[$count] = $job;
+                        $count++;
+                    }
+                }
+
+                return response(['data' => $pastJobs], 200);
             }
         } elseif( $user->type == 'customer'){
             $jobsQuery->where('user_id', $params['uid']);
