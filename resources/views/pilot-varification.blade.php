@@ -67,6 +67,7 @@
                             <form class="form" id="pilot-verification-data">
                                 <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
                                 <div class="card-body">
+                                    <label class="text-danger">Upload your government ID which shows your Name and picture clearly.</label>
                                     <div class="form-group">
                                         <label>Government ID</label>
                                         <select class="form-control selectpicker" id="gov_id" name="gov_id">
@@ -90,6 +91,13 @@
                                             <label class="custom-file-label" for="pilot_license">Choose file</label>
                                         </div>
                                     </div>
+                                    <div class="pt-7">
+                                        <strong>Optional Additional Documents</strong>
+                                        <a href="javascript:;" class="btn btn-sm font-weight-bolder btn-light-primary add-more float-right">
+                                            <i class="la la-plus"></i>Add
+                                        </a>
+                                    </div>
+                                    <div class="add-doc mt-5"></div>
                                 </div>
                                 <div class="card-footer">
                                     <button type="reset" id="btn-pilot-varification" class="btn btn-primary mr-2">Submit</button>
@@ -119,6 +127,7 @@
             }
         });
         getPilot();
+        var i = 0;
         function getPilot(){
             var user_id = $('#user_id').val();
             $.ajax({
@@ -138,7 +147,30 @@
                 }
             });
         }
-        
+        $(document).on('click', '.add-more',function(){
+            var html = `<div class="form-group">
+                            <label>Upload Additional Documents</label>
+                            <div></div>
+                            <div class="d-flex">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="add-doc`+i+`" id="add-doc`+i+`" />
+                                    <label class="custom-file-label" for="add-doc`+i+`">Choose file</label>
+                                </div>
+                                <a href="javascript:;" data-repeater-delete="" class="btn btn-sm font-weight-bolder btn-light-danger btn-remove ml-3 pt-6">
+                                    <i class="la la-trash-o"></i>
+                                </a>
+                            </div>
+                        </div>`;
+            i = i + 1;
+            $('.add-doc').append(html);
+        });
+
+        $(document).on('click', '.btn-remove', function(e){
+			e.preventDefault();
+			let row_item = $(this).parent().parent();
+			$(row_item).remove();
+		});
+
         $(document).on('click', '#btn-pilot-varification', function(e){
             e.preventDefault();
             var gov_id = $('#gov_id').val();
@@ -147,6 +179,9 @@
             formData.append('user_id', user_id);
             formData.append('gov_id', gov_id);
             // Attach file
+            for (let index = 0; index < i; index++) {
+                formData.append('other_licenses[]', $('#add-doc'+index)[0].files[0]); 
+            }
             formData.append('gov_license', $('#gov_license')[0].files[0]); 
             formData.append('pilot_license', $('#pilot_license')[0].files[0]);
             $.ajax({

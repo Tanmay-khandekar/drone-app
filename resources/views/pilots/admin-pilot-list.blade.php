@@ -129,7 +129,7 @@
                         title: 'Actions',
                         orderable: false,
                         render: function(data, type, full, meta) {
-                            return '\<a href="admin/pilot-edit/'+data+'" class="btn btn-sm btn-clean btn-icon" title="Edit details">\
+                            return '\<a href="pilot/'+data+'" class="btn btn-sm btn-clean btn-icon" title="Edit details">\
                                         <i class="la la-edit"></i>\
                                     </a>\
                                     <a href="admin/pilot-delete/'+data+'" class="btn btn-sm btn-clean btn-icon" title="Delete">\

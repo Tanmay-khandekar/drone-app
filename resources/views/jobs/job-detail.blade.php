@@ -96,11 +96,6 @@
                                             #{{ $job['id'] }} {{ $job['job_title']}}
                                         </a>
                                         <!--end::Name-->
-                                        <!--begin::Contacts-->
-                                        <div class="d-flex flex-wrap my-2">
-                                            <span class="label label-lg label-light-default label-inline mt-2">PENDING APPROVAL</span>
-                                        </div>
-                                        <!--end::Contacts-->
                                     </div>
                                     <!--begin::User-->
                                     <!--begin::Actions-->
@@ -165,7 +160,11 @@
         <input type="hidden" name="job_id" value="{{ $job['id'] }}">
         <div class="form-group">
             <label>Type:</label>
-            <input type="text" class="form-control" name="type" placeholder="Type"/>
+            <select class="form-control" name="type" id="type">
+                <option>Select bid type</option>
+                <option value="Initial Bid">Initial Bid</option>
+                <option value="Final Bid">Final Bid</option>
+            </select>
         </div>
 
         <div class="form-group">
@@ -221,9 +220,9 @@
                     console.log(bids);
                     $.each(bids, function(key, val){
                         var html = `<div class="timeline-item">
-                                        <div class="timeline-media">
-                                            <i class="flaticon2-notification fl text-primary"></i>
-                                        </div>
+                                        <a href="/pilot/`+val.user.id+`" class="timeline-media">
+                                            <img src="../`+val.user.user_profile+`" />
+                                        </a>
                                         <div class="timeline-content">
                                             <div class="d-flex align-items-center justify-content-between mb-3">
                                                 <div class="mr-2">

@@ -13,5 +13,6 @@ class PilotDetails extends Model
         'user_id',
         'gov_license',
         'pilot_license',
+        'other_licenses',
     ];
 }

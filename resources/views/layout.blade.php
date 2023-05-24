@@ -63,6 +63,10 @@
             .slider__inner h1{
                 font-size: 40px;
             }
+            .banner-title{
+                position: relative;
+                top: -200px;
+            }
         }
     </style>
 </head>
@@ -77,13 +81,13 @@
         <!-- Start Header Style -->
         <div id="header" class="htc-header">
             <!-- Start Mainmenu Area -->
-            <div id="sticky-header-with-topbar" class="mainmenu__wrap sticky__header" style="background-color: #3c7fb6;">
+            <div id="sticky-header-with-topbar" class="mainmenu__wrap sticky__header" style="background-color: #1e1e2d;">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-2 col-sm-6 col-xs-7">
                             <div class="logo">
                                 <a href="/">
-                                    <img src="images/logo/logo.jpg" alt="logo image">
+                                    <img src="assets/media/logos/logo3.png" style="height: 62px; width:150x;" alt="logo image">
                                 </a>
                             </div>
                         </div>
@@ -107,7 +111,11 @@
                                         <li><a href="javascript:void(0)">Shop</a></li>
                                         <li><a href="blog">BLOG</a></li>
                                         <li><a href="about">About Us</a></li>
-                                        <li><a href="{{ route('login') }}">Login / Join us</a></li>
+                                        @guest
+                                            <li><a href="{{ route('login') }}">Login / Join us</a></li>
+                                        @else
+                                            <li><a href="{{ url('dashboard') }}">{{ Auth::user()->first_name }}</a></li>
+                                        @endguest   
                                     </ul>
                                 </nav>
                             </div> 
@@ -115,7 +123,11 @@
                         <div class="col-md-2 col-sm-6 hidden-xs">
                             <div class="main__menu__nav  hidden-xs hidden-sm">
                                 <ul class="main__menu">
-                                    <li><a href="{{ route('login') }}" class="header-right">Login / Join us</a></li>
+                                    @guest
+                                        <li><a href="{{ route('login') }}" class="header-right">Login / Join us</a></li>
+                                    @else
+                                        <li><a href="{{ url('dashboard') }}" class="header-right">{{ Auth::user()->first_name }}</a></li>
+                                    @endguest
                                 </ul>
                             </div>
                         </div>

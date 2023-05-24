@@ -95,410 +95,13 @@
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
-                <!--begin::Card-->
-                <div class="card card-custom gutter-b">
-                    <div class="card-body">
-                        <!--begin::Top-->
-                        <div class="d-flex">
-                            <!--begin::Pic-->
-                            <div class="flex-shrink-0 mr-7">
-                                <div class="symbol symbol-50 symbol-lg-120">
-                                    <img alt="Pic" src="assets/media//users/300_1.jpg" />
-                                </div>
-                            </div>
-                            <!--end::Pic-->
-                            <!--begin: Info-->
-                            <div class="flex-grow-1">
-                                <!--begin::Title-->
-                                <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
-                                    <!--begin::User-->
-                                    <div class="mr-3">
-                                        <!--begin::Name-->
-                                        <a href="pilots-detail.html" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">Jason Muller
-                                        <i class="flaticon2-correct text-success icon-md ml-2"></i></a>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span> (4.5)
-                                        <!--end::Name-->
-                                        <!--begin::Contacts-->
-                                        <div class="d-flex flex-wrap my-2">
-                                            <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">$150/hr </strong> avg. rate</span>
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">Completed </strong> jobs</span>
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">License </strong> #4494168</span>
-                                            <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                            
-                                        </div>
-                                        <!--end::Contacts-->
-                                    </div>
-                                    <!--begin::User-->
-                                    <!--begin::Actions-->
-                                    <div class="my-lg-0 my-1">
-                                        <a href="#" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">REQUEST A QUOTE</a>
-                                    </div>
-                                    <!--end::Actions-->
-                                </div>
-                                <!--end::Title-->
-                                <!--begin::Content-->
-                                <div class="d-flex align-items-center flex-wrap justify-content-between">
-                                    <!--begin::Description-->
-                                    <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">NYC Licensed Drone Pilot ready to help you take your vision to new heights!</div>
-                                    <!--end::Description-->
-                                </div>
-                                <!--end::Content-->
-                            </div>
-                            <!--end::Info-->
-                        </div>
-                        <!--end::Top-->
-                        <!--begin::Separator-->
-                        <div class="separator separator-solid my-7"></div>
-                        <!--end::Separator-->
-                        <!--begin::Bottom-->
-                        <div class="d-flex align-items-center flex-wrap">
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Average rate</span>
-                                    <span class="font-weight-bolder font-size-h5">
-                                    <span class="text-dark-50 font-weight-bold">$</span>150/hr</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-placeholder icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Location</span>
-                                    <span class="font-weight-bolder font-size-h5">New York, NY</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-map-location icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Travel</span>
-                                    <span class="font-weight-bolder font-size-h5">Up to 90 miles</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                        </div>
-                        <!--end::Bottom-->
-                    </div>
+                <div class="pilot-list">
+                    
                 </div>
-                <!--end::Card-->
                 <!--begin::Card-->
-                <div class="card card-custom gutter-b">
-                    <div class="card-body">
-                        <!--begin::Top-->
-                        <div class="d-flex">
-                            <!--begin::Pic-->
-                            <div class="flex-shrink-0 mr-7">
-                                <div class="symbol symbol-50 symbol-lg-120 symbol-light-danger">
-                                    <span class="font-size-h3 symbol-label font-weight-boldest">MP</span>
-                                </div>
-                            </div>
-                            <!--end::Pic-->
-                            <!--begin: Info-->
-                            <div class="flex-grow-1">
-                                <!--begin::Title-->
-                                <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
-                                    <!--begin::User-->
-                                    <div class="mr-3">
-                                        <!--begin::Name-->
-                                        <a href="pilots-detail.html" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">Matt Pears
-                                        <i class="flaticon2-correct text-success icon-md ml-2"></i></a>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span> (4.5)
-                                        <!--end::Name-->
-                                        <!--begin::Contacts-->
-                                        <div class="d-flex flex-wrap my-2">
-                                            <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">$150/hr </strong> avg. rate</span>
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">Completed </strong> jobs</span>
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">License </strong> #4494168</span>
-                                            <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                            
-                                        </div>
-                                        <!--end::Contacts-->
-                                    </div>
-                                    <!--begin::User-->
-                                    <!--begin::Actions-->
-                                    <div class="my-lg-0 my-1">
-                                        <a href="#" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">REQUEST A QUOTE</a>
-                                    </div>
-                                    <!--end::Actions-->
-                                </div>
-                                <!--end::Title-->
-                                <!--begin::Content-->
-                                <div class="d-flex align-items-center flex-wrap justify-content-between">
-                                    <!--begin::Description-->
-                                    <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">NYC Licensed Drone Pilot ready to help you take your vision to new heights!</div>
-                                    <!--end::Description-->
-                                </div>
-                                <!--end::Content-->
-                            </div>
-                            <!--end::Info-->
-                        </div>
-                        <!--end::Top-->
-                        <!--begin::Separator-->
-                        <div class="separator separator-solid my-7"></div>
-                        <!--end::Separator-->
-                        <!--begin::Bottom-->
-                        <div class="d-flex align-items-center flex-wrap">
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Average rate</span>
-                                    <span class="font-weight-bolder font-size-h5">
-                                    <span class="text-dark-50 font-weight-bold">$</span>150/hr</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-placeholder icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Location</span>
-                                    <span class="font-weight-bolder font-size-h5">New York, NY</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-map-location icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Travel</span>
-                                    <span class="font-weight-bolder font-size-h5">Up to 90 miles</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                        </div>
-                        <!--end::Bottom-->
-                    </div>
-                </div>
+                
                 <!--end::Card-->
-                <!--begin::Card-->
-                <div class="card card-custom gutter-b">
-                    <div class="card-body">
-                        <!--begin::Top-->
-                        <div class="d-flex">
-                            <!--begin::Pic-->
-                            <div class="flex-shrink-0 mr-7">
-                                <div class="symbol symbol-50 symbol-lg-120">
-                                    <img alt="Pic" src="assets/media//users/300_10.jpg" />
-                                </div>
-                            </div>
-                            <!--end::Pic-->
-                            <!--begin: Info-->
-                            <div class="flex-grow-1">
-                                <!--begin::Title-->
-                                <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
-                                    <!--begin::User-->
-                                    <div class="mr-3">
-                                        <!--begin::Name-->
-                                        <a href="pilots-detail.html" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">Charlie Stone
-                                        <i class="flaticon2-correct text-success icon-md ml-2"></i></a>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span> (4.5)
-                                        <!--end::Name-->
-                                        <!--begin::Contacts-->
-                                        <div class="d-flex flex-wrap my-2">
-                                            <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">$150/hr </strong> avg. rate</span>
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">Completed </strong> jobs</span>
-                                            <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">License </strong> #4494168</span>
-                                            <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                            
-                                        </div>
-                                        <!--end::Contacts-->
-                                    </div>
-                                    <!--begin::User-->
-                                    <!--begin::Actions-->
-                                    <div class="my-lg-0 my-1">
-                                        <a href="#" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">REQUEST A QUOTE</a>
-                                    </div>
-                                    <!--end::Actions-->
-                                </div>
-                                <!--end::Title-->
-                                <!--begin::Content-->
-                                <div class="d-flex align-items-center flex-wrap justify-content-between">
-                                    <!--begin::Description-->
-                                    <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">NYC Licensed Drone Pilot ready to help you take your vision to new heights!</div>
-                                    <!--end::Description-->
-                                </div>
-                                <!--end::Content-->
-                            </div>
-                            <!--end::Info-->
-                        </div>
-                        <!--end::Top-->
-                        <!--begin::Separator-->
-                        <div class="separator separator-solid my-7"></div>
-                        <!--end::Separator-->
-                        <!--begin::Bottom-->
-                        <div class="d-flex align-items-center flex-wrap">
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Average rate</span>
-                                    <span class="font-weight-bolder font-size-h5">
-                                    <span class="text-dark-50 font-weight-bold">$</span>150/hr</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-placeholder icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Location</span>
-                                    <span class="font-weight-bolder font-size-h5">New York, NY</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-map-location icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Travel</span>
-                                    <span class="font-weight-bolder font-size-h5">Up to 90 miles</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                        </div>
-                        <!--end::Bottom-->
-                    </div>
-                </div>
-                <!--end::Card-->
-                <!--begin::Card-->
-                <div class="card card-custom gutter-b">
-                    <div class="card-body">
-                        <!--begin::Top-->
-                        <div class="d-flex">
-                            <!--begin::Pic-->
-                            <div class="flex-shrink-0 mr-7">
-                                <div class="symbol symbol-50 symbol-lg-120 symbol-light-primary">
-                                    <span class="font-size-h3 symbol-label font-weight-boldest">SF</span>
-                                </div>
-                            </div>
-                            <!--end::Pic-->
-                            <!--begin: Info-->
-                            <div class="flex-grow-1">
-                                <!--begin::Title-->
-                                <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
-                                    <!--begin::User-->
-                                    <div class="mr-3">
-                                        <!--begin::Name-->
-                                        <a href="pilots-detail.html" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">Sergei Ford
-                                        <i class="flaticon2-correct text-success icon-md ml-2"></i></a>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span> (4.5)
-                                        <!--end::Name-->
-                                        <!--begin::Contacts-->
-                                        <div class="d-flex flex-wrap my-2">
-                                            <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                            <span class="label label-lg label-light-default label-inline mr-2"><strong class="mr-2">$150/hr </strong> avg. rate</span>
-                                            <span class="label label-lg label-light-default label-inline mr-2"><strong class="mr-2">Completed </strong> jobs</span>
-                                            <span class="label label-lg label-light-default label-inline mr-2"><strong class="mr-2">License </strong> #4494168</span>
-                                            <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                            
-                                        </div>
-                                        <!--end::Contacts-->
-                                    </div>
-                                    <!--begin::User-->
-                                    <!--begin::Actions-->
-                                    <div class="my-lg-0 my-1">
-                                        <a href="#" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">REQUEST A QUOTE</a>
-                                    </div>
-                                    <!--end::Actions-->
-                                </div>
-                                <!--end::Title-->
-                                <!--begin::Content-->
-                                <div class="d-flex align-items-center flex-wrap justify-content-between">
-                                    <!--begin::Description-->
-                                    <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">NYC Licensed Drone Pilot ready to help you take your vision to new heights!</div>
-                                    <!--end::Description-->
-                                </div>
-                                <!--end::Content-->
-                            </div>
-                            <!--end::Info-->
-                        </div>
-                        <!--end::Top-->
-                        <!--begin::Separator-->
-                        <div class="separator separator-solid my-7"></div>
-                        <!--end::Separator-->
-                        <!--begin::Bottom-->
-                        <div class="d-flex align-items-center flex-wrap">
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Average rate</span>
-                                    <span class="font-weight-bolder font-size-h5">
-                                    <span class="text-dark-50 font-weight-bold">$</span>150/hr</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-placeholder icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Location</span>
-                                    <span class="font-weight-bolder font-size-h5">New York, NY</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                            <!--begin: Item-->
-                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                                <span class="mr-4">
-                                    <i class="flaticon-map-location icon-2x text-muted font-weight-bold"></i>
-                                </span>
-                                <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Travel</span>
-                                    <span class="font-weight-bolder font-size-h5">Up to 90 miles</span>
-                                </div>
-                            </div>
-                            <!--end: Item-->
-                        </div>
-                        <!--end::Bottom-->
-                    </div>
-                </div>
-                <!--end::Card-->
+                
                 <!--begin::Pagination-->
                 <div class="card card-custom">
                     <div class="card-body">
@@ -633,4 +236,115 @@
 @section('content')
 @endsection
 @section('js')
+<script>
+    $(document).ready(function() {
+        getPilots();
+        function calculateAverage(array) {
+            var total = 0;
+            var count = 0;
+
+            array.forEach(function(item, index) {
+                total = (total + parseInt(item));
+                count++;
+            });
+
+            return total / count;
+        }
+        function getPilots(){
+            $.ajax({
+                type: "GET",
+                url: "{{ url('api/pilots')}}",
+                success: function(data) {
+                    var pilots = data.data;
+                    var html = '';
+                    $('#job-total').append(pilots.length + " open job available");
+                    $.each(pilots, function(key, val){
+                        var packages = JSON.parse(val.packages);
+                        const pilotPrice = [];
+                        $.each(packages, function(pkey, pval){
+                            pilotPrice.push(pval.price);
+                        });
+                        var price = calculateAverage(pilotPrice);
+                        
+                        var html = `<div class="card card-custom gutter-b">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 mr-7">
+                                                    <div class="symbol symbol-50 symbol-lg-120">
+                                                        <img alt="Pic" src="`+val.user_profile+`" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
+                                                        <div class="mr-3">
+                                                            <a href="pilots-detail.html" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">`+ val.first_name +` ` + val.last_name + `
+                                                            <i class="flaticon2-correct text-success icon-md ml-2"></i></a>
+                                                            <span class="fa fa-star checked"></span>
+                                                            <span class="fa fa-star checked"></span>
+                                                            <span class="fa fa-star checked"></span>
+                                                            <span class="fa fa-star checked"></span>
+                                                            <span class="fa fa-star"></span> (4.5)
+                                                            <div class="d-flex flex-wrap my-2">
+                                                                <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
+                                                                <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">$`+price+`/hr </strong> avg. rate</span>
+                                                                <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">Completed </strong> jobs</span>
+                                                                <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">License </strong> #4494168</span>
+                                                                <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="my-lg-0 my-1">
+                                                            <a href="#" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">REQUEST A QUOTE</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center flex-wrap justify-content-between">
+                                                        <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">NYC Licensed Drone Pilot ready to help you take your vision to new heights!</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="separator separator-solid my-7"></div>
+                                            <div class="d-flex align-items-center flex-wrap">
+                                                <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                                    <span class="mr-4">
+                                                        <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
+                                                    </span>
+                                                    <div class="d-flex flex-column text-dark-75">
+                                                        <span class="font-weight-bolder font-size-sm">Average rate</span>
+                                                        <span class="font-weight-bolder font-size-h5">
+                                                        <span class="text-dark-50 font-weight-bold">$</span>`+price+`/hr</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                                    <span class="mr-4">
+                                                        <i class="flaticon-placeholder icon-2x text-muted font-weight-bold"></i>
+                                                    </span>
+                                                    <div class="d-flex flex-column text-dark-75">
+                                                        <span class="font-weight-bolder font-size-sm">Location</span>
+                                                        <span class="font-weight-bolder font-size-h5"> Ireland `+val.state+`</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                                    <span class="mr-4">
+                                                        <i class="flaticon-map-location icon-2x text-muted font-weight-bold"></i>
+                                                    </span>
+                                                    <div class="d-flex flex-column text-dark-75">
+                                                        <span class="font-weight-bolder font-size-sm">Travel</span>
+                                                        <span class="font-weight-bolder font-size-h5">Up to 90 miles</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                        $('.pilot-list').append(html);
+                    });
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+        
+    });
+</script>
 @endsection

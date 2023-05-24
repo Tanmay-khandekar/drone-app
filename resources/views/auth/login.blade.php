@@ -115,15 +115,15 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!--begin::Wrapper-->
 			<div class="d-flex flex-column flex-row-fluid" id="kt_wrapper">
 				<!--begin::Header-->
-				<div id="kt_header" class="header header-fixed" style="background-color: #3d80b6;">
+				<div id="kt_header" class="header header-fixed" style="background-color: #1e1e2d;">
 					<!--begin::Container-->
 					<div class="container-fluid d-flex align-items-stretch justify-content-between">
 						<!--begin::Header Menu Wrapper-->
 						<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
 							<!--begin::Header Logo-->
 							<div class="header-logo">
-								<a href="index.html">
-									<img alt="Logo" src="assets/media/logos/logo.jpg" />
+								<a href="/">
+									<img alt="Logo" src="assets/media/logos/logo3.png" style="height: 62px; width:150x;" />
 								</a>
 							</div>
 							<!--end::Header Logo-->
@@ -132,7 +132,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!--begin::Header Nav-->
 								<ul class="menu-nav">
 									<li class="menu-item menu-item-submenu menu-item-rel">
-										<a href="../index.html" class="menu-link">
+										<a href="/" class="menu-link">
 											<span class="menu-text">HOME</span>
 										</a>
 									</li>
@@ -203,7 +203,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
 									<!--begin::Signin-->
 									<div class="login-form login-signin">
-										<div class="text-center mb-10 mb-lg-20">
+										<div class="text-center mb-10">
 											<h3 class="font-size-h1">Sign In</h3>
 											<div class="socialaccount_ballot" style="display: none;">
 												<span class="font-weight-bold text-muted">Sign in with your social account</span><br>
@@ -241,6 +241,14 @@ License: You must have a valid license purchased only from themeforest(the above
 											<a href="javascript:;" class="font-weight-bold ml-2"
 												id="kt_login_signup">Sign Up!</a><br>
 										</div>
+										<div class="flash-message">
+											@foreach (['danger', 'warning', 'success', 'info'] as $msg)
+												@if(Session::has('alert-' . $msg))
+													<p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+												@endif
+											@endforeach
+										</div>
+
 										<!--begin::Form-->
 										<form class="form" method="POST" action="{{ route('login') }}" novalidate="novalidate" id="login_form">
                                             @csrf

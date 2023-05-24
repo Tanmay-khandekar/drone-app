@@ -9,4 +9,9 @@ class Bids extends Model
 {
     use HasFactory;
     protected $table='bids';
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }

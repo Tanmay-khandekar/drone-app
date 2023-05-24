@@ -46,7 +46,7 @@
                         <div class="card-header row row-marginless align-items-center flex-wrap py-5 h-auto">
                             <!--begin::Toolbar-->
                             <div class="col-12 col-sm-6 col-xxl-3 order-2 order-xxl-1 d-flex flex-wrap align-items-center">
-                                <h3>1 pending approval job</h3>
+                                <h3 id="job-total"></h3>
                             </div>
                             <!--end::Toolbar-->
                             <!--begin::Search-->
@@ -137,16 +137,16 @@
                 url: "{{ url('api/jobs')}}"+ '?status=' + status + '&usertype=' + type + '&uid=' + id,
                 success: function(data) {
                     var jobs = data.data;
+                    var html = '';
+                    $('#job-total').append(jobs.length + " open job available");
                     $.each(jobs, function(key, val){
                         console.log(val.country);
                         var html = `<a href="job/`+val.id+`" style="color: unset;" class="d-flex align-items-start list-item card-spacer-x py-3">
                                     <div class="flex-grow-1 mt-2 mr-2" data-toggle="view">
                                         <div>
-                                            <span class="font-weight-bolder font-size-lg mr-2">#`+val.id+ val.job_title+`</span><br>
+                                            <span class="font-weight-bolder font-size-lg mr-2">#JOB-`+val.id + ` `+ val.job_title+`</span><br>
+                                            <span class="font-weight-bolder font-size-lg mr-2">Location: `+val.county.name+`</span><br>
                                             <span class="text-muted">`+val.job_desc+`</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <span class="label label-light-default font-weight-bold label-inline mr-1">PENDING APPROVAL</span>
                                         </div>
                                     </div>
                                     <div class="mt-2 mr-3 font-weight-bolder text-right" data-toggle="view">`+val.end_date+`</div>

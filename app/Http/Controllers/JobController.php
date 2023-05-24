@@ -26,7 +26,7 @@ class JobController extends Controller
         $user = user::where('id', $params['uid'])->first();
         $industry_ids = explode(",",$user->industry_id);
         
-        $jobsQuery = job::query();
+        $jobsQuery = job::query()->with(['country','county','city']);
         if($user->type == 'pilot'){
             if($params['status'] == 'all'){
                 $jobsQuery->Where(function ($query) use($industry_ids) {
@@ -35,7 +35,7 @@ class JobController extends Controller
                     }      
                 })->where('county', $user->state);
                 if(count($jobsQuery->get()) == 0){
-                    $jobsQuery = job::query();
+                    $jobsQuery = job::query()->with(['country','county','city']);
                     $jobsQuery->Where(function ($query) use($industry_ids) {
                         for ($i = 0; $i < count($industry_ids); $i++){
                             $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
@@ -43,7 +43,7 @@ class JobController extends Controller
                     })->where('location', '105');
                 }
                 if(count($jobsQuery->get()) == 0){
-                    $jobsQuery = job::query();
+                    $jobsQuery = job::query()->with(['country','county','city']);
                     $jobsQuery->Where(function ($query) use($industry_ids) {
                         for ($i = 0; $i < count($industry_ids); $i++){
                         $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
@@ -94,8 +94,7 @@ class JobController extends Controller
             return redirect("login")->withSuccess('Opps! You do not have access');
         }
         $data['countries'] = Countries::get();
-        $userIndustry = explode(',',auth()->user()->industry_id);
-        $data['industry'] = Industry::whereIn('id', $userIndustry)->get();
+        $data['industry'] = Industry::get();
         return view('job-create',$data);
     }
 

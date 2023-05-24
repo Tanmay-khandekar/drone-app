@@ -59,6 +59,7 @@ class UserController extends Controller
             'first_name'=>'required',
             'last_name'=>'required',
             'email'=>'required',
+            'phone'=>'required',
         ]);
         $params=$request->all();
         if(isset($params['user_profile'])){

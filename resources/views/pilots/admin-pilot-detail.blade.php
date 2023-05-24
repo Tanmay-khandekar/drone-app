@@ -1,15 +1,13 @@
-@extends('layouts.app')
-@section('title')
-  Dashboard
+@section('css')
 @endsection
-@section('content')
-
-<!--begin::Wrapper-->
+@section('title')
+    Pilot List
+@endsection
+@extends('layouts.app')
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
-	<!--begin::Header-->
-	@include('layouts.components.top-header')
-	<!--end::Header-->
-	<!--begin::Content-->
+    <!--begin::Header-->
+    @include('layouts.components.top-header')
+    <!--begin::Content-->
 	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 		<!--begin::Subheader-->
 		<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
@@ -19,7 +17,7 @@
 					<!--begin::Page Heading-->
 					<div class="d-flex align-items-baseline mr-5">
 						<!--begin::Page Title-->
-						<h5 class="text-dark font-weight-bold my-2 mr-5">{{auth()->user()->type}} onboarding</h5>
+						<h5 class="text-dark font-weight-bold my-2 mr-5">Pilot Details</h5>
 						<!--end::Page Title-->
 					</div>
 					<!--end::Page Heading-->
@@ -42,32 +40,17 @@
 				<!--begin::Content-->
 					
 					<div class="flex-row-fluid ml-lg-8">
-						<?php
-							if(auth()->user()->status == 0 && auth()->user()->type == 'pilot' ){
-						?> 
-						<div class="alert alert-custom alert-light-warning fade show mb-5" role="alert">
-							<div class="alert-icon"><i class="flaticon-warning"></i></div>
-							<div class="alert-text">Activate account post verification <a href="pilot-verification">Pilot account Page</a></div>
-							<div class="alert-close">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true"><i class="ki ki-close"></i></span>
-								</button>
-							</div>
-						</div>
-						<?php } ?>
 						<!--begin::Form-->
 						<form class="form" id="profile-data">
-							<input type="hidden" name="id" id="uid" value="{{ auth()->user()->id }}">
 							<!--begin::Card-->
 							<div class="card card-custom card-stretch">
 							<!--begin::Header-->
 								<div class="card-header py-3">
 									<div class="card-title align-items-start flex-column">
-										<h3 class="card-label font-weight-bolder text-dark">Personal Information</h3>
-										<span class="text-muted font-weight-bold font-size-sm mt-1">Update your personal informaiton</span>
+										<h3 class="card-label font-weight-bolder text-dark">Pilot Name</h3>
 									</div>
 									<div class="card-toolbar">
-										<button type="reset" class="btn btn-success mr-2" id="btn-profile-save">Save Changes</button>
+										<button type="reset" class="btn btn-success mr-2" id="btn-pilot-save">Save Changes</button>
 										<button type="reset" class="btn btn-secondary">Cancel</button>
 									</div>
 								</div>
@@ -77,14 +60,14 @@
 									<div class="row">
 										<label class="col-xl-3"></label>
 										<div class="col-lg-9 col-xl-6">
-											<h5 class="font-weight-bold mb-6">{{auth()->user()->type}} Info</h5>
+											<h5 class="font-weight-bold mb-6">Pilot Info</h5>
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Avatar</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Avatar</label>
 										<div class="col-lg-9 col-xl-6">
 											<div class="image-input image-input-outline" id="kt_image_4" style="background-image: url(assets/media/users/blank.png)">
-												<div class="image-input-wrapper" style="background-image: url(<?php echo auth()->user()->user_profile; ?>)"></div>
+												<div class="image-input-wrapper" style="background-image: url()"></div>
 												<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 													<i class="fa fa-pen icon-sm text-muted"></i>
 													<input type="file" name="user_profile" id="user_profile" accept=".png, .jpg, .jpeg" />
@@ -101,36 +84,36 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">First Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">First Name</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="first_name" id="first_name" type="text" value="{{ auth()->user()->first_name }}" />
+											<input class="form-control form-control-lg form-control-solid first_name" name="first_name" id="first_name" type="text" value="" />
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Last Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Last Name</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="last_name" id="last_name" type="text" value="{{ auth()->user()->last_name }}" />
+											<input class="form-control form-control-lg form-control-solid last_name" name="last_name" id="last_name" type="text" value="" />
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Company Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Company Name</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="company" type="text" value="{{ auth()->user()->company }}" />
+											<input class="form-control form-control-lg form-control-solid company" name="company" type="text" value="" />
 										</div>
 									</div>
 									<?php if(auth()->user()->type == 'customer'){ ?>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Job Title</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Job Title</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" value="{{ auth()->user()->jobtitle }}" name="jobtitle" type="text" />
+											<input class="form-control form-control-lg form-control-solid jobtitle" value="" name="jobtitle" type="text" />
 										</div>
 									</div>
 									<?php } ?>
 									<?php if(auth()->user()->type == 'pilot'){ ?>
 									<div class="form-group row">
-										<label class="col-form-label text-right-desktop col-lg-3 col-sm-12">Are you working with active projects?</label>
+										<label class="col-form-label col-lg-3 col-sm-12">Are you working with active projects?</label>
 										<div class="col-lg-9 col-xl-6">
-											<select class="form-control form-control-lg form-control-solid" name="active_project">
+											<select class="form-control form-control-lg form-control-solid active_project" name="active_project">
 											<option>Yes</option>
 											<option>NO</option>
 											</select>
@@ -138,7 +121,7 @@
 									</div>
 									<?php $userIndustry = explode(',',auth()->user()->industry_id); ?>
 									<div class="form-group row">
-										<label class="col-form-label text-right-desktop col-lg-3 col-sm-12">Industry</label>
+										<label class="col-form-label col-lg-3 col-sm-12">Industry</label>
 										<div class="col-lg-9 col-xl-6">
 											<select class="form-control form-control-lg form-control-solid selectpicker" name="industry_id[]" multiple="multiple" data-actions-box="true">
 												@foreach($industry as $ikey => $ioption)
@@ -155,7 +138,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Phone Number</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Phone Number</label>
 										<div class="col-lg-9 col-xl-6">
 											<div class="input-group input-group-lg input-group-solid">
 												<div class="input-group-prepend">
@@ -163,13 +146,13 @@
 														<i class="la la-phone"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control form-control-lg form-control-solid phone" id="phone" name="phone" value="{{ auth()->user()->phone }}" placeholder="Phone" />
+												<input type="text" class="form-control form-control-lg form-control-solid phone" name="phone" value="" placeholder="Phone" />
 												<div class="invalid-feedback"></div>
 											</div>
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Email Address</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Email Address</label>
 										<div class="col-lg-9 col-xl-6">
 											<div class="input-group input-group-lg input-group-solid">
 												<div class="input-group-prepend">
@@ -177,13 +160,13 @@
 														<i class="la la-at"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control form-control-lg form-control-solid email" name="email" id="email" value="{{ auth()->user()->email }}" placeholder="Email" />
+												<input type="text" class="form-control form-control-lg form-control-solid email" name="email" id="email" value="" placeholder="Email" />
 												<div class="invalid-feedback"></div>
 											</div>
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">State/Region</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">State/Region</label>
 										<div class="col-lg-9 col-xl-6">
 											<select class="form-control form-control-lg form-control-solid state" name="state" id="state-dropdown">
 												<option valule="" disabled>Select County</option>
@@ -192,22 +175,45 @@
 										</div>
 									</div>
 									<!-- pilot details -->
-									<?php
-										if(auth()->user()->type == 'pilot'){
-									?>
+									
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">License Category</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">License Category</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid" type="text" />
 										</div>
 									</div>
+                                    <div class="row">
+										<label class="col-xl-3"></label>
+										<div class="col-lg-9 col-xl-6">
+											<h5 class="font-weight-bold mt-10 mb-6">Document Info</h5>
+										</div>
+									</div>
+                                    <div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label">Goverment License</label>
+										<div class="col-lg-9 col-xl-6">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="gov_license" id="gov_license" />
+                                                <label class="custom-file-label" for="gov_license">Choose file</label>
+                                            </div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label">Pilot License</label>
+										<div class="col-lg-9 col-xl-6">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="pilot_license" id="pilot_license" />
+                                                <label class="custom-file-label" for="pilot_license">Choose file</label>
+                                            </div>
+										</div>
+									</div>
+									<div class="other_licenses">
+
+									</div>
 									<div>
-									Optional - You may create your fixed price packages for your Drone service which you or your company provides, for example <br>
-									1 hour drone photography service for Wedding or Sports event for X amount
 										<div class="form-group row">
 											<label class="col-lg-2 col-form-label">Packages:</label>
 											<div class="col-lg-10 package-list">
-												
+
 											</div>
 										</div>
 										<div class="form-group row">
@@ -219,9 +225,7 @@
 											</div>
 										</div>
 									</div>
-									<?php 
-										}
-									?>
+									
 									<!-- pilot details -->
 								</div>
 								<!--end::Body-->
@@ -236,22 +240,60 @@
 		<!--end::Entry-->
 	</div>
 	<!--end::Content-->
-	
 </div>
-<!--end::Wrapper-->
+@section('content')
 @endsection
 @section('js')
 <script>
 	$(document).ready(function() {
 		getState();
-		var i = 0;
-		var packages = <?php echo isset(auth()->user()->packages) ? auth()->user()->packages:0; ?>;
-		if(packages){
-			getpackages();
-		}
-		function getpackages(){
+        var i = 0;
+        getPilot();
+        function getPilot(){
+            $.ajax({
+                type: "GET",
+                url: "{{ url('api/pilot/edit')}}"+ "/" +{{ request()->route('id') }},
+                success: function(data) {
+                    console.log(data.data);
+                    setPilotValues(data.data);
+                    getpackages(JSON.parse(data.data.packages));
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+		function setPilotValues(pilot){
+            pilotImage = "../"+ pilot.user_profile;
+            $(".image-input-wrapper").css("background-image", "url(" + pilotImage + ")");
+			if(pilot.pilot_detail){
+				$("#gov_license").parent().parent().append("<a href=../"+pilot.pilot_detail.gov_license+" target='_blank' class='btn btn-primary btn-sm position-relative float-right mt-2'> View Gov License</a> ");
+				$("#pilot_license").parent().parent().append("<a href=../"+pilot.pilot_detail.pilot_license+" target='_blank' class='btn btn-primary btn-sm position-relative float-right mt-2'> View Pilot License</a> ");
+			}
+
+			if(pilot.pilot_detail.other_licenses){
+				var otherLicenses = JSON.parse(pilot.pilot_detail.other_licenses);
+				$.each(otherLicenses, function(pkey, pval){
+					console.log(pkey, pval);
+					var html = `<div class="form-group row pb-12">
+									<label class="col-xl-3 col-lg-3 col-form-label">Additional Documents</label>
+									<div class="col-lg-9 col-xl-6">
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" name="add-doc`+i+`" id="add-doc`+i+`" />
+											<label class="custom-file-label" for="add-doc`+i+`">Choose file</label>
+											<a href="../`+pval+`" target='_blank' class='btn btn-primary btn-sm position-relative float-right mt-2'> View Additional Doc</a> 
+										</div>
+									</div>
+								</div>`;
+					$('.other_licenses').append(html);
+				});
+			}
+            $.each(pilot, function(key, val){
+                $('.'+key).val(val);
+            });
+        }
+		function getpackages(packages){
 			if(packages){
-				console.log(packages);
 				$.each(packages, function(key, val){
 					var html = `<div class="form-group row align-items-center">
 								<div class="col-md-6">
@@ -281,7 +323,6 @@
 								</div>
 							</div>`;
 					$('.package-list').append(html);
-					i = i + 1;
 				});
 			}
 			
@@ -331,7 +372,7 @@
 			$(row_item).remove();
 		});
         
-        $(document).on('click', '#btn-profile-save', function(e){
+        $(document).on('click', '#btn-pilot-save', function(e){
 
 			e.preventDefault();
             $.ajax({
@@ -361,13 +402,11 @@
 			var first_name = $('#first_name').val();
             var last_name = $('#last_name').val();
             var email = $('#email').val();
-            var phone = $('#phone').val();
             var formData = new FormData();
             formData.append('id', uid);
             formData.append('first_name', first_name);
             formData.append('last_name', last_name);
             formData.append('email', email);
-            formData.append('phone', phone);
 			if ($('#user_profile')[0].files[0] != undefined ) {
 				formData.append('user_profile', $('#user_profile')[0].files[0]); 
 			}
@@ -429,6 +468,4 @@
         }
     });
 </script>
-<script src="assets/js/pages/crud/file-upload/image-input.js"></script>
-<script src="assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 @endsection

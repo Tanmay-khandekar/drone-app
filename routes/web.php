@@ -20,9 +20,24 @@ use App\Http\Controllers\JobController;
 Route::get('/', function () {
     return view('index');
 });
-
+Route::get('/how-it-works', function () {
+    return view('how-it-works.index');
+});
+Route::get('/about', function () {
+    return view('about.index');
+});
+Route::get('/blog', function () {
+    return view('blog.index');
+});
 Auth::routes();
-
+Route::get('/browse-pilots', function () {
+	if(!Auth::check()){
+		return redirect("login")->withSuccess('Opps! You do not have access');
+	}
+	if(Auth::check()){
+		return view('browse-pilots.index');
+	}
+});
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/pilots', function () {
 	if(!Auth::check()){
@@ -34,6 +49,18 @@ Route::get('/pilots', function () {
 		return view('pilots.pilot-list');
 	}
 });
+
+Route::get('/pilot/{id}', function () {
+	if(!Auth::check()){
+		return redirect("login")->withSuccess('Opps! You do not have access');
+	}
+	if(auth()->user()->type == 'admin'){
+		return view('pilots.admin-pilot-detail');
+	}else{
+		return view('pilots.pilot-detail');
+	}
+});
+// Route::get('pilot/{id}', [PilotController::class, 'edit']);
 
 Route::get('/customer', function () {
 	if(!Auth::check()){
@@ -53,6 +80,8 @@ Route::get('/job/{id}', [JobController::class, 'edit']);
 
 Route::get('/admin-login', [LoginController::class, 'index']);
 // Route::get('/admin-registration', [RegisterController::class, 'index']);
+
+Route::get('/verify', [RegisterController::class, 'verifyUser'])->name('verify.user');
 
 // Google login
 Route::get('login/google', [LoginController::class,'redirectToGoogle'])->name('login.google');

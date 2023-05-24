@@ -32,6 +32,8 @@ class User extends Authenticatable
         'password',
         'status',
         'jobtitle',
+        'verification_code',
+        'is_verified',
     ];
 
     /**

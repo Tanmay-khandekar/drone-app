@@ -76,7 +76,7 @@ class BidController extends Controller
     {
         //
         if(!empty($id)){
-            $bids = Bids::where('job_id', $id)->get();
+            $bids = Bids::with('user')->where('job_id', $id)->get();
             
             return response(['data' => $bids], 200);
         }

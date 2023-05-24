@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-12 col-lg-12">
                         <div class="slider__inner">
-                            <h1>WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
+                            <h1 class="banner-title">WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
                             <div class="slider__btn">
                                 <a class="htc__btn" href="login">Pilots Login</a>
                                 <a class="htc__btn" href="job-create">Post a Job</a>
@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col-md-12 col-lg-12">
                         <div class="slider__inner">
-                            <h1>WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
+                            <h1 class="banner-title">WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
                             <div class="slider__btn">
                                 <a class="htc__btn" href="login">Pilots Login</a>
                                 <a class="htc__btn" href="job-create">Post a Job</a>
@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-md-12 col-lg-12">
                         <div class="slider__inner">
-                            <h1>WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
+                            <h1 class="banner-title">WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
                             
                             <div class="slider__btn">
                                 <a class="htc__btn" href="login">Pilots Login</a>
@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="col-md-12 col-lg-12">
                         <div class="slider__inner">
-                            <h1>WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
+                            <h1 class="banner-title">WE’RE CHANGING THE WAY THE WORLD THINKS ABOUT DRONES</h1>
                             
                             <div class="slider__btn">
                                 <a class="htc__btn" href="login">Pilots Login</a>
