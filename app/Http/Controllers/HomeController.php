@@ -37,9 +37,9 @@ class HomeController extends Controller
         }else{
             $data['industry'] = Industry::get();
             $data['user'] = User::with('address')->with('pilot_detail')->find(auth()->user()->id);
-            $data['user']['pilot_detail']['social_links'] = json_decode($data['user']['pilot_detail']['social_links']);
-            // print_r($data['user']->toArray());
-            // die();
+            if(isset($data['user']['pilot_detail']['social_links']) && !empty($data['user']['pilot_detail']['social_links']) ){
+                $data['user']['pilot_detail']['social_links'] = json_decode($data['user']['pilot_detail']['social_links']);
+            }
             return view('profile',$data);
         }
     }

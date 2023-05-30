@@ -84,19 +84,19 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">First Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['first_name'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid first_name" name="first_name" id="first_name" type="text" value="" />
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">Last Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['last_name'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid last_name" name="last_name" id="last_name" type="text" value="" />
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">Company Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['company_name'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid company" name="company" type="text" value="" />
 										</div>
@@ -121,7 +121,7 @@
 									</div>
 									<?php $userIndustry = explode(',',auth()->user()->industry_id); ?>
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3 col-sm-12">Industry</label>
+										<label class="col-form-label col-lg-3 col-sm-12">{{ $blocks['industry'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<select class="form-control form-control-lg form-control-solid selectpicker" name="industry_id[]" multiple="multiple" data-actions-box="true">
 												@foreach($industry as $ikey => $ioption)
@@ -138,7 +138,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">Phone Number</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['phone'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<div class="input-group input-group-lg input-group-solid">
 												<div class="input-group-prepend">
@@ -152,7 +152,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">Email Address</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['email'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<div class="input-group input-group-lg input-group-solid">
 												<div class="input-group-prepend">
@@ -166,9 +166,27 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">State/Region</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['country'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<select class="form-control form-control-lg form-control-solid state" name="state" id="state-dropdown">
+											<select class="form-control form-control-lg form-control-solid country" name="address[country]" id="country">
+												<option valule="" disabled>Select Location</option>
+											</select>
+											<!-- <input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" /> -->
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['county'] }}</label>
+										<div class="col-lg-9 col-xl-6">
+											<select class="form-control form-control-lg form-control-solid state" name="address[state]" id="state-dropdown">
+												<option valule="" disabled>Select County</option>
+											</select>
+											<!-- <input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" /> -->
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['city'] }}</label>
+										<div class="col-lg-9 col-xl-6">
+											<select class="form-control form-control-lg form-control-solid city" name="address[city]" id="city-dropdown">
 												<option valule="" disabled>Select County</option>
 											</select>
 											<!-- <input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" /> -->
@@ -177,9 +195,33 @@
 									<!-- pilot details -->
 									
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">License Category</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['license_category'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" type="text" />
+											<input class="form-control form-control-lg form-control-solid license_category" name="license_category" type="text" />
+										</div>
+									</div>
+									<div class="row">
+										<label class="col-xl-3"></label>
+										<div class="col-lg-9 col-xl-6">
+											<h5 class="font-weight-bold mt-10 mb-6">Social Links</h5>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['facebook'] }}</label>
+										<div class="col-lg-9 col-xl-6">
+											<input class="form-control form-control-lg form-control-solid" name="social_links[facebook]" value="" type="text" />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['instagram'] }}</label>
+										<div class="col-lg-9 col-xl-6">
+											<input class="form-control form-control-lg form-control-solid" name="social_links[instagram]" value="" type="text" />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['youtube'] }}</label>
+										<div class="col-lg-9 col-xl-6">
+											<input class="form-control form-control-lg form-control-solid" name="social_links[youtube]" value="" type="text" />
 										</div>
 									</div>
                                     <div class="row">
@@ -256,7 +298,7 @@
                 success: function(data) {
                     console.log(data.data);
                     setPilotValues(data.data);
-                    getpackages(JSON.parse(data.data.packages));
+                    getpackages(JSON.parse(data.data.pilot_detail.packages));
                 },
                 error: function(data) {
                     console.log('Error:', data);
@@ -270,7 +312,9 @@
 				$("#gov_license").parent().parent().append("<a href=../"+pilot.pilot_detail.gov_license+" target='_blank' class='btn btn-primary btn-sm position-relative float-right mt-2'> View Gov License</a> ");
 				$("#pilot_license").parent().parent().append("<a href=../"+pilot.pilot_detail.pilot_license+" target='_blank' class='btn btn-primary btn-sm position-relative float-right mt-2'> View Pilot License</a> ");
 			}
-
+			if(pilot.pilot_detail.license_category){
+				$('.license_category').val(pilot.pilot_detail.license_category);
+			}
 			if(pilot.pilot_detail.other_licenses){
 				var otherLicenses = JSON.parse(pilot.pilot_detail.other_licenses);
 				$.each(otherLicenses, function(pkey, pval){

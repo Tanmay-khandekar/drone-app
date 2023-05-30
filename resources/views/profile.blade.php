@@ -190,7 +190,7 @@
 												<option valule="" disabled>Select Location</option>
 												@if($countries)
 													@foreach( $countries as $countrie)
-														<option @if($countrie->id == $user->address->country) selected  @endif value="{{ $countrie->id }}">{{ $countrie->name }}</option>
+														<option @if(isset($user->address->country) && $countrie->id == $user->address->country) selected  @endif value="{{ $countrie->id }}">{{ $countrie->name }}</option>
 													@endforeach
 												@endif
 											</select>
@@ -222,7 +222,7 @@
 									<div class="form-group row">
 										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['license_category'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="license_category" value="{{ $user->pilot_detail->license_category }}" type="text" />
+											<input class="form-control form-control-lg form-control-solid" name="license_category" value="{{ isset($user->pilot_detail->license_category) ? $user->pilot_detail->license_category : '' }}" type="text" />
 										</div>
 									</div>
 									<div class="row">
@@ -232,21 +232,21 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Facebook Link</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['facebook'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="social_links[facebook]" value="{{ $user->pilot_detail->social_links->facebook }}" type="text" />
+											<input class="form-control form-control-lg form-control-solid" name="social_links[facebook]" value="{{ isset($user->pilot_detail->social_links->facebook) ? $user->pilot_detail->social_links->facebook : '' }}" type="text" />
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Instagram Link</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['instagram'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="social_links[instagram]" value="{{ $user->pilot_detail->social_links->instagram }}" type="text" />
+											<input class="form-control form-control-lg form-control-solid" name="social_links[instagram]" value="{{ isset($user->pilot_detail->social_links->instagram) ? $user->pilot_detail->social_links->instagram : '' }}" type="text" />
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">YouTube Link</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['youtube'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="social_links[youtube]" value="{{ $user->pilot_detail->social_links->youtube }}" type="text" />
+											<input class="form-control form-control-lg form-control-solid" name="social_links[youtube]" value="{{ isset($user->pilot_detail->social_links->youtube) ? $user->pilot_detail->social_links->youtube : '' }}" type="text" />
 										</div>
 									</div>
 									<div>
@@ -440,7 +440,7 @@
 		//locations dropdowns
         $('#country').on('change',function(){
             var country_id = this.value;
-			var stateid = {{ $user->address->state }};
+			var stateid = {{ isset($user->address->state) ? $user->address->state : '0' }};
             $.ajax({
                 url: "{{ route('states_by_country') }}",
                 type:"post",
@@ -468,7 +468,7 @@
 
         $('#state-dropdown').on('change',function(){
             var state_id = this.value;
-			var city = {{ $user->address->city}};
+			var city = {{ isset($user->address->city) ? $user->address->city : '0'}};
             $.ajax({
                 url: "{{ route('city_by_states') }}",
                 type:"post",

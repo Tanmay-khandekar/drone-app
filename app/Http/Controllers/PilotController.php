@@ -67,7 +67,13 @@ class PilotController extends Controller
     public function edit($id)
     {
         //
-        $pilot = User::with(['pilot_detail'])->where('id',$id)->where('type','pilot')->first()->toArray();
+        $pilot = User::with('pilot_detail')
+                        ->with('address')
+                        ->where('id',$id)
+                        ->where('type','pilot')
+                        ->first()
+                        ->toArray();
+
         $industry_ids = explode(",",$pilot['industry_id']);
         $industry = Industry::whereIn('id', $industry_ids)->get();
         $industryArr = [];

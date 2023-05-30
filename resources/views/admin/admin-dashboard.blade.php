@@ -26,8 +26,7 @@
                                 
                                 <!--begin::User-->
                                 <div class="mt-7">
-                                    <div class="symbol symbol-circle symbol-lg-90">
-                                        <img src="assets/media/logos/logo3.png" style="background-color: #3c7fb6;" alt="image" />
+                                    <div class="symbol symbol-circle symbol-lg-90" style="background-image: url('assets/media/logos/logo3.png'); background-size: 80px 50px; background-color: #1a1a27; background-repeat: no-repeat; background-position: center; height:90px; width:90px;">
                                     </div>
                                 </div>
                                 <!--end::User-->
@@ -59,8 +58,7 @@
                                 
                                 <!--begin::User-->
                                 <div class="mt-7">
-                                    <div class="symbol symbol-circle symbol-lg-90">
-                                    <img src="assets/media/logos/logo3.png" style="background-color: #3c7fb6;" alt="image" />
+                                    <div class="symbol symbol-circle symbol-lg-90" style="background-image: url('assets/media/logos/logo3.png'); background-size: 80px 50px; background-color: #1a1a27; background-repeat: no-repeat; background-position: center; height:90px; width:90px;">
                                     </div>
                                 </div>
                                 <!--end::User-->
@@ -90,8 +88,7 @@
                                 
                                 <!--begin::User-->
                                 <div class="mt-7">
-                                    <div class="symbol symbol-circle symbol-lg-90">
-                                    <img src="assets/media/logos/logo3.png" style="background-color: #3c7fb6;" alt="image" />
+                                    <div class="symbol symbol-circle symbol-lg-90" style="background-image: url('assets/media/logos/logo3.png'); background-size: 80px 50px; background-color: #1a1a27; background-repeat: no-repeat; background-position: center; height:90px; width:90px;">
                                     </div>
                                 </div>
                                 <!--end::User-->
