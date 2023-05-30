@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Job;
 use App\Models\Industry;
+use App\Models\Countries;
 
 class HomeController extends Controller
 {
@@ -26,6 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $data['countries'] = Countries::get();
         if (auth()->user()->type == 'admin') {
             $data['customers'] = User::where('type','customer')->count();
             $data['activepilots'] = User::where('type','pilot')->where('status','1')->count();
@@ -34,6 +36,10 @@ class HomeController extends Controller
             return view('admin.admin-dashboard',$data);
         }else{
             $data['industry'] = Industry::get();
+            $data['user'] = User::with('address')->with('pilot_detail')->find(auth()->user()->id);
+            $data['user']['pilot_detail']['social_links'] = json_decode($data['user']['pilot_detail']['social_links']);
+            // print_r($data['user']->toArray());
+            // die();
             return view('profile',$data);
         }
     }

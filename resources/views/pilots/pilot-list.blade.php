@@ -259,12 +259,17 @@
                     var html = '';
                     $('#job-total').append(pilots.length + " open job available");
                     $.each(pilots, function(key, val){
-                        var packages = JSON.parse(val.packages);
-                        const pilotPrice = [];
-                        $.each(packages, function(pkey, pval){
-                            pilotPrice.push(pval.price);
-                        });
-                        var price = calculateAverage(pilotPrice);
+                        if(val.packages){
+                            var packages = JSON.parse(val.packages);
+                            const pilotPrice = [];
+                            $.each(packages, function(pkey, pval){
+                                pilotPrice.push(pval.price);
+                            });
+                            var price = calculateAverage(pilotPrice);
+
+                        }else{
+                            price = 0;
+                        }
                         
                         var html = `<div class="card card-custom gutter-b">
                                         <div class="card-body">
@@ -277,7 +282,7 @@
                                                 <div class="flex-grow-1">
                                                     <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
                                                         <div class="mr-3">
-                                                            <a href="pilots-detail.html" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">`+ val.first_name +` ` + val.last_name + `
+                                                            <a href="pilot/`+val.id+`" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">`+ val.first_name +` ` + val.last_name + `
                                                             <i class="flaticon2-correct text-success icon-md ml-2"></i></a>
                                                             <span class="fa fa-star checked"></span>
                                                             <span class="fa fa-star checked"></span>
@@ -288,7 +293,7 @@
                                                                 <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
                                                                 <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">$`+price+`/hr </strong> avg. rate</span>
                                                                 <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">Completed </strong> jobs</span>
-                                                                <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">License </strong> #4494168</span>
+                                                                <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">License Tyope </strong> A1 </span>
                                                                 <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
                                                                 
                                                             </div>

@@ -58,6 +58,7 @@
 						<!--begin::Form-->
 						<form class="form" id="profile-data">
 							<input type="hidden" name="id" id="uid" value="{{ auth()->user()->id }}">
+							<input type="hidden" name="type" value="{{ auth()->user()->type }}">
 							<!--begin::Card-->
 							<div class="card card-custom card-stretch">
 							<!--begin::Header-->
@@ -101,19 +102,19 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">First Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['first_name'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid" name="first_name" id="first_name" type="text" value="{{ auth()->user()->first_name }}" />
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Last Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['last_name'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid" name="last_name" id="last_name" type="text" value="{{ auth()->user()->last_name }}" />
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Company Name</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['company_name'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid" name="company" type="text" value="{{ auth()->user()->company }}" />
 										</div>
@@ -138,7 +139,7 @@
 									</div>
 									<?php $userIndustry = explode(',',auth()->user()->industry_id); ?>
 									<div class="form-group row">
-										<label class="col-form-label text-right-desktop col-lg-3 col-sm-12">Industry</label>
+										<label class="col-form-label text-right-desktop col-lg-3 col-sm-12">{{ $blocks['industry'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<select class="form-control form-control-lg form-control-solid selectpicker" name="industry_id[]" multiple="multiple" data-actions-box="true">
 												@foreach($industry as $ikey => $ioption)
@@ -155,7 +156,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Phone Number</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['phone'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<div class="input-group input-group-lg input-group-solid">
 												<div class="input-group-prepend">
@@ -169,7 +170,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Email Address</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['email'] }}</label>
 										<div class="col-lg-9 col-xl-6">
 											<div class="input-group input-group-lg input-group-solid">
 												<div class="input-group-prepend">
@@ -183,9 +184,32 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">State/Region</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['country'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<select class="form-control form-control-lg form-control-solid state" name="state" id="state-dropdown">
+											<select class="form-control form-control-lg form-control-solid country" name="address[country]" id="country">
+												<option valule="" disabled>Select Location</option>
+												@if($countries)
+													@foreach( $countries as $countrie)
+														<option @if($countrie->id == $user->address->country) selected  @endif value="{{ $countrie->id }}">{{ $countrie->name }}</option>
+													@endforeach
+												@endif
+											</select>
+											<!-- <input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" /> -->
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['county'] }}</label>
+										<div class="col-lg-9 col-xl-6">
+											<select class="form-control form-control-lg form-control-solid state" name="address[state]" id="state-dropdown">
+												<option valule="" disabled>Select County</option>
+											</select>
+											<!-- <input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" /> -->
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['city'] }}</label>
+										<div class="col-lg-9 col-xl-6">
+											<select class="form-control form-control-lg form-control-solid city" name="address[city]" id="city-dropdown">
 												<option valule="" disabled>Select County</option>
 											</select>
 											<!-- <input class="form-control form-control-lg form-control-solid" name="state" value="{{ auth()->user()->state }}" type="text" /> -->
@@ -196,9 +220,33 @@
 										if(auth()->user()->type == 'pilot'){
 									?>
 									<div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">License Category</label>
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">{{ $blocks['license_category'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" type="text" />
+											<input class="form-control form-control-lg form-control-solid" name="license_category" value="{{ $user->pilot_detail->license_category }}" type="text" />
+										</div>
+									</div>
+									<div class="row">
+										<label class="col-xl-3"></label>
+										<div class="col-lg-9 col-xl-6">
+											<h5 class="font-weight-bold mt-10 mb-6">Social Links</h5>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Facebook Link</label>
+										<div class="col-lg-9 col-xl-6">
+											<input class="form-control form-control-lg form-control-solid" name="social_links[facebook]" value="{{ $user->pilot_detail->social_links->facebook }}" type="text" />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">Instagram Link</label>
+										<div class="col-lg-9 col-xl-6">
+											<input class="form-control form-control-lg form-control-solid" name="social_links[instagram]" value="{{ $user->pilot_detail->social_links->instagram }}" type="text" />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label text-right-desktop">YouTube Link</label>
+										<div class="col-lg-9 col-xl-6">
+											<input class="form-control form-control-lg form-control-solid" name="social_links[youtube]" value="{{ $user->pilot_detail->social_links->youtube }}" type="text" />
 										</div>
 									</div>
 									<div>
@@ -243,9 +291,8 @@
 @section('js')
 <script>
 	$(document).ready(function() {
-		getState();
 		var i = 0;
-		var packages = <?php echo isset(auth()->user()->packages) ? auth()->user()->packages:0; ?>;
+		var packages = <?php echo isset($user->pilot_detail->packages) ? $user->pilot_detail->packages:0; ?>;
 		if(packages){
 			getpackages();
 		}
@@ -262,11 +309,6 @@
 								<div class="col-md-4">
 									<label>Price:</label>
 									<input type="number" name="packages[`+i+`][price]" class="form-control" value="`+val.price+`" placeholder="Enter Package Price"/>
-									<div class="d-md-none mb-2"></div>
-								</div>
-								<div class="col-md-10 mt-5">
-									<label>Sample Link:</label>
-									<input type="text" name="packages[`+i+`][link]" class="form-control" value="`+val.link+`" placeholder="Enter Sample Link"/>
 									<div class="d-md-none mb-2"></div>
 								</div>
 								<div class="col-md-6 mt-5">
@@ -297,11 +339,6 @@
 							<div class="col-md-4">
 								<label>Price:</label>
 								<input type="number" name="packages[`+i+`][price]" class="form-control" placeholder="Enter Package Price"/>
-								<div class="d-md-none mb-2"></div>
-							</div>
-							<div class="col-md-10 mt-5">
-								<label>Sample Link:</label>
-								<input type="text" name="packages[`+i+`][link]" class="form-control" placeholder="Enter Sample Link"/>
 								<div class="d-md-none mb-2"></div>
 							</div>
 							<div class="col-md-6 mt-5">
@@ -399,10 +436,11 @@
             });
             return false;
         });
-		//Get State/Region  dropdown
-		function getState(){
-            var country_id = 105;
-			var selectedState = '<?= auth()->user()->state ?>';
+
+		//locations dropdowns
+        $('#country').on('change',function(){
+            var country_id = this.value;
+			var stateid = {{ $user->address->state }};
             $.ajax({
                 url: "{{ route('states_by_country') }}",
                 type:"post",
@@ -418,17 +456,46 @@
                     var stateCount = result.states.length;
                     $('#state-dropdown').html('<option value="">Select State</option>'); 
                     $.each(result.states,function(key,value){
-						if(selectedState != '' && selectedState == value.id){
-							$("#state-dropdown").append('<option value="'+value.id+'" selected>'+value.name+'</option>');
+						if( stateid == value.id){
+							$("#state-dropdown").append('<option selected value="'+value.id+'">'+value.name+'</option>');
 						}else{
 							$("#state-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
 						}
                     });
                 }
             });
-        }
+        });
+
+        $('#state-dropdown').on('change',function(){
+            var state_id = this.value;
+			var city = {{ $user->address->city}};
+            $.ajax({
+                url: "{{ route('city_by_states') }}",
+                type:"post",
+                cache: false,
+                data:{
+                    state_id: state_id,
+                    _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $("#city-dropdown").empty().append('');
+                    $('#city-dropdown').html('<option value="">Select City</option>'); 
+                    $.each(result.cities,function(key,value){
+						if(city == value.id){
+							$("#city-dropdown").append('<option selected value="'+value.id+'">'+value.name+'</option>');
+						} else{
+                        	$("#city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+						}
+					});
+                    
+                }
+            });
+        });
+        //locations dropdowns
     });
 </script>
+<!-- <script src="assets/js/custom/locations.js"></script> -->
 <script src="assets/js/pages/crud/file-upload/image-input.js"></script>
 <script src="assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 @endsection

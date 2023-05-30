@@ -14,5 +14,8 @@ class PilotDetails extends Model
         'gov_license',
         'pilot_license',
         'other_licenses',
+        'packages',
+        'social_links',
+        'license_category',
     ];
 }

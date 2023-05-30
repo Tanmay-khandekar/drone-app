@@ -27,8 +27,6 @@ class User extends Authenticatable
         'company',
         'active_project',
         'industry_id',
-        'state',
-        'packages',
         'password',
         'status',
         'jobtitle',
@@ -58,5 +56,10 @@ class User extends Authenticatable
     public function pilot_detail()
     {
         return $this->hasOne('App\Models\PilotDetails', 'user_id');
+    }
+
+    public function address()
+    {
+        return $this->hasOne('App\Models\Address', 'user_id');
     }
 }

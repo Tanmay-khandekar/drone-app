@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
+use App\Models\PilotDetails;
+use App\Models\Address;
 
 class UserController extends Controller
 {
@@ -40,7 +42,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function edit($id)
     {
         //
     }
@@ -79,6 +81,22 @@ class UserController extends Controller
         if ($validator->passes() ) {
             $user = User::find($request->id);
             $user->update($params);
+            if(isset($params['address'])){
+                $address = Address::updateOrCreate(['user_id'=>$request->id],
+                [
+                    'user_id' => isset($request->id) ? $request->id : '',
+                    'country' => isset($params['address']['country']) ? $params['address']['country'] : '',
+                    'state'   => isset($params['address']['state']) ? $params['address']['state'] : '',
+                    'city'    => isset($params['address']['city']) ? $params['address']['city'] : '',
+                ]);
+            }
+            if(isset($params['type']) && !empty($params['type']) && $params['type'] == 'pilot' )
+            {
+                $pilot = PilotDetails::where('user_id', $request->id)->first();
+                if(!empty($pilot)){
+                    $pilot->update($params);
+                }
+            }
             return response()->json(['success'=>'Profile Update successfully.']);
         }else{
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PilotController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,36 @@ Route::get('/browse-pilots', function () {
 		return view('browse-pilots.index');
 	}
 });
+Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => '\App\Http\Controllers\LanguageController@switchLang']);
+
+//language start
+Route::get('/language', function () {
+	if(!Auth::check()){
+		return redirect("login")->withSuccess('Opps! You do not have access');
+	}
+	if(auth()->user()->type == 'admin'){
+		return view('language.language-list');
+	}
+});
+Route::get('/language/create', function () {
+	if(!Auth::check()){
+		return redirect("login")->withSuccess('Opps! You do not have access');
+	}
+	if(auth()->user()->type == 'admin'){
+		return view('language.language-detail');
+	}
+});
+Route::get('/language/{id}', function () {
+	if(!Auth::check()){
+		return redirect("login")->withSuccess('Opps! You do not have access');
+	}
+	if(auth()->user()->type == 'admin'){
+		return view('language.language-detail');
+	}
+});
+// Route::create('language/create', [LanguageController::class, 'create']);
+// Route::get('language/{id}', [LanguageController::class, 'edit']);
+//language end
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/pilots', function () {
 	if(!Auth::check()){

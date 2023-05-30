@@ -205,6 +205,7 @@
     });
 </script>
 <!--begin::Page Scripts(used by this page)-->
+<script src="assets/js/custom/locations.js"></script>
 <script src="assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js"></script>
 <script src="assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 @endsection

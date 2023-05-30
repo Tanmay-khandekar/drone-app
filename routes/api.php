@@ -7,6 +7,7 @@ use App\Http\Controllers\PilotController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\BidController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +38,12 @@ Route::namespace('Api')->group(function() {
     
     Route::post('bid/create', [BidController::class,'store']);
     Route::get('bids/{id}', [BidController::class,'show']);
+
+    // language API start
+    Route::get('/language', [LanguageController::class, 'index']);
+    Route::post('/language/store', [LanguageController::class, 'store']);
+    Route::get('language/edit/{key}', [LanguageController::class,'edit']);
+    Route::post('language/update', [LanguageController::class,'update']);
+    // language API end
 
 });

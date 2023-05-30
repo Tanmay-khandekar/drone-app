@@ -138,6 +138,7 @@
 		<!--end::Global Theme Bundle-->
 		<!--begin::Page Scripts(used by this page)-->
 		<script src="{{asset('assets/js/pages/crud/forms/widgets/form-repeater.js')}}"></script>
+		<script src="{{asset('assets/js/custom/language.js')}}"></script>
 		@yield('js')
 	</body>
 	<!--end::Body-->
