@@ -17,7 +17,7 @@ use App\Http\Controllers\LanguageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//Frount pages
 Route::get('/', function () {
     return view('index');
 });
