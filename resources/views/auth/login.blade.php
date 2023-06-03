@@ -122,7 +122,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
 							<!--begin::Header Logo-->
 							<div class="header-logo">
-								<a href="/">
+								<a href="{{url('/')}}">
 									<img alt="Logo" src="assets/media/logos/logo3.png" style="height: 62px; width:150x;" />
 								</a>
 							</div>
@@ -132,32 +132,32 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!--begin::Header Nav-->
 								<ul class="menu-nav">
 									<li class="menu-item menu-item-submenu menu-item-rel">
-										<a href="/" class="menu-link">
+										<a href="{{url('/')}}" class="menu-link">
 											<span class="menu-text">HOME</span>
 										</a>
 									</li>
 									<li class="menu-item menu-item-submenu">
-										<a href="../how-it-works.html" class="menu-link">
+										<a href="how-it-works" class="menu-link">
 											<span class="menu-text">HOW IT WORK</span>
 										</a>
 									</li>
 									<li class="menu-item menu-item-submenu menu-item-rel">
-										<a href="../index.html" class="menu-link">
+										<a href="browse-pilots" class="menu-link">
 											<span class="menu-text">BROWSE PILOTS</span>
 										</a>
 									</li>
 									<li class="menu-item menu-item-submenu menu-item-rel">
-										<a href="../index.html" class="menu-link">
+										<a href="index" class="menu-link">
 											<span class="menu-text">SHOP</span>
 										</a>
 									</li>
 									<li class="menu-item menu-item-submenu menu-item-rel">
-										<a href="../blog.html" class="menu-link">
+										<a href="blog" class="menu-link">
 											<span class="menu-text">BLOG</span>
 										</a>
 									</li>
 									<li class="menu-item menu-item-submenu menu-item-rel">
-										<a href="../about.html" class="menu-link">
+										<a href="about" class="menu-link">
 											<span class="menu-text">ABOUT US</span>
 										</a>
 									</li>

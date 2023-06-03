@@ -123,7 +123,6 @@
                         title: 'Actions',
                         orderable: false,
                         render: function(data, type, full, meta) {
-                            console.log(full);
                             return '\<a href="language/'+full.field_key+'" class="btn btn-sm btn-clean btn-icon" title="Edit details">\
                                         <i class="la la-edit"></i>\
                                     </a>\

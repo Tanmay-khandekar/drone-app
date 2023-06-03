@@ -146,7 +146,7 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-6 col-xs-7">
                             <div class="logo">
-                                <a href="/">
+                                <a href="{{url('/')}}">
                                     <img src="assets/media/logos/logo3.png" style="height: 62px; width:150x;" alt="logo image">
                                 </a>
                             </div>
@@ -154,9 +154,9 @@
                         <div class="col-md-8 col-sm-6 col-xs-5">
                             <nav class="main__menu__nav  hidden-xs hidden-sm">
                                 <ul class="main__menu">
-                                    <li><a href="/">HOME</a></li>
+                                    <li><a href="{{url('/')}}">HOME</a></li>
                                     <li><a href="how-it-works">How it works</a></li>
-                                    <li><a href="javascript:void(0)">Browse Pilots</a></li>
+                                    <li><a href="browse-pilots">Browse Pilots</a></li>
                                     <li><a href="#">Shop</a></li>
                                     <li><a href="blog">BLOG</a></li>
                                     <li><a href="about">About Us</a></li>
@@ -165,9 +165,9 @@
                             <div class="mobile-menu clearfix visible-xs visible-sm">
                                 <nav id="mobile_dropdown">
                                     <ul>
-                                        <li><a href="index">Home</a></li>
+                                        <li><a href="{{url('/')}}">Home</a></li>
                                         <li><a href="how-it-works">How it works</a></li> 
-                                        <li><a href="#">Browse Pilots</a></li> 
+                                        <li><a href="browse-pilots">Browse Pilots</a></li> 
                                         <li><a href="javascript:void(0)">Shop</a></li>
                                         <li><a href="blog">BLOG</a></li>
                                         <li><a href="about">About Us</a></li>
@@ -213,7 +213,7 @@
                                     </div>
                                     <div class="ft__details">
                                         <p>We are helping businesses to connect with highly skilled UAV (Drones) operators in Europe. </p>
-                                        <a href="about.html" class="htc__btn--transparent" style="padding: 0 10px; margin: 0; height: 35px; line-height: 35px;">Read more</a>
+                                        <a href="about" class="htc__btn--transparent" style="padding: 0 10px; margin: 0; height: 35px; line-height: 35px;">Read more</a>
                                     </div>
                                 </div>
                             </div>
@@ -226,7 +226,7 @@
                                     </div>
                                     <div class="footer__link">
                                         <ul class="ft__menu">
-                                            <li><a href="/">Home</a></li>
+                                            <li><a href="{{url('/')}}">Home</a></li>
                                             <li><a href="how-it-works">How it works</a></li>
                                             <li><a href="javascript:void(0)">Browse Pilots</a></li>
                                         </ul>

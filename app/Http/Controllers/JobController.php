@@ -23,7 +23,7 @@ class JobController extends Controller
         //
         $params=$request->all();
         $currentDate = date('Y-m-d');
-        $user = user::where('id', $params['uid'])->first();
+        $user = user::with('address')->where('id', $params['uid'])->first();
         $industry_ids = explode(",",$user->industry_id);
         
         $jobsQuery = job::query()->with(['country','county','city']);
@@ -33,7 +33,7 @@ class JobController extends Controller
                     for ($i = 0; $i < count($industry_ids); $i++){
                        $query->orwhere('industry_id', 'like',  '%' . $industry_ids[$i] .'%');
                     }      
-                })->where('county', $user->state);
+                })->where('county', $user->address->state);
                 if(count($jobsQuery->get()) == 0){
                     $jobsQuery = job::query()->with(['country','county','city']);
                     $jobsQuery->Where(function ($query) use($industry_ids) {

@@ -6,7 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\PilotDetails;
 use App\Models\User;
 use App\Models\Industry;
+use App\Imports\PilotsImport;
 use Auth;
+use Excel;
+#Excel library
+// use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Files\TemporaryFileFactory;
+use Maatwebsite\Excel\Transactions\NullTransactionHandler;
+use Maatwebsite\Excel\Helpers\FileTypeDetector;
+#use Maatwebsite\Excel\Reader;
+use App\ExcelReader;
 
 class PilotController extends Controller
 {
@@ -57,7 +66,51 @@ class PilotController extends Controller
         }
         return view('pilot-varification');
     }
+    public function import(Request $request)
+    {
+        // config(['excel.import.startRow' => 4]);
+        // $pilot = Excel::import(new PilotsImport, request()->file('file'));
+        $response = $this->open($request);
+        $response = $response['sheetsData'][0];
+        foreach($response as $key =>$row){
+            $pilot = User::updateOrCreate(
+                ['email' => $row['email']],
+                [
+                    'first_name'=> $row['first_name'],
+                    'last_name' => $row['last_name'],
+                    'email'     => $row['email'],
+                    'phone'     => $row['phone'],
+                    'password'  => bcrypt($row['password']),
+                    'type'      => 'pilot',
+                    'status'    => 1,
+                    'is_verified'    => 1,
+                ]);
+        }
+        return redirect()->back()->withSuccess('Pilot imported successfully');
+    }
 
+    public function open($request){
+
+        $tempFile = new TemporaryFileFactory(
+                config('excel.temporary_files.local_path', config('excel.exports.temp_path', storage_path('framework/laravel-excel'))),
+                config('excel.temporary_files.remote_disk')
+              );
+
+        $readerType = FileTypeDetector::detect($request->file('file'));
+        $reader = new ExcelReader($tempFile, new NullTransactionHandler());
+        $fileData = $reader->toArray(new PilotsImport, $request->file('file'), 'Xlsx');
+        $rows = $reader->getTotalRows();
+        $definedSheetNames = array_keys($rows);
+
+        //$result = $this->_formatSpreadsheets($fileData, $vizinfo, $definedSheetNames);
+        $response = [
+            'sheetNames' => $definedSheetNames,
+            'sheetsData' => $fileData,
+        ];
+
+        return $response;
+        //response(['Workbook' => $response], 200);
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -70,6 +70,7 @@ Route::get('/language/{id}', function () {
 // Route::get('language/{id}', [LanguageController::class, 'edit']);
 //language end
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('import-pilot', [PilotController::class, 'import']);
 Route::get('/pilots', function () {
 	if(!Auth::check()){
 		return redirect("login")->withSuccess('Opps! You do not have access');

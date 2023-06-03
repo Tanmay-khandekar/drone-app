@@ -130,6 +130,14 @@
                 </div>
                 <!--end::Card-->
                 <div class="card card-custom">
+                    <!--begin::Header-->
+                    <div class="card-header border-0 pt-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bolder text-dark">Bids on Job</span>
+                            <span class="text-muted mt-3 font-weight-bold font-size-sm" id="no-of-bids"></span>
+                        </h3>
+                    </div>
+                    <!--end::Header-->
                     <div class="card-body">
                         <!--begin::Timeline-->
                         <div class="timeline timeline-3">
@@ -217,26 +225,44 @@
                 url: "{{ url('api/bids/')}}"+'/'+jobId,
                 success: function(data) {
                     var bids = data.data;
-                    console.log(bids);
-                    $.each(bids, function(key, val){
-                        var html = `<div class="timeline-item">
-                                        <a href="/pilot/`+val.user.id+`" class="timeline-media">
-                                            <img src="../`+val.user.user_profile+`" />
-                                        </a>
-                                        <div class="timeline-content">
-                                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                                <div class="mr-2">
-                                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">`+val.type+`</a>
-                                                    <span class="text-muted ml-2">`+val.end_date+`</span>
-                                                    
+                    $('#no-of-bids').append('Total ' + bids.length + ' New bids');
+                    if( '{{auth()->user()->type }}' == 'customer'){
+                        $.each(bids, function(key, val){
+                            var html = `<div class="timeline-item">
+                                            <a href="/pilot/`+val.user.id+`" class="timeline-media">
+                                                <img src="../`+val.user.user_profile+`" />
+                                            </a>
+                                            <div class="timeline-content">
+                                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                                    <div class="mr-2">
+                                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">`+val.type+`</a>
+                                                        <span class="text-muted ml-2">`+val.end_date+`</span>
+                                                        
+                                                    </div>
                                                 </div>
+                                                <span class="font-weight-bold">Price Range</span> <span class="label label-light-success font-weight-bolder label-inline ml-2">`+val.price+`</span>
+                                                <p class="p-0">`+val.bid_desc+`</p>
                                             </div>
-                                            <span class="font-weight-bold">Price Range</span> <span class="label label-light-success font-weight-bolder label-inline ml-2">`+val.price+`</span>
-                                            <p class="p-0">`+val.bid_desc+`</p>
-                                        </div>
-                                    </div>`;
-                        $('.bid-list').append(html);
-                    });
+                                        </div>`;
+                            $('.bid-list').append(html);
+                        });
+                    } else {
+                        $.each(bids, function(key, val){
+                            var html = `<div class="timeline-item" style="padding-left:0px;">
+                                            <div class="timeline-content">
+                                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                                    <div class="mr-2">
+                                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">`+val.type+`</a>
+                                                        <span class="text-muted ml-2">`+val.end_date+`</span>
+                                                    </div>
+                                                </div>
+                                                <span class="font-weight-bold">Price Range</span> <span class="label label-light-success font-weight-bolder label-inline ml-2">`+val.price+`</span>
+                                                <p class="p-0">`+val.bid_desc+`</p>
+                                            </div>
+                                        </div>`;
+                            $('.bid-list').append(html);
+                        });
+                    }
                 },
                 error: function(data) {
                     console.log('Error:', data);

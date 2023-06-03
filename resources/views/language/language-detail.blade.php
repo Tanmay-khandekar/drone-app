@@ -77,24 +77,30 @@
 										</div>
 									</div>
                                     <div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">Content Italy</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Content Italian</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid IT" name="content[IT]" id="last_name" type="text" value="" />
 										</div>
 									</div>
                                     <div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">Content Germany</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Content German</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid DE" name="content[DE]" id="last_name" type="text" value="" />
 										</div>
 									</div>
                                     <div class="form-group row">
-										<label class="col-xl-3 col-lg-3 col-form-label">Content Spain</label>
+										<label class="col-xl-3 col-lg-3 col-form-label">Content Spanish</label>
 										<div class="col-lg-9 col-xl-6">
 											<input class="form-control form-control-lg form-control-solid ES" name="content[ES]" id="last_name" type="text" value="" />
 										</div>
 									</div>
-									<!-- pilot details -->
+                                    <div class="form-group row">
+										<label class="col-xl-3 col-lg-3 col-form-label">Content French</label>
+										<div class="col-lg-9 col-xl-6">
+											<input class="form-control form-control-lg form-control-solid FR" name="content[FR]" id="last_name" type="text" value="" />
+										</div>
+									</div>
+									<!-- Language details -->
 								</div>
 								<!--end::Body-->
 							</div>

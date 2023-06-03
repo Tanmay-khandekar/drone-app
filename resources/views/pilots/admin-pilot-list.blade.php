@@ -50,8 +50,21 @@
                             <h3 class="card-label">Pilot List
                         </div>
                         <div class="card-toolbar">
+                            <form action="import-pilot" class="d-flex" enctype="multipart/form-data" method="POST" action="{{ url('import-pilot') }}">
+                                @csrf
+                                <div class="form-group">
+                                    <div></div>
+                                    <div class="custom-file">
+                                        <input type="file" name="file" class="custom-file-input" id="pilot_import" />
+                                        <label class="custom-file-label" for="pilot_import">Choose file</label>
+                                    </div>
+                                </div>
+                                <div class="form-group px-2">
+                                    <input type="submit" class="btn btn-primary font-weight-bolder" name="submit" value="import" />
+                                    <a href="#" class="btn btn-primary font-weight-bolder">New Pilot</a>
+                                </div>
+                            </form>
                             <!--begin::Button-->
-                            <a href="#" class="btn btn-primary font-weight-bolder">New Pilot</a>
                             <!--end::Button-->
                         </div>
                     </div>
