@@ -38,6 +38,8 @@ Route::namespace('Api')->group(function() {
     
     Route::post('bid/create', [BidController::class,'store']);
     Route::get('bids/{id}', [BidController::class,'show']);
+    Route::get('bid/{id}', [BidController::class,'edit']);
+    Route::post('bids/update/{id}', [BidController::class,'update']);
 
     // language API start
     Route::get('/language', [LanguageController::class, 'index']);

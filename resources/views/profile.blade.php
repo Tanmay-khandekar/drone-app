@@ -249,7 +249,7 @@
 											<input class="form-control form-control-lg form-control-solid" name="social_links[youtube]" value="{{ isset($user->pilot_detail->social_links->youtube) ? $user->pilot_detail->social_links->youtube : '' }}" type="text" />
 										</div>
 									</div>
-									<div>
+									<form>
 									Optional - You may create your fixed price packages for your Drone service which you or your company provides, for example <br>
 									1 hour drone photography service for Wedding or Sports event for X amount
 										<div class="form-group row">
@@ -260,13 +260,16 @@
 										</div>
 										<div class="form-group row">
 											<label class="col-lg-2 col-form-label text-right"></label>
-											<div class="col-lg-4">
+											<div class="col-lg-5">
 												<a href="javascript:;" class="btn btn-sm font-weight-bolder btn-light-primary add-more">
 													<i class="la la-plus"></i>Add
 												</a>
 											</div>
+											<div class="col-lg-4">
+												<button type="reset" class="btn btn-success mr-2" id="btn-profile-save">Save Changes</button>
+											</div>
 										</div>
-									</div>
+									</form>
 									<?php 
 										}
 									?>
@@ -436,17 +439,27 @@
             });
             return false;
         });
-
+		var countryId = $('#country').val();
+		var stateId = {{ isset($user->address->state) ? $user->address->state : '0' }};
+		var cityId = {{ isset($user->address->city) ? $user->address->city : '0' }};
+		if(countryId != 0){
+			getStates(countryId, stateId);
+		}
+		if(stateId != 0){
+			getCity(stateId, cityId);
+		}
 		//locations dropdowns
         $('#country').on('change',function(){
-            var country_id = this.value;
-			var stateid = {{ isset($user->address->state) ? $user->address->state : '0' }};
-            $.ajax({
+            var countryId = this.value;
+            getStates(countryId, countryId);
+        });
+		function getStates(country, stateid=null){
+			$.ajax({
                 url: "{{ route('states_by_country') }}",
                 type:"post",
                 cache: false,
                 data:{
-                    country_id: country_id,
+                    country_id: country,
                     _token: '{{csrf_token()}}' 
                 },
                 dataType : 'json',
@@ -464,12 +477,14 @@
                     });
                 }
             });
-        });
-
+		}
         $('#state-dropdown').on('change',function(){
             var state_id = this.value;
-			var city = {{ isset($user->address->city) ? $user->address->city : '0'}};
-            $.ajax({
+			var cityId = {{ isset($user->address->city) ? $user->address->city : '0'}};
+            getCity(state_id, cityId);
+        });
+		function getCity(state_id, cityId=null){
+			$.ajax({
                 url: "{{ route('city_by_states') }}",
                 type:"post",
                 cache: false,
@@ -482,7 +497,7 @@
                     $("#city-dropdown").empty().append('');
                     $('#city-dropdown').html('<option value="">Select City</option>'); 
                     $.each(result.cities,function(key,value){
-						if(city == value.id){
+						if(cityId == value.id){
 							$("#city-dropdown").append('<option selected value="'+value.id+'">'+value.name+'</option>');
 						} else{
                         	$("#city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
@@ -491,7 +506,7 @@
                     
                 }
             });
-        });
+		}
         //locations dropdowns
     });
 </script>

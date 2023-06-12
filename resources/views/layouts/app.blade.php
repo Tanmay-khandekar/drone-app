@@ -22,6 +22,9 @@
 		<link rel="shortcut icon" href="{{asset('assets/media/logos/favicon.png')}}" />
 		@yield('css')
 		<style>
+			.first-txt-capital:first-letter {
+				text-transform: uppercase;
+			}
 			@media (min-width: 1400px){
 				.col-xxl-2-5 {
 					max-width: 20%;
@@ -139,6 +142,22 @@
 		<!--begin::Page Scripts(used by this page)-->
 		<script src="{{asset('assets/js/pages/crud/forms/widgets/form-repeater.js')}}"></script>
 		<script src="{{asset('assets/js/custom/language.js')}}"></script>
+		<script>
+			$(document).ready(function() {
+				let interval = null;
+				interval = setInterval(function(){
+					
+					$.ajax({
+						url:"{{route('notifications')}}",
+						method:"get",
+						dataType:"text",
+						success:function(data){
+							$("#notification-list").html(data);
+						}
+					});
+				}, 50000);
+			});
+		</script>
 		@yield('js')
 	</body>
 	<!--end::Body-->

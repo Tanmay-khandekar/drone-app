@@ -165,6 +165,7 @@
     </div>
     <form id="bid-data">
         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+        <input type="hidden" name="customer_id" value="{{ $job['user_id'] }}">
         <input type="hidden" name="job_id" value="{{ $job['id'] }}">
         <div class="form-group">
             <label>Type:</label>
@@ -193,7 +194,7 @@
                 <option>Select price range</option>
                 <option value="100-250">100-250</option>
                 <option value="250-500">250-500</option>
-                <option value=" 500-1000"> 500-1000</option>
+                <option value="500-1000"> 500-1000</option>
                 <option value="1000-1500">1000-1500</option>
                 <option value="1500-2500">1500-2500</option>
                 <option value="2500+">2500+</option>
@@ -225,9 +226,23 @@
                 url: "{{ url('api/bids/')}}"+'/'+jobId,
                 success: function(data) {
                     var bids = data.data;
+                    var approvalStatus = '';
+                    var finalApproval = '';
                     $('#no-of-bids').append('Total ' + bids.length + ' New bids');
                     if( '{{auth()->user()->type }}' == 'customer'){
                         $.each(bids, function(key, val){
+                            if(val.status == 'first_approval' || val.status == 'final_approval'){
+                                finalApproval = true;
+                            }
+                        });
+                        $.each(bids, function(key, val){
+                            if(val.status == 'first_approval'){
+                                approvalStatus = 'final_approval';
+                            } else if(val.status == 'final_approval'){
+                                approvalStatus = 'final_approval';
+                            } else {
+                                approvalStatus = 'first_approval';
+                            }
                             var html = `<div class="timeline-item">
                                             <a href="/pilot/`+val.user.id+`" class="timeline-media">
                                                 <img src="../`+val.user.user_profile+`" />
@@ -237,8 +252,19 @@
                                                     <div class="mr-2">
                                                         <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">`+val.type+`</a>
                                                         <span class="text-muted ml-2">`+val.end_date+`</span>
-                                                        
                                                     </div>
+                                                    <div class="dropdown ml-2">`;
+                            if(finalApproval != true){
+                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-status="`+approvalStatus+`">
+                                                            `+approvalStatus.replace("_", " ")+`
+                                                        </button>`;
+                            } 
+                            else if(approvalStatus == "final_approval" && finalApproval == true){
+                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-status="`+approvalStatus+`">
+                                                            `+approvalStatus.replace("_", " ")+`
+                                                        </button>`;    
+                            }
+                            html +=                 `</div>
                                                 </div>
                                                 <span class="font-weight-bold">Price Range</span> <span class="label label-light-success font-weight-bolder label-inline ml-2">`+val.price+`</span>
                                                 <p class="p-0">`+val.bid_desc+`</p>
@@ -255,6 +281,13 @@
                                                         <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">`+val.type+`</a>
                                                         <span class="text-muted ml-2">`+val.end_date+`</span>
                                                     </div>
+                                                    <div class="dropdown ml-2">`;
+                                if(val.status == 'first_approval'){
+                                html +=                 `<button class="btn btn-primary btn-sm edit-bid first-txt-capital" data-bid-id="`+val.id+`">
+                                                            Edit
+                                                        </button>`; 
+                                }                    
+                                html +=            `</div>
                                                 </div>
                                                 <span class="font-weight-bold">Price Range</span> <span class="label label-light-success font-weight-bolder label-inline ml-2">`+val.price+`</span>
                                                 <p class="p-0">`+val.bid_desc+`</p>
@@ -269,7 +302,28 @@
                 }
             });
         }
-        //Get all bids
+        //EndGet all bids
+        //Get single bid
+        $(document).on('click', '.edit-bid', function(e){
+			e.preventDefault();
+           
+            var id = $(this).data('bid-id'); 
+            $.ajax({
+                type: "GET",
+                url: "{{ url('api/bid/')}}"+'/'+id,
+                success: function(data) {
+                    var bidDetail = data.data;
+                    $('#price').val(bidDetail.price);
+                    $('#type').val(bidDetail.type);
+                    $('#Description').val(bidDetail.bid_desc);
+                    $(".apply-now").trigger("click" );
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
+        //End Get single bid
 
 
         $(document).on('click', '#btn-bid-save', function(e){
@@ -299,7 +353,28 @@
             });
         });
         
-        
+        $(document).on('click', '.approval', function(e){
+			e.preventDefault();
+            var id = $(this).data('bid-id');
+            var status = $(this).data('status');
+            alert(id);
+            $.ajax({
+                url: "{{url('api/bids/update/')}}"+'/'+id,
+                type: "post",
+                data: {
+                    status: status
+                },
+                dataType: 'json',
+                success: function(response) {
+                    // swal.fire(response.success);
+                    location.reload();
+                    console.log(response);
+                }, 
+                error: function(response) {
+                    console.log('Error:', response);
+                }
+            });
+        });
     });
 </script>
 <script src="{{asset('assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js')}}"></script>

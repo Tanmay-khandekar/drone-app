@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\EmailTrait;
 use Illuminate\Http\Request;
+use Session;
 class RegisterController extends Controller
 {
     /*
@@ -90,11 +91,22 @@ class RegisterController extends Controller
 
         if($user != null){
             $this->sendmail($user);
+            Session::put('account-success', 'Your Account Has been Created. Please check email for verification link');
+            Session::put('user-id', $user->id);
             // return redirect()->route('login')->with(session()->flash('alert-success', 'Your Account Has been Created. Please check email for verification link'));
         }
         // return redirect()->route('login')->with(session()->flash('alert-danger', 'Somthing went wrong!'));
     }
-
+    public function resend(Request $request){
+        $id = $request->varify;
+        $user =  User::find($id);
+        if($user != null){
+            $this->sendmail($user);
+            Session::put('account-success', 'Your Account Has been Created. Please check email for verification link');
+            Session::put('user-id', $user->id);
+            return redirect()->route('login');
+        }
+    }
     public function verifyUser(Request $request){
         $verification_code = $request->code;
 

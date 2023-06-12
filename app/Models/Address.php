@@ -21,4 +21,18 @@ class Address extends Model
         return $this->belongsTo('App\Http\Models\User');
     }
 
+    public function country()
+    {
+        return $this->hasOne('App\Models\Countries', 'id', 'country');
+    }
+
+    public function state()
+    {
+        return $this->hasOne('App\Models\States', 'id', 'state');
+    }
+    
+    public function city()
+    {
+        return $this->hasOne('App\Models\Cities', 'id', 'city');
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PilotController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +105,12 @@ Route::get('/customer', function () {
 		return view('customer.customer-list');
 	}
 });
+
+Route::get('/notifications', [NotificationController::class,'show'])->name('notifications');
+Route::get('/notify', [NotificationController::class,'create']);
+Route::get('/mark-as-read/{id}', [NotificationController::class,'update']);
+
+Route::get('/resend-code', [RegisterController::class, 'resend']);
 
 Route::get('/pilot-verification', [PilotController::class, 'show']);
 Route::get('/job-create', [JobController::class, 'create']);

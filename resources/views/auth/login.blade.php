@@ -241,6 +241,12 @@ License: You must have a valid license purchased only from themeforest(the above
 											<a href="javascript:;" class="font-weight-bold ml-2"
 												id="kt_login_signup">Sign Up!</a><br>
 										</div>
+										<?php //echo "<pre>";print_r(session()->all()); ?>
+										<div class="flash-message">
+											@if(Session::has('account-success'))
+												<p class="alert alert-success">{{ Session::get('account-success') }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><a href="resend-code?varify={{ Session::get('user-id') }}" class="btn btn-secondary btn-sm float-right">Resend</a></p>
+											@endif
+										</div>
 										<div class="flash-message">
 											@foreach (['danger', 'warning', 'success', 'info'] as $msg)
 												@if(Session::has('alert-' . $msg))

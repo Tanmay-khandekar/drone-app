@@ -315,62 +315,7 @@
         });
     });
 </script>
-<style>
-        .header-right{
-            top: 45px;
-            align-items: center;
-            background: #ffffff none repeat scroll 0 0;
-            color: #3c7fb6 !important;
-            display: flex !important;
-            font-weight: 700 !important;
-            height: 45px !important;
-            text-transform: uppercase !important;
-            transition: all 0.4s ease 0s;
-            padding: 0 13px;
-            border-radius: 10px;
-        }
-        .scroll-header .header-right {
-            top: 10px
-        }
-        .htc__testimonial__area .section__title p {
-            margin-bottom: unset !important;
-        }
-        .checked {
-            color: orange;
-        }
-        .contact-box select {
-            border: 1px solid #ebebeb;
-            height: 35px;
-            padding: 0 10px;
-            border: 1px solid #3c7fb6;
-        }
-        @media (min-width: 767px){
-            .htc__offer__thumb{
-                width: 50%;
-            }
-            .htc__offer__thumb2{
-                left: 0 !important;
-                max-width: 50% !important;
-            }
-            .select{
-                padding: 0 30px;
-            }
-        }
-        @media (max-width: 767px){
-            .htc__mission__area2{
-                display: flex;
-                flex-direction: column-reverse;
-            }
-            .select{
-                padding: 0 0px;
-                margin-bottom: 10px;
-            }
-            .input-search{
-                margin-bottom: 10px;
-            }
-        }
-    </style>
-
+    @yield('js')
 </body>
 
 

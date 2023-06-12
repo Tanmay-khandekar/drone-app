@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Bids;
 use App\Models\User;
+use App\Notifications\UserNotification;
 
 class BidController extends Controller
 {
@@ -60,6 +61,10 @@ class BidController extends Controller
             $bid->start_date= $start_date;
             $bid->end_date  = $end_date;
             $bid->save();
+            $pilot = User::find($params['user_id']);
+            $customer = User::find($params['customer_id']);
+            $customer->message = $pilot->first_name.' Bid on your Job';
+            $customer->notify(new UserNotification($customer));
             return response()->json(['success' => 'Bid saved successfully.']);
         }else{
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -91,6 +96,8 @@ class BidController extends Controller
     public function edit($id)
     {
         //
+        $bid = Bids::find($id);
+        return response(['data' => $bid], 200);
     }
 
     /**
@@ -103,6 +110,13 @@ class BidController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $params=$request->all();
+        $bid = Bids::find($id);
+        if(isset($bid->id) && !empty($bid->id)){
+            $bid->status = $params['status'];
+            $bid->update();
+        }
+        return response(['data' => $bid], 200);
     }
 
     /**

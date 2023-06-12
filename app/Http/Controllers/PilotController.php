@@ -15,10 +15,12 @@ use Maatwebsite\Excel\Files\TemporaryFileFactory;
 use Maatwebsite\Excel\Transactions\NullTransactionHandler;
 use Maatwebsite\Excel\Helpers\FileTypeDetector;
 #use Maatwebsite\Excel\Reader;
+use App\Http\Traits\EmailTrait;
 use App\ExcelReader;
 
 class PilotController extends Controller
 {
+    use EmailTrait;
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +29,9 @@ class PilotController extends Controller
     public function index()
     {
         //
-        $pilots = User::with('pilot_detail')->where('type','pilot')->get();
+        $pilots = User::with(['pilot_detail','address.country','address.state', 'address.city'])
+                        ->where('type','pilot')
+                        ->get();
         return response(['data' => $pilots], 200);
     }
 
@@ -72,19 +76,33 @@ class PilotController extends Controller
         // $pilot = Excel::import(new PilotsImport, request()->file('file'));
         $response = $this->open($request);
         $response = $response['sheetsData'][0];
+        // echo "<pre>";
+        // print_r($response);die();
         foreach($response as $key =>$row){
-            $pilot = User::updateOrCreate(
-                ['email' => $row['email']],
-                [
-                    'first_name'=> $row['first_name'],
-                    'last_name' => $row['last_name'],
-                    'email'     => $row['email'],
-                    'phone'     => $row['phone'],
-                    'password'  => bcrypt($row['password']),
-                    'type'      => 'pilot',
-                    'status'    => 1,
-                    'is_verified'    => 1,
+            if(isset($row['First Name']) && !empty($row['First Name'])){
+                $pilot = User::updateOrCreate(
+                    [   'email'     => $row['Email']],
+                    [
+                        'first_name'=> $row['First Name'],
+                        'last_name' => $row['Last Name'],
+                        'email'     => 'khandekartanmay12345@gmail.com',//$row['Email'],
+                        'phone'     => $row['Phone'],
+                        'company'   => $row['Company'],
+                        'jobtitle'  => $row['Position'],
+                        'password'  => bcrypt('1234567890'),
+                        'verification_code' => sha1(time()),
+                        'type'      => 'pilot',
+                        'status'    => 1,
+                    ]);
+                
+                $pilotDetails = PilotDetails::updateOrCreate(['user_id' => $pilot->id],
+                ['license_category'=> $row['License Category']
                 ]);
+                if($pilot != null){
+                    $this->sendmail($pilot);
+                }
+            }
+            
         }
         return redirect()->back()->withSuccess('Pilot imported successfully');
     }
