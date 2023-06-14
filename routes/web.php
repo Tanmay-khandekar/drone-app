@@ -7,6 +7,7 @@ use App\Http\Controllers\PilotController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,7 +106,16 @@ Route::get('/customer', function () {
 		return view('customer.customer-list');
 	}
 });
-
+Route::get('/payments', function () {
+	if(!Auth::check()){
+		return redirect("login")->withSuccess('Opps! You do not have access');
+	}
+    return view('payment.admin-payment-list');
+});
+Route::get('/payment', function () {
+    return view('payment.stripe');
+});
+Route::post('/stripe', [StripeController::class,'stripePyament'])->name("stripe.post");
 Route::get('/notifications', [NotificationController::class,'show'])->name('notifications');
 Route::get('/notify', [NotificationController::class,'create']);
 Route::get('/mark-as-read/{id}', [NotificationController::class,'update']);

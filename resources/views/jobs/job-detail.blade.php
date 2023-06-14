@@ -129,6 +129,12 @@
                     </div>
                 </div>
                 <!--end::Card-->
+                @if (Session::has('success'))
+                    <div class="alert alert-success text-center">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                        <p>{{ Session::get('success') }}</p>
+                    </div>
+                @endif
                 <div class="card card-custom">
                     <!--begin::Header-->
                     <div class="card-header border-0 pt-5">
@@ -154,6 +160,72 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
+</div>
+<div class="modal" id="payment-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Payment Information</h5>
+                <button type="button" class="close close-payment-form" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <form 
+            role="form" 
+            action="{{ route('stripe.post') }}" 
+            method="post" 
+            class="require-validation"
+            data-cc-on-file="false"
+            data-stripe-publishable-key="{{ env('STRIPE_KEY', 'pk_test_51JT6PDSIBz6O0EhihYMiqPJxUoF3fDx2BSEmHjymYKLKaCw2qAcIlxKSdvfaBsekOmTHYnnpMZs9gpnMGuDysaDJ007lTSbm2p') }}"
+            id="payment-form">
+            @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="customer_id" value="{{ $job['user_id'] }}">
+                    <input type="hidden" name="pilot_id" id="pilot_id" value="">
+                    <input type="hidden" name="bid_id" id="bid_id" value="">
+                    <input type="text" name="price" value="500">
+                    <div class='form-row row'>
+                        <div class='col-lg-12 form-group required'>
+                            <label class='control-label'>Name on Card</label> 
+                            <input class='form-control' size='4' type='text'>
+                        </div>
+                    </div>
+
+                    <div class='form-row row'>
+                        <div class='col-lg-12 form-group required'>
+                            <label class='control-label'>Card Number</label> 
+                            <input autocomplete='off' class='form-control card-number' size='20' type='text'>
+                        </div>
+                    </div>
+
+                    <div class='form-row row'>
+                        <div class='col-xs-12 col-md-4 form-group cvc required'>
+                            <label class='control-label'>CVC</label>
+                            <input autocomplete='off' class='form-control card-cvc' placeholder='ex. 311' size='4' type='text'>
+                        </div>
+                        <div class='col-xs-12 col-md-4 form-group expiration required'>
+                            <label class='control-label'>Expiration Month</label>
+                            <input class='form-control card-expiry-month' placeholder='MM' size='2' type='text'>
+                        </div>
+                        <div class='col-xs-12 col-md-4 form-group expiration required'>
+                            <label class='control-label'>Expiration Year</label> <input class='form-control card-expiry-year' placeholder='YYYY' size='4' type='text'>
+                        </div>
+                    </div>
+
+                    <div class='form-row row'>
+                        <div class='col-md-12 error form-group d-none'>
+                            <div class='alert-danger alert'>Please correct the errors and try again.</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-payment-form" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit">Pay Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <!--end::Wrapper-->
 <div class="pilot-bid-form offcanvas offcanvas-right p-10" style="display: none; width: 500px; z-index: 98;">
@@ -182,12 +254,12 @@
                 <input type='text' name="bid_start_end_date" class="form-control" id="kt_daterangepicker_1" readonly placeholder="Select time" type="text"/>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label for="Description">Job Description:</label>
             <textarea class="form-control" name="bid_desc" id="Description" rows="3"></textarea>
         </div>
-        
+
         <div class="form-group">
             <label for="Location">Price range:</label>
             <select class="form-control" name="price" id="price">
@@ -216,7 +288,9 @@
             $(".pilot-bid-form").hide();
             $(".pilot-bid-form").removeClass("offcanvas-on");
         });
-
+        $(".close-payment-form").click(function(){
+            $("#payment-modal").hide();
+        });
         //Get all bids
         var jobId = <?php echo $job['id']; ?>;
         getBids();
@@ -231,7 +305,7 @@
                     $('#no-of-bids').append('Total ' + bids.length + ' New bids');
                     if( '{{auth()->user()->type }}' == 'customer'){
                         $.each(bids, function(key, val){
-                            if(val.status == 'first_approval' || val.status == 'final_approval'){
+                            if(val.status == 'first_approval' || val.status == 'final_approval' || val.status == 'paid'){
                                 finalApproval = true;
                             }
                         });
@@ -240,7 +314,9 @@
                                 approvalStatus = 'final_approval';
                             } else if(val.status == 'final_approval'){
                                 approvalStatus = 'final_approval';
-                            } else {
+                            } else if(val.status == 'paid'){
+                                approvalStatus = 'paid';
+                            }else {
                                 approvalStatus = 'first_approval';
                             }
                             var html = `<div class="timeline-item">
@@ -258,9 +334,9 @@
                             html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-status="`+approvalStatus+`">
                                                             `+approvalStatus.replace("_", " ")+`
                                                         </button>`;
-                            } 
-                            else if(approvalStatus == "final_approval" && finalApproval == true){
-                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-status="`+approvalStatus+`">
+                            }
+                            else if((approvalStatus == "final_approval" || approvalStatus == "paid" ) && finalApproval == true){
+                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-pilot-id="`+val.user_id+`" data-status="`+approvalStatus+`">
                                                             `+approvalStatus.replace("_", " ")+`
                                                         </button>`;    
                             }
@@ -302,11 +378,11 @@
                 }
             });
         }
-        //EndGet all bids
+        //End all bids
         //Get single bid
         $(document).on('click', '.edit-bid', function(e){
 			e.preventDefault();
-           
+
             var id = $(this).data('bid-id'); 
             $.ajax({
                 type: "GET",
@@ -323,8 +399,7 @@
                 }
             });
         });
-        //End Get single bid
-
+        //End single bid
 
         $(document).on('click', '#btn-bid-save', function(e){
 			e.preventDefault();
@@ -352,12 +427,22 @@
                 }
             });
         });
-        
+
         $(document).on('click', '.approval', function(e){
 			e.preventDefault();
             var id = $(this).data('bid-id');
+            var pilotId = $(this).data('pilot-id');
             var status = $(this).data('status');
-            alert(id);
+            if(status == 'first_approval'){
+                updateBid(id, status);
+            }else if(status == 'final_approval'){
+                $('#payment-modal').show();
+                $('#bid_id').val(id);
+                $('#pilot_id').val(pilotId);
+            }
+
+        });
+        function updateBid(id, status){
             $.ajax({
                 url: "{{url('api/bids/update/')}}"+'/'+id,
                 type: "post",
@@ -374,9 +459,67 @@
                     console.log('Error:', response);
                 }
             });
-        });
+        }
     });
 </script>
 <script src="{{asset('assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js')}}"></script>
 <script src="{{asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  
+<script type="text/javascript">
+$(function() {
+   
+    var $form = $(".require-validation");
+   
+    $('form.require-validation').bind('submit', function(e) {
+        var $form     = $(".require-validation"),
+        inputSelector = ['input[type=email]', 'input[type=password]',
+                         'input[type=text]', 'input[type=file]',
+                         'textarea'].join(', '),
+        $inputs       = $form.find('.required').find(inputSelector),
+        $errorMessage = $form.find('div.error'),
+        valid         = true;
+        $errorMessage.addClass('d-none');
+
+        $('.is-invalid').removeClass('is-invalid');
+        $inputs.each(function(i, el) {
+          var $input = $(el);
+          if ($input.val() === '') {
+            $input.addClass('is-invalid');
+            $errorMessage.removeClass('d-none');
+            e.preventDefault();
+          }
+        });
+   
+        if (!$form.data('cc-on-file')) {
+          e.preventDefault();
+          Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+          Stripe.createToken({
+            number: $('.card-number').val(),
+            cvc: $('.card-cvc').val(),
+            exp_month: $('.card-expiry-month').val(),
+            exp_year: $('.card-expiry-year').val()
+          }, stripeResponseHandler);
+        }
+  
+  });
+  
+  function stripeResponseHandler(status, response) {
+        if (response.error) {
+            $('.error')
+                .removeClass('d-none')
+                .find('.alert')
+                .text(response.error.message);
+        } else {
+            /* token contains id, last4, and card type */
+            var token = response['id'];
+               
+            $form.find('input[type=text]').empty();
+            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+            $form.get(0).submit();
+        }
+    }
+   
+});
+</script>
 @endsection
