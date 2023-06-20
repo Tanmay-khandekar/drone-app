@@ -210,7 +210,8 @@
                     if(finalApproval && userType == 'customer' ){
                         $('#chat-box-btn').html('<button id="user_chat" data-id="'+pilotId+'" data-fromuser="{{auth()->user()->id}}" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">Pilot Chat</button>');
                     }else if(finalApproval && userType == 'pilot'){
-                        $('#chat-box-btn').html('<button id="user_chat" data-id="3" data-fromuser="{{auth()->user()->id}}" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">Customer Chat</button>');
+                        var customerId = "{{ $job['user_id']}}";
+                        $('#chat-box-btn').html('<button id="user_chat" data-id="'+customerId+'" data-fromuser="{{auth()->user()->id}}" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">Customer Chat</button>');
                     }
                     if( userType == 'customer'){
                         $.each(bids, function(key, val){
