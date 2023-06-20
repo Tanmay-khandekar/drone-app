@@ -104,6 +104,7 @@
                                             Job Start date: {{ date("d-m-Y", strtotime($job['start_date'])) }} <br>
                                             Job End date: {{ date("d-m-Y", strtotime($job['end_date'])) }} <br>
                                             Job type: {{ $job['type'] }} <br>
+                                            <div id="chat-box-btn" data-toggle="modal" data-target="#kt_chat_modal"></div>
                                             @if(auth()->user()->type == 'pilot')
                                             <button class="apply-now btn btn-sm btn-primary font-weight-bolder text-uppercase">Apply Now</button>
                                             @endif
@@ -161,124 +162,18 @@
     </div>
     <!--end::Content-->
 </div>
-<div class="modal" id="payment-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Payment Information</h5>
-                <button type="button" class="close close-payment-form" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <form 
-            role="form" 
-            action="{{ route('stripe.post') }}" 
-            method="post" 
-            class="require-validation"
-            data-cc-on-file="false"
-            data-stripe-publishable-key="{{ env('STRIPE_KEY', 'pk_test_51JT6PDSIBz6O0EhihYMiqPJxUoF3fDx2BSEmHjymYKLKaCw2qAcIlxKSdvfaBsekOmTHYnnpMZs9gpnMGuDysaDJ007lTSbm2p') }}"
-            id="payment-form">
-            @csrf
-                <div class="modal-body">
-                    <input type="hidden" name="customer_id" value="{{ $job['user_id'] }}">
-                    <input type="hidden" name="pilot_id" id="pilot_id" value="">
-                    <input type="hidden" name="bid_id" id="bid_id" value="">
-                    <input type="text" name="price" value="500">
-                    <div class='form-row row'>
-                        <div class='col-lg-12 form-group required'>
-                            <label class='control-label'>Name on Card</label> 
-                            <input class='form-control' size='4' type='text'>
-                        </div>
-                    </div>
 
-                    <div class='form-row row'>
-                        <div class='col-lg-12 form-group required'>
-                            <label class='control-label'>Card Number</label> 
-                            <input autocomplete='off' class='form-control card-number' size='20' type='text'>
-                        </div>
-                    </div>
-
-                    <div class='form-row row'>
-                        <div class='col-xs-12 col-md-4 form-group cvc required'>
-                            <label class='control-label'>CVC</label>
-                            <input autocomplete='off' class='form-control card-cvc' placeholder='ex. 311' size='4' type='text'>
-                        </div>
-                        <div class='col-xs-12 col-md-4 form-group expiration required'>
-                            <label class='control-label'>Expiration Month</label>
-                            <input class='form-control card-expiry-month' placeholder='MM' size='2' type='text'>
-                        </div>
-                        <div class='col-xs-12 col-md-4 form-group expiration required'>
-                            <label class='control-label'>Expiration Year</label> <input class='form-control card-expiry-year' placeholder='YYYY' size='4' type='text'>
-                        </div>
-                    </div>
-
-                    <div class='form-row row'>
-                        <div class='col-md-12 error form-group d-none'>
-                            <div class='alert-danger alert'>Please correct the errors and try again.</div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-payment-form" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" type="submit">Pay Now</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+@include('payment.components.payment-detail')
 <!--end::Wrapper-->
-<div class="pilot-bid-form offcanvas offcanvas-right p-10" style="display: none; width: 500px; z-index: 98;">
-    <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
-        <h3 class="font-weight-bold m-0">Pilot Bid View</h3>
-        <a href="#" class="close-pilot-bid-form btn btn-xs btn-icon btn-light btn-hover-primary">
-            <i class="ki ki-close icon-xs text-muted"></i>
-        </a>
-    </div>
-    <form id="bid-data">
-        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-        <input type="hidden" name="customer_id" value="{{ $job['user_id'] }}">
-        <input type="hidden" name="job_id" value="{{ $job['id'] }}">
-        <div class="form-group">
-            <label>Type:</label>
-            <select class="form-control" name="type" id="type">
-                <option>Select bid type</option>
-                <option value="Initial Bid">Initial Bid</option>
-                <option value="Final Bid">Final Bid</option>
-            </select>
-        </div>
+@include('bid.components.bid-detail')
+@include('chat.chat-box')
 
-        <div class="form-group">
-            <label>Date Range:</label>
-            <div>
-                <input type='text' name="bid_start_end_date" class="form-control" id="kt_daterangepicker_1" readonly placeholder="Select time" type="text"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="Description">Job Description:</label>
-            <textarea class="form-control" name="bid_desc" id="Description" rows="3"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="Location">Price range:</label>
-            <select class="form-control" name="price" id="price">
-                <option>Select price range</option>
-                <option value="100-250">100-250</option>
-                <option value="250-500">250-500</option>
-                <option value="500-1000"> 500-1000</option>
-                <option value="1000-1500">1000-1500</option>
-                <option value="1500-2500">1500-2500</option>
-                <option value="2500+">2500+</option>
-            </select>
-        </div>
-        <button class="btn btn-primary mr-2" id="btn-bid-save">Submit</button>
-        <button type="reset" class="btn btn-secondary">Cancel</button>
-    </form>
-</div>
 @endsection
 @section('js')
 <script>
+    var pilotId = '';
+    var msgBoxUrl = "{{route('msg.box')}}";
+    var sendMsgUrl = "{{route('sendmsg')}}";
     $(document).ready(function(){
         $(".apply-now").click(function(){
             $(".pilot-bid-form").show();
@@ -301,14 +196,23 @@
                 success: function(data) {
                     var bids = data.data;
                     var approvalStatus = '';
-                    var finalApproval = '';
+                    var finalApproval = false;
                     $('#no-of-bids').append('Total ' + bids.length + ' New bids');
-                    if( '{{auth()->user()->type }}' == 'customer'){
-                        $.each(bids, function(key, val){
-                            if(val.status == 'first_approval' || val.status == 'final_approval' || val.status == 'paid'){
-                                finalApproval = true;
-                            }
-                        });
+                    $.each(bids, function(key, val){
+                        if(val.status == 'first_approval' || val.status == 'final_approval' || val.status == 'paid'){
+                            finalApproval = true;
+                            pilotId = val.user_id; 
+                            $('.apply-now').hide();
+                        }
+                    });
+                    
+                    var userType = '{{auth()->user()->type }}';
+                    if(finalApproval && userType == 'customer' ){
+                        $('#chat-box-btn').html('<button id="user_chat" data-id="'+pilotId+'" data-fromuser="{{auth()->user()->id}}" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">Pilot Chat</button>');
+                    }else if(finalApproval && userType == 'pilot'){
+                        $('#chat-box-btn').html('<button id="user_chat" data-id="3" data-fromuser="{{auth()->user()->id}}" class="btn btn-sm btn-primary font-weight-bolder text-uppercase">Customer Chat</button>');
+                    }
+                    if( userType == 'customer'){
                         $.each(bids, function(key, val){
                             if(val.status == 'first_approval'){
                                 approvalStatus = 'final_approval';
@@ -340,6 +244,11 @@
                                                             `+approvalStatus.replace("_", " ")+`
                                                         </button>`;    
                             }
+                            if((val.status == "final_approval" || val.status == "first_approval" )){
+                            html +=                     `<button class="btn btn-danger ml-3 btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-pilot-id="`+val.user_id+`" data-status="pending">
+                                                            Rejected
+                                                        </button>`;    
+                            }
                             html +=                 `</div>
                                                 </div>
                                                 <span class="font-weight-bold">Price Range</span> <span class="label label-light-success font-weight-bolder label-inline ml-2">`+val.price+`</span>
@@ -358,11 +267,16 @@
                                                         <span class="text-muted ml-2">`+val.end_date+`</span>
                                                     </div>
                                                     <div class="dropdown ml-2">`;
-                                if(val.status == 'first_approval'){
+                                if(val.status == 'first_approval' && {{ auth()->user()->id }} == val.user.id){
                                 html +=                 `<button class="btn btn-primary btn-sm edit-bid first-txt-capital" data-bid-id="`+val.id+`">
                                                             Edit
                                                         </button>`; 
-                                }                    
+                                }
+                                if(val.status == 'paid' && {{ auth()->user()->id }} == val.user.id){
+                                html +=                 `<button class="btn btn-primary btn-sm edit-bid first-txt-capital" data-bid-id="`+val.id+`">
+                                                            Paid
+                                                        </button>`; 
+                                }
                                 html +=            `</div>
                                                 </div>
                                                 <span class="font-weight-bold">Price Range</span> <span class="label label-light-success font-weight-bolder label-inline ml-2">`+val.price+`</span>
@@ -389,6 +303,7 @@
                 url: "{{ url('api/bid/')}}"+'/'+id,
                 success: function(data) {
                     var bidDetail = data.data;
+                    $('#id').val(bidDetail.id);
                     $('#price').val(bidDetail.price);
                     $('#type').val(bidDetail.type);
                     $('#Description').val(bidDetail.bid_desc);
@@ -403,29 +318,44 @@
 
         $(document).on('click', '#btn-bid-save', function(e){
 			e.preventDefault();
-            $.ajax({
-                url: "{{url('api/bid/create')}}",
-                type: "post",
-                data: $('#bid-data').serialize(),
-                dataType: 'json',
-                success: function(response) {
-                    $('.form-control').removeClass('is-invalid');
-                    $('.invalid-feedback').empty();
-                    swal.fire(response.success);
-                    if(response.status == true){
-                    }else{
-                        $.each(response.errors, function(key, val){
-                            $('.'+key).addClass('is-invalid');
-                            $('.'+key).next('.invalid-feedback').html(val);
-                        });
+            var id = $('#id').val();
+            var type = $('#type').val();
+            var date = $('#kt_daterangepicker_1').val();
+            var description = $('#Description').val();
+            var price = $('#price').val();
+            if(id != '' && id != '0'){
+                var formData = new FormData();
+                formData.append('type', type);
+                formData.append('bid_start_end_date', date);
+                formData.append('bid_desc', description);
+                formData.append('price', price);
+                updateBid(id, formData);
+            }else{
+                $.ajax({
+                    url: "{{url('api/bid/create')}}",
+                    type: "post",
+                    data: $('#bid-data').serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        $('.form-control').removeClass('is-invalid');
+                        $('.invalid-feedback').empty();
+                        swal.fire(response.success);
+                        if(response.status == true){
+                        }else{
+                            $.each(response.errors, function(key, val){
+                                $('.'+key).addClass('is-invalid');
+                                $('.'+key).next('.invalid-feedback').html(val);
+                            });
+                        }
+                        console.log(response);
+                    }, 
+                    error: function(response) {
+                        console.log('Error:', response);
+                        $('#btn-leads-save').html('Save Changes');
                     }
-                    console.log(response);
-                }, 
-                error: function(response) {
-                    console.log('Error:', response);
-                    $('#btn-leads-save').html('Save Changes');
-                }
-            });
+                });
+            }
+            
         });
 
         $(document).on('click', '.approval', function(e){
@@ -433,8 +363,10 @@
             var id = $(this).data('bid-id');
             var pilotId = $(this).data('pilot-id');
             var status = $(this).data('status');
-            if(status == 'first_approval'){
-                updateBid(id, status);
+            if(status == 'first_approval' || status == 'pending'){
+                var formData = new FormData();
+                formData.append('status', status);
+                updateBid(id, formData);
             }else if(status == 'final_approval'){
                 $('#payment-modal').show();
                 $('#bid_id').val(id);
@@ -442,13 +374,13 @@
             }
 
         });
-        function updateBid(id, status){
+        function updateBid(id, formData){
             $.ajax({
                 url: "{{url('api/bids/update/')}}"+'/'+id,
                 type: "post",
-                data: {
-                    status: status
-                },
+                data: formData,
+                contentType: false, //multipart/form-data
+                processData: false,
                 dataType: 'json',
                 success: function(response) {
                     // swal.fire(response.success);
@@ -465,61 +397,6 @@
 <script src="{{asset('assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js')}}"></script>
 <script src="{{asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-  
-<script type="text/javascript">
-$(function() {
-   
-    var $form = $(".require-validation");
-   
-    $('form.require-validation').bind('submit', function(e) {
-        var $form     = $(".require-validation"),
-        inputSelector = ['input[type=email]', 'input[type=password]',
-                         'input[type=text]', 'input[type=file]',
-                         'textarea'].join(', '),
-        $inputs       = $form.find('.required').find(inputSelector),
-        $errorMessage = $form.find('div.error'),
-        valid         = true;
-        $errorMessage.addClass('d-none');
-
-        $('.is-invalid').removeClass('is-invalid');
-        $inputs.each(function(i, el) {
-          var $input = $(el);
-          if ($input.val() === '') {
-            $input.addClass('is-invalid');
-            $errorMessage.removeClass('d-none');
-            e.preventDefault();
-          }
-        });
-   
-        if (!$form.data('cc-on-file')) {
-          e.preventDefault();
-          Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-          Stripe.createToken({
-            number: $('.card-number').val(),
-            cvc: $('.card-cvc').val(),
-            exp_month: $('.card-expiry-month').val(),
-            exp_year: $('.card-expiry-year').val()
-          }, stripeResponseHandler);
-        }
-  
-  });
-  
-  function stripeResponseHandler(status, response) {
-        if (response.error) {
-            $('.error')
-                .removeClass('d-none')
-                .find('.alert')
-                .text(response.error.message);
-        } else {
-            /* token contains id, last4, and card type */
-            var token = response['id'];
-               
-            $form.find('input[type=text]').empty();
-            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-            $form.get(0).submit();
-        }
-    }
-   
-});
-</script>
+<script src="{{asset('assets/js/custom/payment.js')}}"></script>
+<script src="{{asset('assets/js/custom/chat.js')}}"></script>
 @endsection

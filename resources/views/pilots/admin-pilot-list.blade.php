@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="form-group px-2">
                                     <input type="submit" class="btn btn-primary font-weight-bolder" name="submit" value="import" />
-                                    <a href="#" class="btn btn-primary font-weight-bolder">New Pilot</a>
+                                    <a href="pilot/create" class="btn btn-primary font-weight-bolder">New Pilot</a>
                                 </div>
                             </form>
                             <!--begin::Button-->

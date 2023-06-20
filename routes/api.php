@@ -9,6 +9,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PaymentController;
+// use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,5 +50,4 @@ Route::namespace('Api')->group(function() {
     Route::get('language/edit/{key}', [LanguageController::class,'edit']);
     Route::post('language/update', [LanguageController::class,'update']);
     // language API end
-
 });

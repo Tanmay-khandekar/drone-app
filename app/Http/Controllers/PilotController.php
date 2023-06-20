@@ -68,7 +68,7 @@ class PilotController extends Controller
         if(!Auth::check()){
             return redirect("login")->withSuccess('Opps! You do not have access');
         }
-        return view('pilot-varification');
+        return view('pilots.pilot-varification');
     }
     public function import(Request $request)
     {

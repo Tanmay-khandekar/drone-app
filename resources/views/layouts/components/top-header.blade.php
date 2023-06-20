@@ -57,7 +57,7 @@
                                     <!--begin::Item-->
                                     <div class="navi-item">
                                         <div class="navi-link d-flex">
-                                            <a href="{{url('job')}}/{{$notification->id}}" class="d-flex" style="width: 70%;">
+                                            <a href="#" class="d-flex" style="width: 70%;">
                                                 <div class="navi-icon mr-2 mt-3">
                                                     <i class="flaticon2-notification text-primary"></i>
                                                 </div>

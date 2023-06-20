@@ -439,78 +439,15 @@
             });
             return false;
         });
-		var countryId = $('#country').val();
-		var stateId = {{ isset($user->address->state) ? $user->address->state : '0' }};
-		var cityId = {{ isset($user->address->city) ? $user->address->city : '0' }};
-		if(countryId != 0){
-			getStates(countryId, stateId);
-		}
-		if(stateId != 0){
-			getCity(stateId, cityId);
-		}
-		//locations dropdowns
-        $('#country').on('change',function(){
-            var countryId = this.value;
-            getStates(countryId, countryId);
-        });
-		function getStates(country, stateid=null){
-			$.ajax({
-                url: "{{ route('states_by_country') }}",
-                type:"post",
-                cache: false,
-                data:{
-                    country_id: country,
-                    _token: '{{csrf_token()}}' 
-                },
-                dataType : 'json',
-                success: function(result){
-                    $("#state-dropdown").empty().append('');
-                    $("#bs-select-1 ul").empty().append('');
-                    var stateCount = result.states.length;
-                    $('#state-dropdown').html('<option value="">Select State</option>'); 
-                    $.each(result.states,function(key,value){
-						if( stateid == value.id){
-							$("#state-dropdown").append('<option selected value="'+value.id+'">'+value.name+'</option>');
-						}else{
-							$("#state-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-						}
-                    });
-                }
-            });
-		}
-        $('#state-dropdown').on('change',function(){
-            var state_id = this.value;
-			var cityId = {{ isset($user->address->city) ? $user->address->city : '0'}};
-            getCity(state_id, cityId);
-        });
-		function getCity(state_id, cityId=null){
-			$.ajax({
-                url: "{{ route('city_by_states') }}",
-                type:"post",
-                cache: false,
-                data:{
-                    state_id: state_id,
-                    _token: '{{csrf_token()}}' 
-                },
-                dataType : 'json',
-                success: function(result){
-                    $("#city-dropdown").empty().append('');
-                    $('#city-dropdown').html('<option value="">Select City</option>'); 
-                    $.each(result.cities,function(key,value){
-						if(cityId == value.id){
-							$("#city-dropdown").append('<option selected value="'+value.id+'">'+value.name+'</option>');
-						} else{
-                        	$("#city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-						}
-					});
-                    
-                }
-            });
-		}
-        //locations dropdowns
     });
+	var countryId = $('#country').val();
+	var stateId = {{ isset($user->address->state) ? $user->address->state : '0' }};
+	var cityId = {{ isset($user->address->city) ? $user->address->city : '0' }};
+	var statesByCountryUrl = "{{ route('states_by_country') }}";
+	var cityByStatesUrl = "{{ route('city_by_states') }}";
+	var token = "{{csrf_token()}}";
 </script>
-<!-- <script src="assets/js/custom/locations.js"></script> -->
+<script src="assets/js/custom/locations.js"></script>
 <script src="assets/js/pages/crud/file-upload/image-input.js"></script>
 <script src="assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 @endsection

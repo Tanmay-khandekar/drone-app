@@ -95,7 +95,7 @@ class JobController extends Controller
         }
         $data['countries'] = Countries::get();
         $data['industry'] = Industry::get();
-        return view('job-create',$data);
+        return view('jobs.job-create',$data);
     }
 
     /**

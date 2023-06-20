@@ -8,6 +8,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,14 @@ Route::get('/pilot/{id}', function () {
 		return view('pilots.pilot-detail');
 	}
 });
+Route::get('/pilot/create', function () {
+	if(!Auth::check()){
+		return redirect("login")->withSuccess('Opps! You do not have access');
+	}
+	if(auth()->user()->type == 'admin'){
+		return view('pilots.admin-pilot-detail');
+	}
+});
 // Route::get('pilot/{id}', [PilotController::class, 'edit']);
 
 Route::get('/customer', function () {
@@ -143,6 +152,9 @@ Route::get('login/facebook/callback', [LoginController::class,'handleFacebookCal
 //Twitter Login
 Route::get('login/twitter', [LoginController::class,'redirectToTwitter'])->name('login.twitter');
 Route::get('login/twitter/callback', [LoginController::class,'handleTwitterCallback']);
+Route::get('msgbox',[ChatController::class,'messages'])->name('msg.box');
+Route::get('chatbox/{id}',[ChatController::class,'edit']);
+Route::post('sendmsg',[ChatController::class,'sendmsg'])->name('sendmsg');
 
 Route::get('cache-clear', function(){
 	\Artisan::call('cache:clear');

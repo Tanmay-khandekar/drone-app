@@ -113,8 +113,21 @@ class BidController extends Controller
         $params=$request->all();
         $bid = Bids::find($id);
         if(isset($bid->id) && !empty($bid->id)){
-            $bid->status = $params['status'];
-            $bid->update();
+            // $bid->status = $params['status'];
+            if(isset($params['bid_start_end_date']) && !empty($params['bid_start_end_date'])){
+                $bid_start_end_date = explode('-',$params['bid_start_end_date']);
+                $startDate = str_replace('/', '-', $bid_start_end_date[0]);
+                $endDate = str_replace('/', '-', $bid_start_end_date[1]);
+
+                $params['start_date'] = date("Y-m-d", strtotime($startDate));
+                $params['end_date'] = date("Y-m-d", strtotime($endDate));
+            }
+            $bid->update($params);
+            if(isset($params['status']) && !empty($params['status']) && $params['status'] == 'first_approval'){
+                $pilot = User::find($bid->user_id);
+                $pilot->message = 'Bid approved. Edit option available.';
+                $pilot->notify(new UserNotification($pilot));                
+            }
         }
         return response(['data' => $bid], 200);
     }

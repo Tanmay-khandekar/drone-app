@@ -26,20 +26,26 @@ class NotificationController extends Controller
         $user = User::first();
         $notifications = auth()->user()->notifications;
         $html = '';
-        // print_r($notifications);die();
+
         foreach ($notifications as $key => $notification) {
             $markAsRead = (isset($notification->read_at) && !empty($notification->read_at)) ? '' : 'mark as read';
-            $html .=    '<a href="'.url('mark-as-read').'/'.$notification->id.'" class="navi-item">
-                            <div class="navi-link">
-                                <div class="navi-icon mr-2">
-                                    <i class="flaticon2-notification text-primary"></i>
-                                </div>
-                                <div class="navi-text">
-                                    <div class="font-weight-bold">'.$notification->data['data'].'<a>'.$markAsRead.'</a></div>
-                                    <div class="text-muted">'.$notification->created_at.'</div>
-                                </div>
+            
+            $html .=    '<div class="navi-item">
+                            <div class="navi-link d-flex">
+                                <a href="" class="d-flex" style="width: 70%;">
+                                    <div class="navi-icon mr-2 mt-3">
+                                        <i class="flaticon2-notification text-primary"></i>
+                                    </div>
+                                    <div class="navi-text">
+                                        <div class="font-weight-bold">'.$notification->data['data'].'</div>
+                                        <div class="text-muted">'.$notification->created_at.'</div>
+                                    </div>
+                                </a>
+                                <a href="'.url('mark-as-read').'/'.$notification->id.'" class="float-right">';
+            $html .=                (isset($notification->read_at) && !empty($notification->read_at)) ? '' : 'mark as read';             
+            $html .=            '</a>
                             </div>
-                        </a>';
+                        </div>';
         }
         echo $html;
     }

@@ -14,7 +14,7 @@ class StripeController extends Controller
     public function stripePyament(Request $req)
     {
     	// print_r($req->all()); die();
-    	Stripe\Stripe::setApiKey(env('STRIPE_SECRET', 'sk_test_51JT6PDSIBz6O0EhiRiXBW1ZRDvUJjfKdnisirob2q8quTkdDSEIWH8kW3HT3IB88lf4b5Q3mcTIsJ6dpgId6Xabz00fs2TNkQU'));
+    	Stripe\Stripe::setApiKey(env('STRIPE_SECRET', 'sk_test_51MqhFkBYa5wxH4LQ3kmYK0q3R15hxkBLOFaRuUTr8MBUfbjuB9IzddxBRHIotHgn6rYy4vf2jsRJe23vfOHHbWTi0067YMt90l'));
 		/* $customer = User::with('address')->find($req->customer_id);
 		print_r($customer->toArray()); die();
     	$address = [
@@ -27,7 +27,6 @@ class StripeController extends Controller
 				]; */
 		$data = Stripe\Charge::create([
     			"amount"=>$req->price*100,
-    			"currency"=>"usd",
     			"source"=>$req->stripeToken,
 				"currency"=>'inr',
     			"description"=>"Payment from Tanmay Khandekar",

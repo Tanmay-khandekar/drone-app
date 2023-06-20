@@ -293,7 +293,7 @@
                                                                 <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
                                                                 <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">$`+price+`/hr </strong> avg. rate</span>
                                                                 <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">Completed </strong> jobs</span>
-                                                                <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">License Tyope </strong> A1 </span>
+                                                                <span class="label label-lg label-light-default label-inline mt-2"><strong class="mr-2">License Type </strong> A1 </span>
                                                                 <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
                                                                 
                                                             </div>

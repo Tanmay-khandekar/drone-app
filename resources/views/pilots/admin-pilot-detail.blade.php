@@ -209,19 +209,19 @@
 									<div class="form-group row">
 										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['facebook'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="social_links[facebook]" value="" type="text" />
+											<input class="form-control form-control-lg form-control-solid facebook" name="social_links[facebook]" value="" type="text" />
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['instagram'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="social_links[instagram]" value="" type="text" />
+											<input class="form-control form-control-lg form-control-solid instagram" name="social_links[instagram]" value="" type="text" />
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-xl-3 col-lg-3 col-form-label">{{ $blocks['youtube'] }}</label>
 										<div class="col-lg-9 col-xl-6">
-											<input class="form-control form-control-lg form-control-solid" name="social_links[youtube]" value="" type="text" />
+											<input class="form-control form-control-lg form-control-solid youtube" name="social_links[youtube]" value="" type="text" />
 										</div>
 									</div>
                                     <div class="row">
@@ -287,8 +287,11 @@
 @endsection
 @section('js')
 <script>
+	var countryId = '';
+	var stateId = '';
+	var cityId = '';
 	$(document).ready(function() {
-		getState();
+		// getState();
         var i = 0;
         getPilot();
         function getPilot(){
@@ -296,15 +299,24 @@
                 type: "GET",
                 url: "{{ url('api/pilot/edit')}}"+ "/" +{{ request()->route('id') }},
                 success: function(data) {
-                    console.log(data.data);
+					countryId = data.data.address.country;
+					stateId = data.data.address.state;
+					cityId = data.data.address.city;
                     setPilotValues(data.data);
                     getpackages(JSON.parse(data.data.pilot_detail.packages));
+                    setSocialLinks(JSON.parse(data.data.pilot_detail.social_links));
                 },
                 error: function(data) {
                     console.log('Error:', data);
                 }
             });
         }
+		function setSocialLinks(slinks){
+			console.log(slinks);
+			$.each(slinks, function(skey, slink){
+				$('.'+skey).val(slink);
+			});
+		}
 		function setPilotValues(pilot){
             pilotImage = "../"+ pilot.user_profile;
             $(".image-input-wrapper").css("background-image", "url(" + pilotImage + ")");
@@ -348,11 +360,6 @@
 								<div class="col-md-4">
 									<label>Price:</label>
 									<input type="number" name="packages[`+i+`][price]" class="form-control" value="`+val.price+`" placeholder="Enter Package Price"/>
-									<div class="d-md-none mb-2"></div>
-								</div>
-								<div class="col-md-10 mt-5">
-									<label>Sample Link:</label>
-									<input type="text" name="packages[`+i+`][link]" class="form-control" value="`+val.link+`" placeholder="Enter Sample Link"/>
 									<div class="d-md-none mb-2"></div>
 								</div>
 								<div class="col-md-6 mt-5">
@@ -482,34 +489,11 @@
             });
             return false;
         });
-		//Get State/Region  dropdown
-		function getState(){
-            var country_id = 105;
-			var selectedState = '<?= auth()->user()->state ?>';
-            $.ajax({
-                url: "{{ route('states_by_country') }}",
-                type:"post",
-                cache: false,
-                data:{
-                    country_id: country_id,
-                    _token: '{{csrf_token()}}' 
-                },
-                dataType : 'json',
-                success: function(result){
-                    $("#state-dropdown").empty().append('');
-                    $("#bs-select-1 ul").empty().append('');
-                    var stateCount = result.states.length;
-                    $('#state-dropdown').html('<option value="">Select State</option>'); 
-                    $.each(result.states,function(key,value){
-						if(selectedState != '' && selectedState == value.id){
-							$("#state-dropdown").append('<option value="'+value.id+'" selected>'+value.name+'</option>');
-						}else{
-							$("#state-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-						}
-                    });
-                }
-            });
-        }
     });
+	
+	var statesByCountryUrl = "{{ route('states_by_country') }}";
+	var cityByStatesUrl = "{{ route('city_by_states') }}";
+	var token = "{{csrf_token()}}";
 </script>
+<script src="{{ asset('assets/js/custom/locations.js') }}"></script>
 @endsection
