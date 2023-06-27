@@ -89,7 +89,7 @@
                 <!--begin::Toggle-->
                 <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
                     <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
-                        <img class="h-20px w-20px rounded-sm" src="{{ env('APP_URL', 'http://127.0.0.1:8000') }}/assets/media/svg/flags/{{ Config::get('locale') }}.svg" alt="" />
+                        <img class="h-20px w-20px rounded-sm" src="{{ env('APP_URL', 'http://drone-app.test') }}/assets/media/svg/flags/{{ Config::get('locale') }}.svg" alt="" />
                     </div>
                 </div>
                 <!--end::Toggle-->
@@ -113,7 +113,7 @@
                         <li class="navi-item">
                             <a class="navi-link language" data-code="en">
                                 <span class="symbol symbol-20 mr-3">
-                                    <img src="{{ env('APP_URL', 'http://127.0.0.1:8000') }}/assets/media/svg/flags/en.svg" alt="" />
+                                    <img src="{{ env('APP_URL', 'http://drone-app.test') }}/assets/media/svg/flags/en.svg" alt="" />
                                 </span>
                                 <span class="navi-text">English</span>
                             </a>

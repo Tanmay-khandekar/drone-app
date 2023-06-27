@@ -121,9 +121,9 @@ Route::get('/payments', function () {
 	}
     return view('payment.admin-payment-list');
 });
-Route::get('/payment', function () {
-    return view('payment.stripe');
-});
+// Route::get('/payment', function () {
+//     return view('payment.stripe');
+// });
 Route::post('/stripe', [StripeController::class,'stripePyament'])->name("stripe.post");
 Route::get('/notifications', [NotificationController::class,'show'])->name('notifications');
 Route::get('/notify', [NotificationController::class,'create']);
@@ -155,6 +155,12 @@ Route::get('login/twitter/callback', [LoginController::class,'handleTwitterCallb
 Route::get('msgbox',[ChatController::class,'messages'])->name('msg.box');
 Route::get('chatbox/{id}',[ChatController::class,'edit']);
 Route::post('sendmsg',[ChatController::class,'sendmsg'])->name('sendmsg');
+
+
+Route::get('/authorize', [StripeController::class,'authorizee']);
+Route::get('/connect', [StripeController::class,'connect']);
+Route::get('/payment', [StripeController::class,'payment']);
+Route::post('/payment/process', [StripeController::class,'processPayment']);
 
 Route::get('cache-clear', function(){
 	\Artisan::call('cache:clear');

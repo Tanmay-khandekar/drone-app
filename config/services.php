@@ -29,6 +29,14 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'client_id' => env('STRIPE_KEY'),
+        'secret' => [
+            'default' => env('STRIPE_SECRET'),
+            'connected_account' => env('STRIPE_CONNECTED_ACCOUNT_SECRET'),
+        ],
+    ],
 
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
