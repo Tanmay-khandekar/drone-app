@@ -44,6 +44,7 @@ class UserNotification extends Notification
     {
         return [
             'data' => $this->user['message'],
+            'url' => $this->user['url'],
         ];
     }
 }

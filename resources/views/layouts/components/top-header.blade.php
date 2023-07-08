@@ -130,7 +130,7 @@
                     <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
                     <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{ auth()->user()->first_name }}</span>
                     <span class="symbol symbol-35 symbol-light-success">
-                        <span class="symbol-label font-size-h5 font-weight-bold">{{substr(auth()->user()->first_name, 0, 1)}}</span>
+                        <span class="symbol-label font-size-h5 font-weight-bold text-uppercase">{{substr(auth()->user()->first_name, 0, 1)}}</span>
                     </span>
                 </div>
             </div>

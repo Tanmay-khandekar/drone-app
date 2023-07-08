@@ -21,7 +21,7 @@
 				<!--begin::Header-->
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
-						<div class="symbol-label" style="background-image:url({{ isset(auth()->user()->user_profile) ? auth()->user()->user_profile : '' }})"></div>
+						<div class="symbol-label" style="background-image:url({{ isset(auth()->user()->user_profile) ? url('/').'/'.auth()->user()->user_profile : '' }})"></div>
 						<i class="symbol-badge bg-success"></i>
 					</div>
 					<div class="d-flex flex-column">

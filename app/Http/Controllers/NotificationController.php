@@ -32,7 +32,7 @@ class NotificationController extends Controller
             
             $html .=    '<div class="navi-item">
                             <div class="navi-link d-flex">
-                                <a href="" class="d-flex" style="width: 70%;">
+                                <a href="'.$notification->data['url'].'" class="d-flex" style="width: 70%;">
                                     <div class="navi-icon mr-2 mt-3">
                                         <i class="flaticon2-notification text-primary"></i>
                                     </div>

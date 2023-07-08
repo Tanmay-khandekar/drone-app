@@ -155,7 +155,7 @@
                                 </span>
                                 <div class="d-flex flex-column text-dark-75">
                                     <span class="font-weight-bolder font-size-sm">Location</span>
-                                    <span class="font-weight-bolder font-size-h5" id="state"></span>
+                                    <span class="font-weight-bolder font-size-h5" id="location"></span>
                                 </div>
                             </div>
                             <!--end: Item-->
@@ -349,7 +349,7 @@
                 success: function(data) {
                     console.log(data.data);
                     setPilotValues(data.data);
-                    getpackages(JSON.parse(data.data.packages));
+                    getpackages(JSON.parse(data.data.pilot_detail.packages));
                 },
                 error: function(data) {
                     console.log('Error:', data);
@@ -357,6 +357,7 @@
             });
         }
 		function setPilotValues(pilot){
+            
             pilotImage = "../"+ pilot.user_profile;
             $(".image-input-wrapper").css("background-image", "url(" + pilotImage + ")");
 			if(pilot.pilot_detail){
@@ -364,34 +365,36 @@
 				$("#pilot_license").parent().parent().append("<a href="+pilot.pilot_detail.pilot_license+" target='_blank' class='btn btn-primary btn-sm position-relative float-right mt-2'> View Pilot License</a> ");
 			}
             $('.user_profile').attr("src","../"+pilot.user_profile);
-            getState(pilot.state);
+            
+            var price = 0;
             $.each(pilot, function(key, val){
+                console.log(val);
                 if(key == 'industry'){
                     $.each(val, function(ikey, ival){
-                        console.log(ival);
                         $('.'+key).append(ival+', ');
                     });
-                }else if(key == 'packages'){
-                    var packages = JSON.parse(val);
-                    console.log(packages);
+                }else if(pilot.pilot_detail.packages){
+                    var packages = JSON.parse(pilot.pilot_detail.packages);
                     const pilotPrice = [];
                     $.each(packages, function(pkey, pval){
                         pilotPrice.push(pval.price);
                     });
-                    var price = calculateAverage(pilotPrice)+'/hr';
+                    price = calculateAverage(pilotPrice)+'/hr';
                     
-                    $('.avg-rate').append(price);
                 } else if(key == "created_at"){
                     var date = new Date(val);
                     var createdAt = new Date(date.getTime() - (date.getTimezoneOffset() * 60000 ))
                     .toISOString()
                     .split("T")[0];
                     $('.created_at').append(createdAt);
+                } else if(pilot.address){
+                    alert();
                 }else{
                     $('.'+key).append(val);
                 }
                 
             });
+            $('.avg-rate').append(price);
         }
 		function getpackages(packages){
             console.log(packages);
@@ -425,31 +428,7 @@
 
             return total / count;
         }
-		//Get State/Region  dropdown
-		function getState(selectedState){
-            var country_id = 105;
-            $.ajax({
-                url: "{{ route('states_by_country') }}",
-                type:"post",
-                cache: false,
-                data:{
-                    country_id: country_id,
-                    _token: '{{csrf_token()}}' 
-                },
-                dataType : 'json',
-                success: function(result){
-                    $("#state-dropdown").empty().append('');
-                    $("#bs-select-1 ul").empty().append('');
-                    var stateCount = result.states.length;
-                    $('#state-dropdown').html('<option value="">Select State</option>'); 
-                    $.each(result.states,function(key,value){
-						if(selectedState != '' && selectedState == value.id){
-							$("#state").append( "Ireland, " +value.name);
-						}
-                    });
-                }
-            });
-        }
+		
     });
 </script>
 @endsection

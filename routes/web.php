@@ -152,6 +152,7 @@ Route::get('login/facebook/callback', [LoginController::class,'handleFacebookCal
 //Twitter Login
 Route::get('login/twitter', [LoginController::class,'redirectToTwitter'])->name('login.twitter');
 Route::get('login/twitter/callback', [LoginController::class,'handleTwitterCallback']);
+
 Route::get('msgbox',[ChatController::class,'messages'])->name('msg.box');
 Route::get('chatbox/{id}',[ChatController::class,'edit']);
 Route::post('sendmsg',[ChatController::class,'sendmsg'])->name('sendmsg');
@@ -161,6 +162,10 @@ Route::get('/authorize', [StripeController::class,'authorizee']);
 Route::get('/connect', [StripeController::class,'connect']);
 Route::get('/payment', [StripeController::class,'payment']);
 Route::post('/payment/process', [StripeController::class,'processPayment']);
+
+Route::post('/messages', [ChatController::class,'getMessages']);
+Route::post('/broadadcast', [ChatController::class,'broadadcast']);
+Route::post('/receive', [ChatController::class,'receive']);
 
 Route::get('cache-clear', function(){
 	\Artisan::call('cache:clear');

@@ -59,62 +59,92 @@ class StripeController extends Controller
     	return back();
     }
 
-	public function authorizee(Request $req)
-	{
-		$url = OAuth::authorizeUrl([
-			'client_id' => config('services.stripe.client_id'),
-			'scope' => 'read_write', // Adjust the scope according to your requirements
-		]);
-
-		return redirect()->away($url);
-	}
-
 	public function connect(Request $request)
 	{
-		$stripe = new \Stripe\StripeClient('sk_test_51JT6PDSIBz6O0EhiRiXBW1ZRDvUJjfKdnisirob2q8quTkdDSEIWH8kW3HT3IB88lf4b5Q3mcTIsJ6dpgId6Xabz00fs2TNkQU');
+		$stripe = new \Stripe\StripeClient('sk_test_51MqhFkBYa5wxH4LQ3kmYK0q3R15hxkBLOFaRuUTr8MBUfbjuB9IzddxBRHIotHgn6rYy4vf2jsRJe23vfOHHbWTi0067YMt90l');
 		// $code = $request->input('code');
 
 		// Create connected account
 		$account = $stripe->accounts->create([
-			'type'=>'express',
-			'country'=>'US',
-			'email'=>'pilot@gmail.com',
+			'type'   	  =>'express',
+			'country'	  =>'GB',
+			'email'  	  =>'pilot5@gmail.com',
 			'capabilities'=>[
 				'card_payments'=>['requested'=>true],
-				'transfers'=>['requested'=>true],
+				'transfers'    =>['requested'=>true],
 			],
 		]);
-		print_r($account);die();
-		$response = OAuth::token([
-			'grant_type' => 'authorization_code',
-			'code' => $code,
-		]);
-		// $id = ''
-		// Store the connected account ID or any relevant information in your database
-
-		// return redirect('/')->with('success', 'Stripe Connect successful!');
+		//store account id in pilot_detail table account_id
+		Session::put('stripeAccountId', $account['id']);
+		// print_r(Session::get('stripeAccountId'));die();
+		$link = $stripe->accountLinks->create([
+			'account' 	  => $account['id'],
+			'refresh_url' => 'http://drone-app.test/reauth',
+			'return_url'  => 'http://drone-app.test/return',
+			'type'        => 'account_onboarding',
+		  ]);
+		// if($link['url']){
+		// 	$pilot = User::find($bid->user_id);
+		// 	$pilot->url = $link['url'];
+		// 	$pilot->message = 'Complate your Profile For payment';
+		// 	$pilot->notify(new UserNotification($pilot));
+		// }
+		return $link['url'];
 	}
 
 	public function stripePyament(Request $request)
 	{
-		$stripeSecretKey = config('services.stripe.secret');
-		Stripe\Stripe::setApiKey($stripeSecretKey);
+		
+		// print_r(Session::get('stripeAccountId'));die();
+		ini_set('display_errors', 1);
+		ini_set('display_startup_errors', 1);
+		error_reporting(E_ALL);
+		try {
+			$stripe = new \Stripe\StripeClient('sk_test_51MqhFkBYa5wxH4LQ3kmYK0q3R15hxkBLOFaRuUTr8MBUfbjuB9IzddxBRHIotHgn6rYy4vf2jsRJe23vfOHHbWTi0067YMt90l');
+			$response = $stripe->paymentIntents->create([
+				'amount' => 1099,
+				'currency' => 'eur',
+  				'payment_method' => 'pm_card_visa',
+				'description' => 'Pilot Payment',
+				'automatic_payment_methods' => ['enabled' => true],
+				'application_fee_amount' => 123,
+				'transfer_data' => ['destination' => Session::get('stripeAccountId')],
+			]);
+		} catch (\Stripe\Exception\ApiErrorException $e) {
+			// Handle API errors
+			echo 'Error: ' . $e->getMessage();
+		} catch (Exception $e) {
+			// Handle other exceptions
+			echo 'Error: ' . $e->getMessage();
+		}
+		// echo "<pre>";
+		// print_r($response);
+		// $client_secret ='pi_3NRXLeBYa5wxH4LQ07gaHdUg_secret_93T4unfZPd0frG1lX2dZJgMcm';
+		$this->ConfirmPaymentIntent($response);
+	}
 
-		$token = $request->input('stripeToken');
-		$amount = 1000; // Adjust the amount as per your requirements
+	public function ConfirmPaymentIntent($paymentDetail){
+		$ch = curl_init();
 
-		// Create a charge on the connected account
-		$charge = Charge::create([
-			'amount' => $amount,
-			'currency' => 'usd',
-			'source' => $token,
-			'application_fee_amount' => 200, // Adjust the platform fee as per your requirements
-		], [
-			'stripe_account' => 'connected_account_id', // Replace with the connected account ID
-		]);
+		curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents/'.$paymentDetail['id'].'/confirm');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "payment_method=pm_card_visa");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "return_url=http://drone-app.test/success");
+		curl_setopt($ch, CURLOPT_USERPWD, 'sk_test_51MqhFkBYa5wxH4LQ3kmYK0q3R15hxkBLOFaRuUTr8MBUfbjuB9IzddxBRHIotHgn6rYy4vf2jsRJe23vfOHHbWTi0067YMt90l' . ':' . '');
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
-		// Handle successful payment
+		$headers = array();
+		$headers[] = 'Content-Type: application/x-www-form-urlencoded';
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-		return redirect('/')->with('success', 'Payment successful');
+		$result = curl_exec($ch);
+		if (curl_errno($ch)) {
+			echo 'Error:' . curl_error($ch);
+		}
+		curl_close($ch);
+		echo '<pre>';
+		print_r(json_decode($result));
 	}
 }

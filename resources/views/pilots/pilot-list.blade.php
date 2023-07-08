@@ -257,18 +257,18 @@
                 success: function(data) {
                     var pilots = data.data;
                     var html = '';
+                    var price = 0;
                     $('#job-total').append(pilots.length + " open job available");
                     $.each(pilots, function(key, val){
-                        if(val.packages){
-                            var packages = JSON.parse(val.packages);
+                        console.log(val.pilot_detail.packages)
+                        if(val.pilot_detail.packages){
+                            var packages = JSON.parse(val.pilot_detail.packages);
                             const pilotPrice = [];
                             $.each(packages, function(pkey, pval){
                                 pilotPrice.push(pval.price);
                             });
-                            var price = calculateAverage(pilotPrice);
+                            price = calculateAverage(pilotPrice);
 
-                        }else{
-                            price = 0;
                         }
                         
                         var html = `<div class="card card-custom gutter-b">
@@ -326,7 +326,7 @@
                                                     </span>
                                                     <div class="d-flex flex-column text-dark-75">
                                                         <span class="font-weight-bolder font-size-sm">Location</span>
-                                                        <span class="font-weight-bolder font-size-h5"> Ireland `+val.state+`</span>
+                                                        <span class="font-weight-bolder font-size-h5"> `+val.address.country.name +', '+val.address.state.name+', '+val.address.city.name+`</span>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">

@@ -225,7 +225,7 @@
                                 approvalStatus = 'first_approval';
                             }
                             var html = `<div class="timeline-item">
-                                            <a href="/pilot/`+val.user.id+`" class="timeline-media">
+                                            <a href="{{ url('/') }}/pilot/`+val.user.id+`" class="timeline-media">
                                                 <img src="../`+val.user.user_profile+`" />
                                             </a>
                                             <div class="timeline-content">
