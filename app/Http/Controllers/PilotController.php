@@ -138,8 +138,7 @@ class PilotController extends Controller
     public function edit($id)
     {
         //
-        $pilot = User::with('pilot_detail')
-                        ->with('address')
+        $pilot = User::with(['pilot_detail','address.country','address.state', 'address.city'])
                         ->where('id',$id)
                         ->where('type','pilot')
                         ->first()

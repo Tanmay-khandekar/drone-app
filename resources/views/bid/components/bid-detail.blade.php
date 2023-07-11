@@ -31,9 +31,9 @@
             <textarea class="form-control" name="bid_desc" id="Description" rows="3"></textarea>
         </div>
 
-        <div class="form-group">
-            <label for="Location">Price range:</label>
-            <select class="form-control" name="price" id="price">
+        <div class="form-group" id="price-range">
+            <label>Price range:</label>
+            <select class="form-control" name="price_range">
                 <option>Select price range</option>
                 <option value="100-250">100-250</option>
                 <option value="250-500">250-500</option>
@@ -42,6 +42,11 @@
                 <option value="1500-2500">1500-2500</option>
                 <option value="2500+">2500+</option>
             </select>
+        </div>
+        <div class="form-group" id="final-price" style="display:none;">
+            <label>Previus Price Range:</label>
+            <span id="prev-price-range"></span>
+            <input type="text" class="form-control" id="price" name="price">
         </div>
         <button class="btn btn-primary mr-2" id="btn-bid-save">Submit</button>
         <button type="reset" class="btn btn-secondary">Cancel</button>

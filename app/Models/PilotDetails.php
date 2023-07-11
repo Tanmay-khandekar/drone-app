@@ -17,5 +17,6 @@ class PilotDetails extends Model
         'packages',
         'social_links',
         'license_category',
+        'account_id',
     ];
 }

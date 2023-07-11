@@ -7,31 +7,22 @@ use Session;
 use App\Models\User;
 use App\Models\Bids;
 use App\Models\Payment;
+use App\Models\PilotDetails;
 use Illuminate\Http\Request;
 use Stripe\OAuth;
 use Stripe\Charge;
+use App\Notifications\UserNotification;
 
 class StripeController extends Controller
 {
-    public function stripePyament_old(Request $req)
-    {
-    	// print_r($req->all()); die();
+    public function stripeFullPyament(Request $req){
+		$pilot = User::find($req->pilot_id);
     	Stripe\Stripe::setApiKey(env('STRIPE_SECRET', 'sk_test_51MqhFkBYa5wxH4LQ3kmYK0q3R15hxkBLOFaRuUTr8MBUfbjuB9IzddxBRHIotHgn6rYy4vf2jsRJe23vfOHHbWTi0067YMt90l'));
-		/* $customer = User::with('address')->find($req->customer_id);
-		print_r($customer->toArray()); die();
-    	$address = [
-					"city" => $customer->address->city,
-					"country" => $customer->address->country,
-					"line1" => '',
-					"line2" => "",
-					"postal_code" => '',
-					"state" => $customer->address->state
-				]; */
 		$data = Stripe\Charge::create([
     			"amount"=>$req->price*100,
     			"source"=>$req->stripeToken,
 				"currency"=>'inr',
-    			"description"=>"Payment from Tanmay Khandekar",
+    			"description"=>"Payment from".$pilot->first_name,
 				//optional
 				/* "address" => $address,
 				"email" => $customer->email,
@@ -53,74 +44,92 @@ class StripeController extends Controller
 				$bid->status='paid';
 				$bid->update();
 			}
+			$pilotDetail = PilotDetails::where('user_id', $req->pilot_id)->first();
+			if(empty($pilotDetail->account_id)){
+				$this->connect($pilotDetail);
+			}
 			Session::flash("success","Payment successfully!");
 		}
 
     	return back();
     }
 
-	public function connect(Request $request)
-	{
+	public function connect( $request){
 		$stripe = new \Stripe\StripeClient('sk_test_51MqhFkBYa5wxH4LQ3kmYK0q3R15hxkBLOFaRuUTr8MBUfbjuB9IzddxBRHIotHgn6rYy4vf2jsRJe23vfOHHbWTi0067YMt90l');
 		// $code = $request->input('code');
-
+		$pilot = User::find($request->user_id);
 		// Create connected account
 		$account = $stripe->accounts->create([
-			'type'   	  =>'express',
-			'country'	  =>'GB',
-			'email'  	  =>'pilot5@gmail.com',
-			'capabilities'=>[
-				'card_payments'=>['requested'=>true],
-				'transfers'    =>['requested'=>true],
+			'type'   	  		=> 'express',
+			'country'	  		=> 'GB',
+			'email'  	  		=> $pilot->email,
+			'capabilities'		=> [
+				'card_payments' => ['requested'=>true],
+				'transfers'    	=> ['requested'=>true],
 			],
 		]);
 		//store account id in pilot_detail table account_id
-		Session::put('stripeAccountId', $account['id']);
+		
+		$pilotDetail = PilotDetails::where('user_id',$request->user_id)->first();
+		$pilotDetail->update(['account_id' => $account['id']]);
+		// Session::put('stripeAccountId', $account['id']);
 		// print_r(Session::get('stripeAccountId'));die();
+
 		$link = $stripe->accountLinks->create([
 			'account' 	  => $account['id'],
 			'refresh_url' => 'http://drone-app.test/reauth',
 			'return_url'  => 'http://drone-app.test/return',
 			'type'        => 'account_onboarding',
 		  ]);
-		// if($link['url']){
-		// 	$pilot = User::find($bid->user_id);
-		// 	$pilot->url = $link['url'];
-		// 	$pilot->message = 'Complate your Profile For payment';
-		// 	$pilot->notify(new UserNotification($pilot));
-		// }
-		return $link['url'];
+		if($link['url']){
+			$pilot->url = $link['url'];
+			$pilot->message = 'Complate your Profile For payment';
+			$pilot->notify(new UserNotification($pilot));
+		}
 	}
 
-	public function stripePyament(Request $request)
-	{
+	public function stripePyament(Request $request){
+		$bid = Bids::find($request->bid_id);
+		if($request->status == 'paid'){
+			$amount = ($bid->price * 10) / 100;
+			$status = 'advance-paid';
+		}elseif($request->status == 'advance-paid'){
+			$advanceAmt = ($bid->price * 10) / 100;
+			$adminFee = ($bid->price * 10) / 100;
+			$amount = $bid->price - ($advanceAmt + $adminFee);
+			$status = 'complate-job';
+		}
+		$pilot = PilotDetails::where(['user_id'=>$request->pilot_id])->first();
 		
-		// print_r(Session::get('stripeAccountId'));die();
 		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
 		try {
 			$stripe = new \Stripe\StripeClient('sk_test_51MqhFkBYa5wxH4LQ3kmYK0q3R15hxkBLOFaRuUTr8MBUfbjuB9IzddxBRHIotHgn6rYy4vf2jsRJe23vfOHHbWTi0067YMt90l');
 			$response = $stripe->paymentIntents->create([
-				'amount' => 1099,
+				'amount' => $amount,
 				'currency' => 'eur',
   				'payment_method' => 'pm_card_visa',
 				'description' => 'Pilot Payment',
 				'automatic_payment_methods' => ['enabled' => true],
-				'application_fee_amount' => 123,
-				'transfer_data' => ['destination' => Session::get('stripeAccountId')],
+				// 'application_fee_amount' => 123,
+				'transfer_data' => ['destination' => $pilot->account_id],
 			]);
 		} catch (\Stripe\Exception\ApiErrorException $e) {
 			// Handle API errors
-			echo 'Error: ' . $e->getMessage();
+			return 'Error: ' . $e->getMessage();
 		} catch (Exception $e) {
 			// Handle other exceptions
-			echo 'Error: ' . $e->getMessage();
+			return 'Error: ' . $e->getMessage();
 		}
-		// echo "<pre>";
-		// print_r($response);
-		// $client_secret ='pi_3NRXLeBYa5wxH4LQ07gaHdUg_secret_93T4unfZPd0frG1lX2dZJgMcm';
-		$this->ConfirmPaymentIntent($response);
+
+		$result = $this->ConfirmPaymentIntent($response);
+		if($result == 'succeeded'){
+			$bid = Bids::find($request->bid_id);
+			$bid->status = $status;
+			$bid->update();
+		}
+		return $result;
 	}
 
 	public function ConfirmPaymentIntent($paymentDetail){
@@ -144,7 +153,27 @@ class StripeController extends Controller
 			echo 'Error:' . curl_error($ch);
 		}
 		curl_close($ch);
-		echo '<pre>';
-		print_r(json_decode($result));
+		$result = json_decode($result);
+
+		return $result->status;
+	}
+
+	public function delete($id){
+		// Generated by curl-to-PHP: http://incarnate.github.io/curl-to-php/
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/accounts/'.$id);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_USERPWD, 'sk_test_51MqhFkBYa5wxH4LQ3kmYK0q3R15hxkBLOFaRuUTr8MBUfbjuB9IzddxBRHIotHgn6rYy4vf2jsRJe23vfOHHbWTi0067YMt90l' . ':' . '');
+
+		$result = curl_exec($ch);
+		if (curl_errno($ch)) {
+			echo 'Error:' . curl_error($ch);
+		}
+		curl_close($ch);
+		return json_decode($result);
 	}
 }

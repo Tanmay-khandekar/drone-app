@@ -124,7 +124,7 @@ Route::get('/payments', function () {
 // Route::get('/payment', function () {
 //     return view('payment.stripe');
 // });
-Route::post('/stripe', [StripeController::class,'stripePyament'])->name("stripe.post");
+Route::post('/stripe', [StripeController::class,'stripeFullPyament'])->name("stripe.post");
 Route::get('/notifications', [NotificationController::class,'show'])->name('notifications');
 Route::get('/notify', [NotificationController::class,'create']);
 Route::get('/mark-as-read/{id}', [NotificationController::class,'update']);
@@ -159,9 +159,10 @@ Route::post('sendmsg',[ChatController::class,'sendmsg'])->name('sendmsg');
 
 
 Route::get('/authorize', [StripeController::class,'authorizee']);
-Route::get('/connect', [StripeController::class,'connect']);
+Route::get('/connect/{id}', [StripeController::class,'connect']);
 Route::get('/payment', [StripeController::class,'payment']);
 Route::post('/payment/process', [StripeController::class,'processPayment']);
+Route::get('/delete/{id}', [StripeController::class,'delete']);
 
 Route::post('/messages', [ChatController::class,'getMessages']);
 Route::post('/broadadcast', [ChatController::class,'broadadcast']);

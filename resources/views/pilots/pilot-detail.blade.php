@@ -155,7 +155,7 @@
                                 </span>
                                 <div class="d-flex flex-column text-dark-75">
                                     <span class="font-weight-bolder font-size-sm">Location</span>
-                                    <span class="font-weight-bolder font-size-h5" id="location"></span>
+                                    <span class="font-weight-bolder font-size-h5 address" id="location"></span>
                                 </div>
                             </div>
                             <!--end: Item-->
@@ -217,13 +217,10 @@
                                 </div>
                                 <br>
                                 <strong>Social Media</strong><br>
-                                <a href="">Facebook</a><br>
-                                <a href="">Instagram</a><br>
-                                <a href="">YouTube</a><br><br>
-                                <p>*Drone Pilot Reel:
-                                    https://youtu.be/h_3_vlCtyls</p>
-                                <p>*Vimeo
-                                    https://vimeo.com/showcase/9087817</p>
+                                <a href="" class="facebook" target="_blank">Facebook</a><br>
+                                <a href="" class="instagram" target="_blank">Instagram</a><br>
+                                <a href="" class="youtube" target="_blank">YouTube</a><br><br>
+                                
                             </div>
                             <div class="col-6">
                                 <p>
@@ -251,7 +248,7 @@
                         <div class="tab-pane fade" id="kt_tab_pane_2_4" role="tabpanel" aria-labelledby="kt_tab_pane_2_4">
                         <div>
                             <div class="d-flex">
-                                <img src="assets/media//users/300_10.jpg" height="50" width="50" style="border-radius: 50%;" alt="">
+                                <img src="/assets/media//users/300_10.jpg" height="50" width="50" style="border-radius: 50%;" alt="">
                                 <div class="pl-5"><span>Lorraine C. Castle</span><br><span class="pt-2 fa fa-star checked"></span> 4.0 (60)   216 jobs posted</div>
                             </div>
                             <p>
@@ -271,7 +268,7 @@
                         <div class="separator separator-dashed mt-8 mb-5"></div>
                         <div>
                             <div class="d-flex">
-                                <img src="assets/media//users/300_1.jpg" height="50" width="50" style="border-radius: 50%;" alt="">
+                                <img src="/assets/media//users/300_1.jpg" height="50" width="50" style="border-radius: 50%;" alt="">
                                 <div class="pl-5"><span>Jason Muller</span><br><span class="pt-2 fa fa-star checked"></span> 5.0 (80)   216 jobs posted</div>
                             </div>
                             <p>
@@ -349,6 +346,7 @@
                 success: function(data) {
                     console.log(data.data);
                     setPilotValues(data.data);
+                    socialLinks(JSON.parse(data.data.pilot_detail.social_links));
                     getpackages(JSON.parse(data.data.pilot_detail.packages));
                 },
                 error: function(data) {
@@ -368,12 +366,28 @@
             
             var price = 0;
             $.each(pilot, function(key, val){
-                console.log(val);
                 if(key == 'industry'){
                     $.each(val, function(ikey, ival){
                         $('.'+key).append(ival+', ');
                     });
-                }else if(pilot.pilot_detail.packages){
+                } 
+                if(key == "created_at"){
+                    alert();
+                    var date = new Date(val);
+                    var createdAt = new Date(date.getTime() - (date.getTimezoneOffset() * 60000 ))
+                    .toISOString()
+                    .split("T")[0];
+                    $('.created_at').append(createdAt);
+                } 
+                if(pilot.address){
+                    var country = pilot.address.country.name;
+                    var state = pilot.address.state.name;
+                    var city = pilot.address.city.name;
+
+                    $('.'+key).append(country + ', ' + state + ', ' + city);
+                } 
+                if(pilot.pilot_detail.packages){
+                    console.log(key,val);
                     var packages = JSON.parse(pilot.pilot_detail.packages);
                     const pilotPrice = [];
                     $.each(packages, function(pkey, pval){
@@ -381,15 +395,8 @@
                     });
                     price = calculateAverage(pilotPrice)+'/hr';
                     
-                } else if(key == "created_at"){
-                    var date = new Date(val);
-                    var createdAt = new Date(date.getTime() - (date.getTimezoneOffset() * 60000 ))
-                    .toISOString()
-                    .split("T")[0];
-                    $('.created_at').append(createdAt);
-                } else if(pilot.address){
-                    alert();
                 }else{
+                    alert(key);
                     $('.'+key).append(val);
                 }
                 
@@ -402,7 +409,6 @@
 				$.each(packages, function(key, val){
 					var html = `<b>package name</b>: <span>`+val.pname+`</span><br>
                     <b>price</b>: <span>`+val.price+`</span><br>
-                    <b>link</b>: <span>`+val.link+`</span><br>
                     <b>package description</b>: <span>`+val.packagedesc+`</span><br>
                     <hr>
                     `;
@@ -411,6 +417,14 @@
 			}
 			
 		}
+        function socialLinks(links){
+            if(links){
+                $.each(links, function(key, val){
+                    // alert(key);
+                    $('.'+key).attr("href", 'https://'+val);
+                });
+            }
+        }
         
         $.ajaxSetup({
             headers: {
@@ -426,7 +440,7 @@
                 count++;
             });
 
-            return total / count;
+            return (total / count).toFixed(2);
         }
 		
     });

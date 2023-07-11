@@ -42,7 +42,7 @@ class BidController extends Controller
                     'user_id' =>  'required',
                     'job_id'  =>  'required',
                     'bid_start_end_date'   =>  'required',
-                    'price'   =>  'required',
+                    'price_range'   =>  'required',
         ]);
         $params=$request->all();
         $bid_start_end_date = explode('-',$params['bid_start_end_date']);
@@ -57,7 +57,7 @@ class BidController extends Controller
             $bid->job_id    = $params['job_id'];
             $bid->type      = $params['type'];
             $bid->bid_desc  = $params['bid_desc'];
-            $bid->price  = $params['price'];
+            $bid->price  = $params['price_range'];
             $bid->start_date= $start_date;
             $bid->end_date  = $end_date;
             $bid->save();
@@ -125,8 +125,8 @@ class BidController extends Controller
             $bid->update($params);
             if(isset($params['status']) && !empty($params['status']) && $params['status'] == 'first_approval'){
                 $pilot = User::find($bid->user_id);
-                $pilot->url = 'Bid approved. Edit option available.';
                 $pilot->message = 'Bid approved. Edit option available.';
+                $pilot->url = url('/job').'/'.$bid->job_id;
                 $pilot->notify(new UserNotification($pilot));                
             }
         }

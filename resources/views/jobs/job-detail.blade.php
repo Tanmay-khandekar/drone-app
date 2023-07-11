@@ -187,21 +187,24 @@
             $("#payment-modal").hide();
         });
         //Get all bids
-        var jobId = <?php echo $job['id']; ?>;
+        var jobId = <?= $job['id'] ?>;
+        var bidsUrl = '<?= url('api/bids/').'/'.$job['id'] ?>'; 
         getBids();
         function getBids(){
             $.ajax({
                 type: "GET",
-                url: "{{ url('api/bids/')}}"+'/'+jobId,
+                url: bidsUrl,
                 success: function(data) {
                     var bids = data.data;
                     var approvalStatus = '';
                     var finalApproval = false;
                     $('#no-of-bids').append('Total ' + bids.length + ' New bids');
+                    const statuses = ['first_approval', 'final_approval', 'paid', 'advance-paid', 'complate-job'];
+                    const rejectStatus = ['first_approval', 'final_approval', 'paid', 'advance-paid'];
                     $.each(bids, function(key, val){
-                        if(val.status == 'first_approval' || val.status == 'final_approval' || val.status == 'paid'){
+                        if(statuses.includes(val.status)){
                             finalApproval = true;
-                            pilotId = val.user_id; 
+                            pilotId = val.user_id;
                             $('.apply-now').hide();
                         }
                     });
@@ -221,11 +224,15 @@
                                 approvalStatus = 'final_approval';
                             } else if(val.status == 'paid'){
                                 approvalStatus = 'paid';
-                            }else {
+                            } else if(val.status == 'advance-paid'){
+                                approvalStatus = 'advance-paid';
+                            } else if(val.status == 'complate-job'){
+                                approvalStatus = 'complate-job';
+                            } else {
                                 approvalStatus = 'first_approval';
                             }
                             var html = `<div class="timeline-item">
-                                            <a href="{{ url('/') }}/pilot/`+val.user.id+`" class="timeline-media">
+                                            <a href="{{ url('/pilot') }}/`+val.user.id+`" class="timeline-media">
                                                 <img src="../`+val.user.user_profile+`" />
                                             </a>
                                             <div class="timeline-content">
@@ -235,20 +242,30 @@
                                                         <span class="text-muted ml-2">`+val.end_date+`</span>
                                                     </div>
                                                     <div class="dropdown ml-2">`;
-                            if(finalApproval != true){
-                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-status="`+approvalStatus+`">
+
+                            if(finalApproval != true && val.status == 'pending'){
+                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" style="text-transform: capitalize;" data-bid-id="`+val.id+`" data-status="`+approvalStatus+`">
                                                             `+approvalStatus.replace("_", " ")+`
                                                         </button>`;
-                            }
-                            else if((approvalStatus == "final_approval" || approvalStatus == "paid" ) && finalApproval == true){
-                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-pilot-id="`+val.user_id+`" data-status="`+approvalStatus+`">
+                            } else if((approvalStatus == "final_approval" ) && finalApproval == true){
+                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" style="text-transform: capitalize;" data-bid-id="`+val.id+`" data-pilot-id="`+val.user_id+`" data-status="`+approvalStatus+`">
                                                             `+approvalStatus.replace("_", " ")+`
+                                                        </button>`;
+                            } else if( approvalStatus == "paid" ){
+                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-pilot-id="`+val.user_id+`" data-status="`+approvalStatus+`">
+                                                            Pilot Reached
                                                         </button>`;    
+                            } else if( approvalStatus == "advance-paid" ){
+                            html +=                     `<button class="btn btn-primary btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-pilot-id="`+val.user_id+`" data-status="`+approvalStatus+`">
+                                                            Complete Job
+                                                        </button>`;    
+                            } else if( approvalStatus == "complate-job" ){
+                            html +=                     `<span class="label label-xl label-inline label-light-success">Job Completed</span>`;    
                             }
-                            if((val.status == "final_approval" || val.status == "first_approval" )){
+                            if(rejectStatus.includes(val.status)){
                             html +=                     `<button class="btn btn-danger ml-3 btn-sm approval first-txt-capital" data-bid-id="`+val.id+`" data-pilot-id="`+val.user_id+`" data-status="pending">
                                                             Rejected
-                                                        </button>`;    
+                                                        </button>`;
                             }
                             html +=                 `</div>
                                                 </div>
@@ -274,7 +291,7 @@
                                                         </button>`; 
                                 }
                                 if(val.status == 'paid' && {{ auth()->user()->id }} == val.user.id){
-                                html +=                 `<button class="btn btn-primary btn-sm edit-bid first-txt-capital" data-bid-id="`+val.id+`">
+                                html +=                 `<button class="btn btn-primary btn-sm first-txt-capital" data-bid-id="`+val.id+`">
                                                             Paid
                                                         </button>`; 
                                 }
@@ -298,14 +315,16 @@
         $(document).on('click', '.edit-bid', function(e){
 			e.preventDefault();
 
-            var id = $(this).data('bid-id'); 
+            var id = $(this).data('bid-id');
             $.ajax({
                 type: "GET",
                 url: "{{ url('api/bid/')}}"+'/'+id,
                 success: function(data) {
                     var bidDetail = data.data;
                     $('#id').val(bidDetail.id);
-                    $('#price').val(bidDetail.price);
+                    $('#price-range').hide();
+                    $('#prev-price-range').append(bidDetail.price);
+                    $('#final-price').show();
                     $('#type').val(bidDetail.type);
                     $('#Description').val(bidDetail.bid_desc);
                     $(".apply-now").trigger("click" );
@@ -372,6 +391,12 @@
                 $('#payment-modal').show();
                 $('#bid_id').val(id);
                 $('#pilot_id').val(pilotId);
+            }else if (status == 'paid' || status == 'advance-paid'){
+                var formData = new FormData();
+                formData.append('status', status);
+                formData.append('pilot_id', pilotId);
+                formData.append('bid_id', id);
+                autoPayment(formData);
             }
 
         });
@@ -385,6 +410,24 @@
                 dataType: 'json',
                 success: function(response) {
                     // swal.fire(response.success);
+                    location.reload();
+                    console.log(response);
+                }, 
+                error: function(response) {
+                    console.log('Error:', response);
+                }
+            });
+        }
+        function autoPayment(formData){
+            $.ajax({
+                url: "{{url('api/stripe/auto-payment/')}}",
+                type: "post",
+                data: formData,
+                contentType: false, //multipart/form-data
+                processData: false,
+                dataType: 'json',
+                success: function(response) {
+                    swal.fire(response.success);
                     location.reload();
                     console.log(response);
                 }, 
