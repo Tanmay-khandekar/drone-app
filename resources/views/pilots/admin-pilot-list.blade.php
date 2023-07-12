@@ -6,6 +6,7 @@
 <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 @endsection
 @extends('layouts.app')
+@section('content')
 <!--begin::Wrapper-->
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
     <!--begin::Header-->
@@ -99,7 +100,6 @@
     
 </div>
 <!--end::Wrapper-->
-@section('content')
 @endsection
 @section('js')
 
