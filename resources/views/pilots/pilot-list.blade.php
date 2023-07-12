@@ -260,7 +260,7 @@
                     var price = 0;
                     $('#job-total').append(pilots.length + " open job available");
                     $.each(pilots, function(key, val){
-                        console.log(val.pilot_detail.packages)
+                        
                         if(val.pilot_detail.packages){
                             var packages = JSON.parse(val.pilot_detail.packages);
                             const pilotPrice = [];
