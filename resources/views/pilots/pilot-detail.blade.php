@@ -372,7 +372,6 @@
                     });
                 } 
                 if(key == "created_at"){
-                    alert();
                     var date = new Date(val);
                     var createdAt = new Date(date.getTime() - (date.getTimezoneOffset() * 60000 ))
                     .toISOString()
@@ -396,7 +395,6 @@
                     price = calculateAverage(pilotPrice)+'/hr';
                     
                 }else{
-                    alert(key);
                     $('.'+key).append(val);
                 }
                 
