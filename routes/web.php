@@ -116,10 +116,16 @@ Route::get('/customer', function () {
 	}
 });
 Route::get('/payments', function () {
-	if(!Auth::check()){
+	if(!Auth::check() && auth()->user()->type == 'admin'){
 		return redirect("login")->withSuccess('Opps! You do not have access');
 	}
     return view('payment.admin-payment-list');
+});
+Route::get('/settings', function () {
+	if(!Auth::check() && auth()->user()->type == 'admin'){
+		return redirect("login")->withSuccess('Opps! You do not have access');
+	}
+    return view('settings.list');
 });
 // Route::get('/payment', function () {
 //     return view('payment.stripe');

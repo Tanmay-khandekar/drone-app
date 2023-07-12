@@ -125,7 +125,7 @@ class BidController extends Controller
             $bid->update($params);
             if(isset($params['status']) && !empty($params['status']) && $params['status'] == 'first_approval'){
                 $pilot = User::find($bid->user_id);
-                $pilot->message = 'Bid approved. Edit option available.';
+                $pilot->message = 'Congratulations your initial bid has been accepted please visit site and confirm your final bid.';
                 $pilot->url = url('/job').'/'.$bid->job_id;
                 $pilot->notify(new UserNotification($pilot));                
             }

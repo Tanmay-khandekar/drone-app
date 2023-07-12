@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Message;
 use Auth;
+use App\Notifications\UserNotification;
 
 class ChatController extends Controller
 {
@@ -140,7 +141,12 @@ class ChatController extends Controller
             $message->touser= $request->touser;
             $message->fromuser= $request->fromuser;
             $message->save();
-            return response()->json(['success'=>'Leads saved successfully.']);
+            //notification
+            $user = User::find($request->touser);
+            $user->message = $request->message;
+            $user->url = '';
+            $user->notify(new UserNotification($user)); 
+            return response()->json(['success'=>'Message Send successfully.']);
         }
         else{
             return response()->json(['errors' => 'please enter message']);

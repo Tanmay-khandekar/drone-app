@@ -1,5 +1,5 @@
 @section('title')
-    Admin Payment List
+    Settings List
 @endsection
 @section('css')
 <!--begin::Page Vendors Styles(used by this page)-->
@@ -21,7 +21,7 @@
                     <!--begin::Page Heading-->
                     <div class="d-flex align-items-baseline mr-5">
                         <!--begin::Page Title-->
-                        <h5 class="text-dark font-weight-bold my-2 mr-5">Payments</h5>
+                        <h5 class="text-dark font-weight-bold my-2 mr-5">Settings</h5>
                         <!--end::Page Title-->
                     </div>
                     <!--end::Page Heading-->
@@ -47,7 +47,7 @@
                 <div class="card card-custom">
                     <div class="card-header flex-wrap py-5">
                         <div class="card-title">
-                            <h3 class="card-label">Payment List
+                            <h3 class="card-label">Settings List
                         </div>
                         <div class="card-toolbar">
                             
@@ -58,14 +58,13 @@
                         <table class="table table-separate table-head-custom table-checkable" id="kt_datatable">
                             <thead>
                                 <tr>
-                                    <th>Payment ID</th>
-                                    <th>Customer</th>
-                                    <th>Pilot</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
+                                    <th>ID</th>
+                                    <th>Key</th>
+                                    <th>Value</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="pilot-list">
+                            <tbody class="settings-list">
                                 
                             </tbody>
                         </table>
@@ -101,34 +100,42 @@
                 paging: true,
                 processing: true,
                 serverside: true,
-                order: [[ 0, "desc" ]],
-                ajax: "{{ url('api/payments') }}",
+                order: [[ 0, "asc" ]],
+                ajax: "{{ url('api/settings') }}",
                 columns: [
-                    { data: 'payment_id' },
-                    { data: 'customer.first_name' },
-                    { data: 'pilot.first_name' },
-                    { data: 'amount' },
-                    { data: 'created_at' },
+                    { data: 'id' },
+                    { data: 'key' },
+                    { data: 'value' },
+                    { data: 'id' },
                 ],
                 columnDefs: [ 
                     {
                         targets: 1,
                         render: function(data, type, full, meta) {
-                            return full.customer.first_name + ' ' + full.customer.last_name;
+                            return data;
                         },
                     },
                     {
                         targets: 2,
                         render: function(data, type, full, meta) {
-                            return full.pilot.first_name + ' ' + full.pilot.last_name;
+                            return data;
                         },
                     },
                     {
-                        targets: 4,
+                        targets: -1,
+                        title: 'Actions',
+                        orderable: false,
                         render: function(data, type, full, meta) {
-                            return moment(data).format('DD-MM-YYYY');
+                            return '\<a href="setting/'+data+'" class="btn btn-sm btn-clean btn-icon" title="Edit details">\
+                                        <i class="la la-edit"></i>\
+                                    </a>\
+                                    <a href="setting/delete/'+data+'" class="btn btn-sm btn-clean btn-icon" title="Delete">\
+                                        <i class="la la-trash"></i>\
+                                    </a>\
+                                ';
                         },
                     },
+                    
                 ],
             });
 
